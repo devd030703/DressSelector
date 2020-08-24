@@ -1,5 +1,4 @@
 import os 
-
 class FashionItem():
     def __init__(self, ID, size, colour, category, filename):
         self.size = size
@@ -12,6 +11,7 @@ class FashionItem():
 class Catalogue():
     def __init__(self):
         # os.path.join('data','Hat1.jpeg')
+        
         hat1 = FashionItem(34, 1, "White", "Hat", "data/Hat1.jpeg")
         hat2 = FashionItem(35, 1, "Black", "Hat", "data/Hat2.jpeg")
         hat3 = FashionItem(36, 1, "Black", "Hat", "data/Hat3.jpeg")
