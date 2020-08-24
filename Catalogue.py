@@ -1,3 +1,5 @@
+import os 
+
 class FashionItem():
     def __init__(self, ID, size, colour, category, filename):
         self.size = size
