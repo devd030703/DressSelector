@@ -1,4 +1,6 @@
-import os 
+import os
+
+
 class FashionItem():
     def __init__(self, ID, size, colour, category, filename):
         self.size = size
@@ -11,15 +13,22 @@ class FashionItem():
 class Catalogue():
     def __init__(self):
         # os.path.join('data','Hat1.jpeg')
-        
-        hat1 = FashionItem(34, 1, "White", "Hat", "data/Hat1.jpeg")
-        hat2 = FashionItem(35, 1, "Black", "Hat", "data/Hat2.jpeg")
-        hat3 = FashionItem(36, 1, "Black", "Hat", "data/Hat3.jpeg")
 
-        jean1 = FashionItem(23, 'M', "Grey", "Jeans", "data/Jeans1.jpeg")
-        jean2 = FashionItem(24, 'M', "Navy", "Jeans", "data/Jeans2.jpeg")
-        jean3 = FashionItem(25, 'M', "Silver", "Jeans", "data/Jeans3.jpeg")
-        jean4 = FashionItem(26, 'M', "Light Blue", "Jeans", "data/Jeans4.jpeg")
+        hat1 = FashionItem(34, 1, "White", "Hat",
+                           os.path.join('data', 'Hat1.jpeg'))
+        hat2 = FashionItem(35, 1, "Black", "Hat",
+                           os.path.join('data', 'Hat2.jpeg'))
+        hat3 = FashionItem(36, 1, "Black", "Hat",
+                           os.path.join('data', 'Hat2.jpeg'))
+
+        jean1 = FashionItem(23, 'M', "Grey", "Jeans",
+                            os.path.join('data', 'Jeans1.jpeg'))
+        jean2 = FashionItem(24, 'M', "Navy", "Jeans",
+                            os.path.join('data', 'Jeans2.jpeg'))
+        jean3 = FashionItem(25, 'M', "Silver", "Jeans",
+                            os.path.join('data', 'Jeans3.jpeg'))
+        jean4 = FashionItem(26, 'M', "Light Blue", "Jeans", os.path.join(
+            'data', 'Jeans4.jpeg'))
 
         shoe1 = FashionItem(67, 9, "White", "Shoes", "data/Shoes1.jpeg")
         shoe2 = FashionItem(67, 9, "Black", "Shoes", "data/Shoes2.jpeg")

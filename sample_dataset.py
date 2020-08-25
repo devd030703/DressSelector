@@ -38,11 +38,17 @@ df = df[
     df['subCategory'].isin(['Topwear', 'Shoes', 'Bottomwear', 'Headwear'])
 ]
 
+
 # %%
 df = df.groupby(['gender', 'subCategory']).apply(
     lambda x: x.sample(
         20,
         random_state=42
     )
-)
+).sort_index(ascending=True)
+df.index = df.index.droplevel(['gender', 'subCategory'])
 # %%
+
+
+# write a script that looks up all ids and their respective filepaths 
+# globe module - to locate the file path of the images 
