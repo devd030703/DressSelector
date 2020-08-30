@@ -1,10 +1,11 @@
 # %%
+import glob
 import pandas as pd
 import os
 
 # %%
 df = pd.read_csv(
-    os.path.join('fashion_dataset', 'styles.csv'),
+    os.path.join('fashion_dataset', 'styles.csv',),
     error_bad_lines=False,
     index_col='id',
     dtype={
@@ -47,8 +48,18 @@ df = df.groupby(['gender', 'subCategory']).apply(
     )
 ).sort_index(ascending=True)
 df.index = df.index.droplevel(['gender', 'subCategory'])
+
+
 # %%
 
+# write a script that looks up all ids and their respective filepaths
+# globe module - to locate the file path of the images
 
-# write a script that looks up all ids and their respective filepaths 
-# globe module - to locate the file path of the images 
+for i in range(1, 1000):
+    item_list = df.head(i).index.tolist()
+    item_id_filepath = (str(item_list[0])+'.jpg')
+    for name in glob.glob(
+            '/Users/devdeepak/Desktop/GitHub/DressSelector/fashion_dataset/images/'+item_id_filepath):
+        print(name)
+
+# %%
