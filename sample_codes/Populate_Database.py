@@ -42,44 +42,48 @@ class DataBaseClass:
                                  row['granted']))
             self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM ADMIN_REQUESTS").fetchall()
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM ADMIN_REQUESTS").fetchall()
         for row in rows:
             print(row)
 
     def populate_access_requests_table(self, df_access_requests):
         for row_index, row in df_access_requests.iterrows():
-            self.cursor.execute("INSERT INTO ACCESS_REQUESTS VALUES (?, ?, ?, ?)",
-                                (row['user1_id'],
-                                 row['user2_id'],
-                                 row['access_type'],
-                                 row['granted']))
+            self.cursor.execute(
+                "INSERT INTO ACCESS_REQUESTS VALUES (?, ?, ?, ?)",
+                (row['user1_id'],
+                 row['user2_id'],
+                 row['access_type'],
+                 row['granted']))
             self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM ACCESS_REQUESTS").fetchall()
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM ACCESS_REQUESTS").fetchall()
         for row in rows:
             print(row)
 
     def populate_shoot_table(self, df_shoot):
         for row_index, row in df_shoot.iterrows():
-            self.cursor.execute("INSERT INTO SHOOT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                                (row['user_id'],
-                                 row['score'],
-                                 row['event'],
-                                 row['date'],
-                                 row['distance'],
-                                 row['distance_unit'],
-                                 row['target_type'],
-                                 row['shoot_type'],
-                                 row['coached'],
-                                 row['coach_name'],
-                                 row['ammo'],
-                                 row['weather'],
-                                 row['range_name'],
-                                 row['wind_condition'],
-                                 row['wind_bracket'],
-                                 row['elevation'],
-                                 row['comments'],
-                                 row['photo_path']))
+            self.cursor.execute(
+                "INSERT INTO SHOOT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (row['user_id'],
+                 row['score'],
+                 row['event'],
+                 row['date'],
+                 row['distance'],
+                 row['distance_unit'],
+                 row['target_type'],
+                 row['shoot_type'],
+                 row['coached'],
+                 row['coach_name'],
+                 row['ammo'],
+                 row['weather'],
+                 row['range_name'],
+                 row['wind_condition'],
+                 row['wind_bracket'],
+                 row['elevation'],
+                 row['comments'],
+                 row['photo_path']))
             self.cnxn.commit()
 
         rows = self.cursor.execute("SELECT rowid, * FROM SHOOT").fetchall()
@@ -89,9 +93,11 @@ class DataBaseClass:
 
 def main():
     df_users = pd.read_csv('users.csv', encoding='latin1', index_col='rowid')
-    df_admin_requests = pd.read_csv('admin_requests.csv', encoding='latin1', index_col='rowid').assign(
+    df_admin_requests = pd.read_csv(
+        'admin_requests.csv', encoding='latin1', index_col='rowid').assign(
         user_id=lambda df: pd.to_numeric(df['user_id']).astype('int8'))
-    df_access_requests = pd.read_csv('access_requests.csv', encoding='latin1', index_col='rowid').assign(
+    df_access_requests = pd.read_csv(
+        'access_requests.csv', encoding='latin1', index_col='rowid').assign(
         user1_id=lambda df: pd.to_numeric(df['user1_id']).astype('int8'),
         user2_id=lambda df: pd.to_numeric(df['user2_id']).astype('int8'))
     df_shoot = pd.read_csv('shoot.csv', encoding='latin1', index_col='rowid')
