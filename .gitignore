@@ -1,5 +1,5 @@
 #
 .DS_Store
 dataset/images/
-dataset/image_samples/
+dataset/image_sample/
 .vscode/settings.json
