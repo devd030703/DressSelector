@@ -7,7 +7,6 @@
 """
 # %%
 import pandas as pd
-import glob
 import os
 import shutil
 
@@ -51,6 +50,3 @@ for ind, row in df.iterrows():
     shutil.copy(source, destination)
 
 # %%
-
-print(os.path.isdir(destination))
-print(destination)
