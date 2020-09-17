@@ -25,22 +25,39 @@ class DataBaseClass:
             self.cursor.execute(
                 "INSERT INTO USERS VALUES (?, ?)",
                 (
-                    row['Name'], 
+                    row['Name'],
                     row['Gender'],
                 )
             )
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM USER").fetchall()
+        rows = self.cursor.execute("SELECT rowid, * FROM USERS").fetchall()
         for row in rows:
             print(row)
 
 
+def populate_outfit_catalogue(self, df_users):
+    for row_index, row in df_users.iterrows():
+        self.cursor.execute(
+            "INSERT INTO OUTFITCATALOGUE VALUES (?, ?)",
+            (
+                row['UserID'],
+            )
+        )
+
+    rows = self.cursor.execute(
+        "SELECT rowid, * FROM OUTFITCATALOGUE").fetchall()
+    for row in rows:
+        print(row)
+
+
 def main():
-    df_users = pd.read_csv('users.csv', encoding='latin1', index_col='rowid')
-    # df_admin_requests = pd.read_csv(
-    #     'admin_requests.csv', encoding='latin1', index_col='rowid').assign(
+    df_users = pd.read_csv('Name.csv', 'Gender.csv"' encoding='latin1', index_col='rowid')
+
+    df_
+    # df_U = pd.read_csv(
+    #     'UserID.csv', encoding='latin1', index_col='rowid').assign(
     #     user_id=lambda df: pd.to_numeric(df['user_id']).astype('int8'))
     # df_access_requests = pd.read_csv(
     #     'access_requests.csv', encoding='latin1', index_col='rowid').assign(

@@ -20,9 +20,7 @@ class DataBase:
         CREATE TABLE "Users"
         (
           "Name"	TEXT NOT NULL,
-          "Gender"	TEXT NOT NULL,
-          "UserID"	INTEGER NOT NULL UNIQUE,
-          PRIMARY KEY("UserID" AUTOINCREMENT)
+          "Gender"	TEXT NOT NULL
         );
         """)
 
@@ -33,9 +31,7 @@ class DataBase:
         CREATE TABLE "OutfitCatalogue"
         (
           "UserID"	INTEGER NOT NULL UNIQUE,
-          "OutfitID"	INTEGER NOT NULL UNIQUE,
-          PRIMARY KEY("OutfitID"),
-          FOREIGN KEY("UserID") REFERENCES "Users"("UserID")
+          FOREIGN KEY("UserID") REFERENCES "Users"("rowid")
         );
         """)
 
