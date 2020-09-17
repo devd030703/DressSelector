@@ -6,7 +6,7 @@ We will use this as the unique PK for all tables
 import sqlite3
 
 
-class DataBaseClass:
+class DataBase:
     def __init__(self, database_name):
         super().__init__()
 
@@ -43,6 +43,10 @@ class DataBaseClass:
 
 
 def main():
-    database = DataBaseClass('database.db')
+    database = DataBase('database.db')
     database.create_user_table()
     database.create_outfit_catalogue_table()
+
+
+if __name__ == "__main__":
+    main()
