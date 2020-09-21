@@ -38,6 +38,19 @@ class DataBase:
 
         self.cnxn.commit()
 
+    def create_item_catalogue_table(self):
+        self.cursor.execute("""
+        CREATE TABLE "ItemCatalogue"
+        (
+          "Gender"	TEXT NOT NULL,
+          "Season"	TEXT NOT NULL,
+          "Colour"	TEXT NOT NULL,
+          "Subcategory"	TEXT NOT NULL  
+        );
+        """)
+
+        self.cnxn.commit()
+
 
 def main():
     database = DataBase(
@@ -49,6 +62,7 @@ def main():
     )
     database.create_users_table()
     database.create_outfit_catalogue_table()
+    database.create_item_catalogue_table()
 
 
 if __name__ == "__main__":
