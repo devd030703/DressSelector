@@ -5,13 +5,14 @@ https://stackoverflow.com/questions/49456158/integer-in-python-pandas-becomes-bl
 import sqlite3
 import numpy as np
 import pandas as pd
+import os
 
 sqlite3.register_adapter(np.int64, lambda val: int(val))
 sqlite3.register_adapter(np.int32, lambda val: int(val))
 sqlite3.register_adapter(np.int8, lambda val: int(val))
 
 
-class DataBaseClass:
+class DataBase:
     def __init__(self, database_name):
         super().__init__()
 
@@ -53,7 +54,14 @@ def populate_outfit_catalogue(self, df_users):
 
 
 def main():
-    df_users = pd.read_csv('Name.csv', 'Gender.csv',encoding='latin1', index_col='rowid')
+    df_users = pd.read_csv(
+        os.path.join(
+            'dataset',
+            'database',
+            'names.csv',
+        ),
+        encoding='latin1',
+    )
 
     # df_U = pd.read_csv(
     #     'UserID.csv', encoding='latin1', index_col='rowid').assign(
@@ -64,8 +72,13 @@ def main():
     #     user2_id=lambda df: pd.to_numeric(df['user2_id']).astype('int8'))
     # df_shoot = pd.read_csv('shoot.csv', encoding='latin1', index_col='rowid')
 
-    database = DataBaseClass('database.db')
-    database.populate_user_table(df_users)
+    database = DataBase(os.path.join(
+            'dataset',
+            'database',
+            'database.db',
+            )
+
+    database.populate_users_table(df_users)
 
     # database.populate_admin_requests_table(df_admin_requests)
     # database.populate_access_requests_table(df_access_requests)
