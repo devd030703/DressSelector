@@ -12,7 +12,11 @@ import shutil
 
 # %%
 df = pd.read_csv(
-    os.path.join('dataset', 'styles_sample.csv',),
+    os.path.join(
+        'dataset',
+        'database',
+        'item_catalogue_sample.csv',
+    ),
     index_col='id',
     dtype={
         'gender': 'category',
@@ -23,7 +27,9 @@ df = pd.read_csv(
         'season': 'category',
         'productDisplayName': 'category',
     },
-).sort_index(ascending=True)
+).sort_index(
+    ascending=True,
+)
 
 df.info()
 
@@ -39,13 +45,16 @@ for ind, row in df.iterrows():
     sub_catergory = row['subCategory']
     destination = os.path.join(
         'dataset',
-        'image_sample',
+        'database',
+        'item_catalogue_image_sample',
         sub_catergory,
         gender,
     )
 
     if not os.path.isdir(destination):
-        os.makedirs(destination)
+        os.makedirs(
+            destination
+        )
 
     shutil.copy(source, destination)
 

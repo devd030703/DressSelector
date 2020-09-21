@@ -56,6 +56,6 @@ df.to_csv(
     os.path.join(
         'dataset',
         'database',
-        'item_catalogue_sample.csv',
+        'ItemCatalogueSample.csv',
     )
 )

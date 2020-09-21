@@ -84,6 +84,15 @@ def main():
         encoding='utf-8',
     )
 
+    df_item_catalogues = pd.read_csv(
+        os.path.join(
+            'dataset',
+            'database',
+            'item_catalogue.csv',
+        ),
+        encoding='utf-8',
+    )
+
     database.populate_users_table(df_users)
     database.populate_outfit_catalogue(df_outfits)
 
