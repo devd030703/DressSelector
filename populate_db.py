@@ -55,6 +55,25 @@ class DataBase:
         for row in rows:
             print(row)
 
+    def populate_item_catalogue(self, df):
+        for row_index, row in df.iterrows():
+            self.cursor.execute(
+                "INSERT INTO ITEMCATALOGUE VALUES (?,?,?,?)",
+                (
+                    row['id'],
+                    row['gender'],
+                    row['baseColour'],
+                    row['subCategory'],
+                )
+            )
+
+        self.cnxn.commit()
+
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM ITEMCATALOGUE").fetchall()
+        for row in rows:
+            print(row)
+
 
 def main():
 
@@ -84,17 +103,18 @@ def main():
         encoding='utf-8',
     )
 
-    df_item_catalogues = pd.read_csv(
+    df_item_catalogue = pd.read_csv(
         os.path.join(
             'dataset',
             'database',
-            'item_catalogue.csv',
+            'ItemCatalogueSample.csv',
         ),
         encoding='utf-8',
     )
 
     database.populate_users_table(df_users)
     database.populate_outfit_catalogue(df_outfits)
+    database.populate_item_catalogue(df_item_catalogue)
 
 
 if __name__ == '__main__':
