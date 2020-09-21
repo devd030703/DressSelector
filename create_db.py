@@ -4,6 +4,7 @@ We will use this as the unique PK for all tables
 """
 
 import sqlite3
+import os
 
 
 class DataBase:
@@ -15,7 +16,7 @@ class DataBase:
 
         self.cursor = self.cnxn.cursor()
 
-    def create_user_table(self):
+    def create_users_table(self):
         self.cursor.execute("""
         CREATE TABLE "Users"
         (
@@ -39,8 +40,14 @@ class DataBase:
 
 
 def main():
-    database = DataBase('database.db')
-    database.create_user_table()
+    database = DataBase(
+        os.path.join(
+            'dataset',
+            'database',
+            'database.db',
+        )
+    )
+    database.create_users_table()
     database.create_outfit_catalogue_table()
 
 

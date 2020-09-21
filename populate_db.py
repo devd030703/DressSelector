@@ -20,7 +20,7 @@ class DataBaseClass:
 
         self.cursor = self.cnxn.cursor()
 
-    def populate_user_table(self, df_users):
+    def populate_users_table(self, df_users):
         for row_index, row in df_users.iterrows():
             self.cursor.execute(
                 "INSERT INTO USERS VALUES (?, ?)",
