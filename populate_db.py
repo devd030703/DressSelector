@@ -53,9 +53,9 @@ def populate_outfit_catalogue(self, df_users):
 
 
 def main():
-    df_users = pd.read_csv('Name.csv', 'Gender.csv"' encoding='latin1', index_col='rowid')
+    df_users = pd.read_csv('Name.csv', 'Gender.csv',
+                           encoding='latin1', index_col='rowid')
 
-    df_
     # df_U = pd.read_csv(
     #     'UserID.csv', encoding='latin1', index_col='rowid').assign(
     #     user_id=lambda df: pd.to_numeric(df['user_id']).astype('int8'))
