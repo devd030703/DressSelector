@@ -21,8 +21,8 @@ class DataBase:
 
         self.cursor = self.cnxn.cursor()
 
-    def populate_users_table(self, df_users):
-        for row_index, row in df_users.iterrows():
+    def populate_users_table(self, df):
+        for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO USERS VALUES (?, ?)",
                 (
@@ -33,56 +33,59 @@ class DataBase:
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM USERS").fetchall()
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM USERS"
+        ).fetchall()
+        for row in rows:
+            print(row)
+
+    def populate_outfit_catalogue(self, df):
+        for row_index, row in df.iterrows():
+            self.cursor.execute(
+                "INSERT INTO OUTFITCATALOGUE VALUES (?)",
+                (
+                    row['UserID'],
+                )
+            )
+
+        self.cnxn.commit()
+
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM OUTFITCATALOGUE").fetchall()
         for row in rows:
             print(row)
 
 
-def populate_outfit_catalogue(self, df_users):
-    for row_index, row in df_users.iterrows():
-        self.cursor.execute(
-            "INSERT INTO OUTFITCATALOGUE VALUES (?, ?)",
-            (
-                row['UserID'],
-            )
-        )
-
-    rows = self.cursor.execute(
-        "SELECT rowid, * FROM OUTFITCATALOGUE").fetchall()
-    for row in rows:
-        print(row)
-
-
 def main():
+
+    database = DataBase(
+        os.path.join(
+            'dataset',
+            'database',
+            'database.db',
+        )
+    )
+
     df_users = pd.read_csv(
         os.path.join(
             'dataset',
             'database',
-            'names.csv',
+            'Users.csv',
         ),
-        encoding='latin1',
+        encoding='utf-8',
     )
 
-    # df_U = pd.read_csv(
-    #     'UserID.csv', encoding='latin1', index_col='rowid').assign(
-    #     user_id=lambda df: pd.to_numeric(df['user_id']).astype('int8'))
-    # df_access_requests = pd.read_csv(
-    #     'access_requests.csv', encoding='latin1', index_col='rowid').assign(
-    #     user1_id=lambda df: pd.to_numeric(df['user1_id']).astype('int8'),
-    #     user2_id=lambda df: pd.to_numeric(df['user2_id']).astype('int8'))
-    # df_shoot = pd.read_csv('shoot.csv', encoding='latin1', index_col='rowid')
-
-    database = DataBase(os.path.join(
+    df_outfits = pd.read_csv(
+        os.path.join(
             'dataset',
             'database',
-            'database.db',
-            )
+            'OutfitCatalogue.csv',
+        ),
+        encoding='utf-8',
+    )
 
     database.populate_users_table(df_users)
-
-    # database.populate_admin_requests_table(df_admin_requests)
-    # database.populate_access_requests_table(df_access_requests)
-    # database.populate_shoot_table(df_shoot)
+    database.populate_outfit_catalogue(df_outfits)
 
 
 if __name__ == '__main__':
