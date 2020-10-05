@@ -24,8 +24,9 @@ class DataBase:
     def populate_users_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
-                "INSERT INTO USERS VALUES (?, ?)", (row["Name"], row["Gender"],)
-            )
+                "INSERT INTO USERS VALUES (?, ?)",
+                (row["Name"],
+                 row["Gender"],))
 
         self.cnxn.commit()
 
@@ -33,7 +34,7 @@ class DataBase:
         for row in rows:
             print(row)
 
-    def populate_outfit_catalogue(self, df):
+    def populate_outfit_catalogue_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO OUTFITCATALOGUE VALUES (?)", (row["UserID"],)
@@ -41,29 +42,35 @@ class DataBase:
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM OUTFITCATALOGUE").fetchall()
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM OUTFITCATALOGUE").fetchall()
         for row in rows:
             print(row)
 
-    def populate_item_catalogue(self, df):
+    def populate_item_catalogue_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO ITEMCATALOGUE VALUES (?,?,?,?)",
-                (row["id"], row["gender"], row["baseColour"], row["subCategory"],),
-            )
+                (row["id"],
+                 row["gender"],
+                 row["baseColour"],
+                 row["subCategory"],),)
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM ITEMCATALOGUE").fetchall()
+        rows = self.cursor.execute(
+            "SELECT rowid, * FROM ITEMCATALOGUE").fetchall()
         for row in rows:
             print(row)
 
-    def populate_outfit_table(self, df):
+    def populate_outfits_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO OUTFITS VALUES (?,?,?,?)",
-                (row["Headwear"], row["Topwear"], row["Bottomwear"], row["Shoes"],),
-            )
+                (row["Headwear"],
+                 row["Topwear"],
+                 row["Bottomwear"],
+                 row["Shoes"],),)
 
         self.cnxn.commit()
 
@@ -76,18 +83,20 @@ def main():
         os.path.join("dataset", "database", "Users.csv",), encoding="utf-8",
     )
 
-    df_outfit_catalogue = pd.read_csv(
-        os.path.join("dataset", "database", "OutfitCatalogue.csv",), encoding="utf-8",
-    )
+    df_outfit_catalogue = pd.read_csv(os.path.join(
+        "dataset", "database",
+        "OutfitCatalogue.csv",),
+        encoding="utf-8",)
 
     df_item_catalogue = pd.read_csv(
         os.path.join("dataset", "database", "ItemCatalogueSample.csv",),
         encoding="utf-8",
     )
 
-    df_outfit_table = pd.read_csv(
-        os.path.join("dataset", "database", "OutfitTable.csv",), encoding="utf-8",
-    )
+    df_outfit_table = pd.read_csv(os.path.join(
+        "dataset", "database",
+        "OutfitTable.csv",),
+        encoding="utf-8",)
 
     # take a sample outfit
     # df_item_catalogue.pivot_table(
@@ -95,9 +104,9 @@ def main():
     # )
 
     database.populate_users_table(df_users)
-    database.populate_outfit_catalogue(df_outfit_catalogue)
-    database.populate_item_catalogue(df_item_catalogue)
-    database.populate_outfit_table(df_outfit_table)
+    database.populate_outfit_catalogue_table(df_outfit_catalogue)
+    database.populate_item_catalogue_table()(df_item_catalogue)
+    database.populate_outfits_table(df_outfit_table)
 
 
 if __name__ == "__main__":
