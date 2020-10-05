@@ -20,8 +20,8 @@ class DataBase:
         self.cursor.execute("""
         CREATE TABLE "Users"
         (
-          "Name"	TEXT NOT NULL,
-          "Gender"	TEXT NOT NULL
+            "Name"	TEXT NOT NULL,
+            "Gender" TEXT NOT NULL
         );
         """)
 
@@ -31,8 +31,8 @@ class DataBase:
         self.cursor.execute("""
         CREATE TABLE "OutfitCatalogue"
         (
-          "UserID"	INTEGER NOT NULL UNIQUE,
-          FOREIGN KEY("UserID") REFERENCES "Users"("rowid")
+            "UserID"	INTEGER NOT NULL UNIQUE,
+            FOREIGN KEY("UserID") REFERENCES "Users"("rowid")
         );
         """)
 
@@ -42,10 +42,27 @@ class DataBase:
         self.cursor.execute("""
         CREATE TABLE "ItemCatalogue"
         (
-          "Gender"	TEXT NOT NULL,
-          "Season"	TEXT NOT NULL,
-          "Colour"	TEXT NOT NULL,
-          "Subcategory"	TEXT NOT NULL  
+            "Gender"	TEXT NOT NULL,
+            "Season"	TEXT NOT NULL,
+            "Colour"	TEXT NOT NULL,
+            "Subcategory"	TEXT NOT NULL  
+        );
+        """)
+
+        self.cnxn.commit()
+
+    def create_outfit_table(self):
+        self.cursor.execute("""
+        CREATE TABLE "Outfits" 
+        (
+            "Headwear"	INTEGER NOT NULL,
+            "Topwear"	INTEGER NOT NULL,
+            "Bottomwear"	INTEGER NOT NULL,
+            "Footwear"	INTEGER,
+            FOREIGN KEY("Topwear") REFERENCES "ItemCatalogue"("rowid"),
+            FOREIGN KEY("Bottomwear") REFERENCES "ItemCatalogue"("rowid"),
+            FOREIGN KEY("Headwear") REFERENCES "ItemCatalogue"("rowid"),
+            FOREIGN KEY("Footwear") REFERENCES "ItemCatalogue"("rowid")    
         );
         """)
 
@@ -63,6 +80,7 @@ def main():
     database.create_users_table()
     database.create_outfit_catalogue_table()
     database.create_item_catalogue_table()
+    database.create_outfit_table()
 
 
 if __name__ == "__main__":

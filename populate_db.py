@@ -113,8 +113,8 @@ def main():
     )
 
     database.populate_users_table(df_users)
-    database.populate_outfit_catalogue(df_outfit_catalogue)
-    database.populate_item_catalogue(df_item_catalogue)
+    # database.populate_outfit_catalogue(df_outfit_catalogue)
+    # database.populate_item_catalogue(df_item_catalogue)
 
 
 if __name__ == '__main__':
