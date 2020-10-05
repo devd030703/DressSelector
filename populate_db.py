@@ -74,6 +74,20 @@ class DataBase:
         for row in rows:
             print(row)
 
+    def populate_outfit_table(self, df):
+        for row_index, row in df.iterrows():
+            self.cursor.execute(
+                "INSERT INTO OUTFITS VALUES (?,?,?,?)",
+                (
+                    row['Headwear'],
+                    row['Topwear'],
+                    row['Bottomwear'],
+                    row['Shoes'],
+                )
+            )
+
+        self.cnxn.commit()
+
 
 def main():
 
@@ -111,10 +125,21 @@ def main():
         ),
         encoding='utf-8',
     )
+    
+    df_outfit_table = pd.read_csv(
+        os.path.join(
+            'dataset',
+            'database',
+            'OutfitTable.csv',
+        ),
+        encoding='utf-8',
+    )
 
     database.populate_users_table(df_users)
-    # database.populate_outfit_catalogue(df_outfit_catalogue)
-    # database.populate_item_catalogue(df_item_catalogue)
+    database.populate_outfit_catalogue(df_outfit_catalogue)
+    database.populate_item_catalogue(df_item_catalogue)
+    database.populate_outfit_table(df_outfit_table)
+    
 
 
 if __name__ == '__main__':

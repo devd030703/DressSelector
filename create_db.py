@@ -58,11 +58,11 @@ class DataBase:
             "Headwear"	INTEGER NOT NULL,
             "Topwear"	INTEGER NOT NULL,
             "Bottomwear"	INTEGER NOT NULL,
-            "Footwear"	INTEGER,
+            "Shoes"	INTEGER,
             FOREIGN KEY("Topwear") REFERENCES "ItemCatalogue"("rowid"),
             FOREIGN KEY("Bottomwear") REFERENCES "ItemCatalogue"("rowid"),
             FOREIGN KEY("Headwear") REFERENCES "ItemCatalogue"("rowid"),
-            FOREIGN KEY("Footwear") REFERENCES "ItemCatalogue"("rowid")    
+            FOREIGN KEY("Shoes") REFERENCES "ItemCatalogue"("rowid")    
         );
         """)
 
