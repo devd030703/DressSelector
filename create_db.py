@@ -12,34 +12,41 @@ class DataBase:
         super().__init__()
 
         self.cnxn = sqlite3.connect(database_name)
-        print('database connected...')
+        print("database connected...")
 
         self.cursor = self.cnxn.cursor()
 
     def create_users_table(self):
-        self.cursor.execute("""
-        CREATE TABLE "Users"
-        (
-            "Name"	TEXT NOT NULL,
-            "Gender" TEXT NOT NULL
-        );
-        """)
+        self.cursor.execute(
+            """
+        CREATE TABLE "USERS" (
+            "FirstName"	TEXT NOT NULL,
+            "LastName"	TEXT NOT NULL,
+            "Gender"	TEXT NOT NULL,
+            "Email"	TEXT NOT NULL,
+            "Password"	INTEGER NOT NULL
+            );
+        """
+        )
 
         self.cnxn.commit()
 
     def create_outfit_catalogue_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
         CREATE TABLE "OutfitCatalogue"
         (
             "UserID"	INTEGER NOT NULL UNIQUE,
             FOREIGN KEY("UserID") REFERENCES "Users"("rowid")
         );
-        """)
+        """
+        )
 
         self.cnxn.commit()
 
     def create_item_catalogue_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
         CREATE TABLE "ItemCatalogue"
         (
             "Gender"	TEXT NOT NULL,
@@ -47,12 +54,14 @@ class DataBase:
             "Colour"	TEXT NOT NULL,
             "Subcategory"	TEXT NOT NULL  
         );
-        """)
+        """
+        )
 
         self.cnxn.commit()
 
     def create_outfit_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
         CREATE TABLE "Outfits" 
         (
             "Headwear"	INTEGER NOT NULL,
@@ -64,23 +73,18 @@ class DataBase:
             FOREIGN KEY("Headwear") REFERENCES "ItemCatalogue"("rowid"),
             FOREIGN KEY("Shoes") REFERENCES "ItemCatalogue"("rowid")    
         );
-        """)
+        """
+        )
 
         self.cnxn.commit()
 
 
 def main():
-    database = DataBase(
-        os.path.join(
-            'dataset',
-            'database',
-            'database.db',
-        )
-    )
+    database = DataBase(os.path.join("dataset", "database", "database.db",))
     database.create_users_table()
-    database.create_outfit_catalogue_table()
-    database.create_item_catalogue_table()
-    database.create_outfit_table()
+    # database.create_outfit_catalogue_table()
+    # database.create_item_catalogue_table()
+    # database.create_outfit_table()
 
 
 if __name__ == "__main__":

@@ -12,49 +12,33 @@ import shutil
 
 # %%
 df = pd.read_csv(
-    os.path.join(
-        'dataset',
-        'database',
-        'item_catalogue_sample.csv',
-    ),
-    index_col='id',
+    os.path.join("dataset", "database", "item_catalogue_sample.csv",),
+    index_col="id",
     dtype={
-        'gender': 'category',
-        'masterCategory': 'category',
-        'subCategory': 'category',
-        'articleType': 'category',
-        'baseColour': 'category',
-        'season': 'category',
-        'productDisplayName': 'category',
+        "gender": "category",
+        "masterCategory": "category",
+        "subCategory": "category",
+        "articleType": "category",
+        "baseColour": "category",
+        "season": "category",
+        "productDisplayName": "category",
     },
-).sort_index(
-    ascending=True,
-)
+).sort_index(ascending=True,)
 
 df.info()
 
 # %%
 
 for ind, row in df.iterrows():
-    source = os.path.join(
-        'dataset',
-        'images',
-        f"{ind}.jpg",
-    )
-    gender = row['gender']
-    sub_catergory = row['subCategory']
+    source = os.path.join("dataset", "images", f"{ind}.jpg",)
+    gender = row["gender"]
+    sub_catergory = row["subCategory"]
     destination = os.path.join(
-        'dataset',
-        'database',
-        'item_catalogue_image_sample',
-        sub_catergory,
-        gender,
+        "dataset", "database", "item_catalogue_image_sample", sub_catergory, gender,
     )
 
     if not os.path.isdir(destination):
-        os.makedirs(
-            destination
-        )
+        os.makedirs(destination)
 
     shutil.copy(source, destination)
 
