@@ -40,15 +40,15 @@ class DataBase:
         for row in rows:
             print(row)
 
-    def populate_outfit_catalogue_table(self, df):
+    def populate_outfits_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
-                "INSERT INTO OUTFITCATALOGUE VALUES (?)", (row["UserID"],)
+                "INSERT INTO OUTFITS VALUES (?)", (row["UserID"],)
             )
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM OUTFITCATALOGUE").fetchall()
+        rows = self.cursor.execute("SELECT rowid, * FROM OUTFITS").fetchall()
         for row in rows:
             print(row)
 
@@ -65,10 +65,10 @@ class DataBase:
         for row in rows:
             print(row)
 
-    def populate_outfits_table(self, df):
+    def populate_outfit_catalogue_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
-                "INSERT INTO OUTFITS VALUES (?,?,?,?)",
+                "INSERT INTO OUTFITCATALOGUE VALUES (?,?,?,?)",
                 (row["Headwear"], row["Topwear"], row["Bottomwear"], row["Shoes"],),
             )
 

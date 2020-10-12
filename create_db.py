@@ -25,7 +25,7 @@ class DataBase:
             "Gender"	TEXT NOT NULL,
             "Email"	TEXT NOT NULL,
             "Password"	INTEGER NOT NULL
-            );
+        );
         """
         )
 
@@ -34,10 +34,11 @@ class DataBase:
     def create_outfit_catalogue_table(self):
         self.cursor.execute(
             """
-        CREATE TABLE "OutfitCatalogue"
-        (
-            "UserID"	INTEGER NOT NULL UNIQUE,
-            FOREIGN KEY("UserID") REFERENCES "Users"("rowid")
+        CREATE TABLE "OUTFITCATALOGUE" (
+            "OutfitID"	INTEGER NOT NULL,
+            "ItemID"	INTEGER NOT NULL,
+            FOREIGN KEY("ItemID") REFERENCES "ITEMCATALOGUE"("rowid"),
+            FOREIGN KEY("OutfitID") REFERENCES "OUTFITS"("rowid")
         );
         """
         )
@@ -47,12 +48,11 @@ class DataBase:
     def create_item_catalogue_table(self):
         self.cursor.execute(
             """
-        CREATE TABLE "ItemCatalogue"
-        (
+        CREATE TABLE "ITEMCATALOGUE" (
             "Gender"	TEXT NOT NULL,
             "Season"	TEXT NOT NULL,
             "Colour"	TEXT NOT NULL,
-            "Subcategory"	TEXT NOT NULL  
+            "Subcategory"	TEXT NOT NULL
         );
         """
         )
@@ -62,16 +62,9 @@ class DataBase:
     def create_outfit_table(self):
         self.cursor.execute(
             """
-        CREATE TABLE "Outfits" 
-        (
-            "Headwear"	INTEGER NOT NULL,
-            "Topwear"	INTEGER NOT NULL,
-            "Bottomwear"	INTEGER NOT NULL,
-            "Shoes"	INTEGER,
-            FOREIGN KEY("Topwear") REFERENCES "ItemCatalogue"("rowid"),
-            FOREIGN KEY("Bottomwear") REFERENCES "ItemCatalogue"("rowid"),
-            FOREIGN KEY("Headwear") REFERENCES "ItemCatalogue"("rowid"),
-            FOREIGN KEY("Shoes") REFERENCES "ItemCatalogue"("rowid")    
+        CREATE TABLE "OUTFITS" (
+            "UserID"	INTEGER NOT NULL,
+            FOREIGN KEY("UserID") REFERENCES "USERS"("rowid")
         );
         """
         )
@@ -82,9 +75,9 @@ class DataBase:
 def main():
     database = DataBase(os.path.join("dataset", "database", "database.db",))
     database.create_users_table()
-    # database.create_outfit_catalogue_table()
-    # database.create_item_catalogue_table()
-    # database.create_outfit_table()
+    database.create_outfit_catalogue_table()
+    database.create_item_catalogue_table()
+    database.create_outfit_table()
 
 
 if __name__ == "__main__":
