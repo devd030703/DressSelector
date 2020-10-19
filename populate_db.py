@@ -42,9 +42,7 @@ class DataBase:
 
     def populate_outfits_table(self, df):
         for row_index, row in df.iterrows():
-            self.cursor.execute(
-                "INSERT INTO OUTFITS VALUES (?)", (row["UserID"],)
-            )
+            self.cursor.execute("INSERT INTO OUTFITS VALUES (?)", (row["UserID"],))
 
         self.cnxn.commit()
 
@@ -83,18 +81,18 @@ def main():
         os.path.join("dataset", "database", "Users.csv",), encoding="utf-8",
     )
 
-    df_outfit_catalogue = pd.read_csv(
-        os.path.join("dataset", "database", "OutfitCatalogue.csv",), encoding="utf-8",
-    )
+    # df_outfit_catalogue = pd.read_csv(
+    #     os.path.join("dataset", "database", "OutfitCatalogue.csv",), encoding="utf-8",
+    # )
 
     df_item_catalogue = pd.read_csv(
         os.path.join("dataset", "database", "ItemCatalogueSample.csv",),
         encoding="utf-8",
     )
 
-    df_outfit_table = pd.read_csv(
-        os.path.join("dataset", "database", "OutfitTable.csv",), encoding="utf-8",
-    )
+    # df_outfit_table = pd.read_csv(
+    #     os.path.join("dataset", "database", "OutfitTable.csv",), encoding="utf-8",
+    # )
 
     # take a sample outfit
     # df_item_catalogue.pivot_table(
