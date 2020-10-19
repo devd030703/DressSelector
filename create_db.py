@@ -3,8 +3,8 @@ Table rows have a 64-bit signed integer ROWID which is unique among all rows in 
 We will use this as the unique PK for all tables
 """
 
-import sqlite3
 import os
+import sqlite3
 
 
 class DataBase:
@@ -31,14 +31,11 @@ class DataBase:
 
         self.cnxn.commit()
 
-    def create_outfit_catalogue_table(self):
+    def create_outfit_table(self):
         self.cursor.execute(
             """
-        CREATE TABLE "OUTFITCATALOGUE" (
-            "OutfitID"	INTEGER NOT NULL,
-            "ItemID"	INTEGER NOT NULL,
-            FOREIGN KEY("ItemID") REFERENCES "ITEMCATALOGUE"("rowid"),
-            FOREIGN KEY("OutfitID") REFERENCES "OUTFITS"("rowid")
+        CREATE TABLE "OUTFITS" (
+            "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid")
         );
         """
         )
@@ -49,22 +46,22 @@ class DataBase:
         self.cursor.execute(
             """
         CREATE TABLE "ITEMCATALOGUE" (
+            "Subcategory"	TEXT NOT NULL,
             "Gender"	TEXT NOT NULL,
             "Season"	TEXT NOT NULL,
-            "Colour"	TEXT NOT NULL,
-            "Subcategory"	TEXT NOT NULL
+            "Colour"	TEXT NOT NULL
         );
         """
         )
 
         self.cnxn.commit()
 
-    def create_outfit_table(self):
+    def create_outfit_catalogue_table(self):
         self.cursor.execute(
             """
-        CREATE TABLE "OUTFITS" (
-            "UserID"	INTEGER NOT NULL,
-            FOREIGN KEY("UserID") REFERENCES "USERS"("rowid")
+        CREATE TABLE "OUTFITCATALOGUE" (
+            "OutfitID"	INTEGER NOT NULL REFERENCES "OUTFITS"("rowid"),
+            "ItemID"	INTEGER NOT NULL REFERENCES "ITEMCATALOGUE"("rowid")
         );
         """
         )
@@ -73,11 +70,17 @@ class DataBase:
 
 
 def main():
-    database = DataBase(os.path.join("dataset", "database", "database.db",))
+    database = DataBase(
+        os.path.join(
+            "dataset",
+            "database",
+            "database.db",
+        )
+    )
     database.create_users_table()
-    database.create_outfit_catalogue_table()
     database.create_item_catalogue_table()
     database.create_outfit_table()
+    database.create_outfit_catalogue_table()
 
 
 if __name__ == "__main__":
