@@ -35,7 +35,8 @@ class DataBase:
         self.cursor.execute(
             """
         CREATE TABLE "OUTFITS" (
-            "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid")
+            "UserID"
+            INTEGER NOT NULL REFERENCES "USERS"("rowid") 
         );
         """
         )
@@ -70,13 +71,7 @@ class DataBase:
 
 
 def main():
-    database = DataBase(
-        os.path.join(
-            "dataset",
-            "database",
-            "database.db",
-        )
-    )
+    database = DataBase(os.path.join("dataset", "database", "database.db",))
     database.create_users_table()
     database.create_item_catalogue_table()
     database.create_outfit_table()
