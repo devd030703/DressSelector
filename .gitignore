@@ -1,8 +1,54 @@
-.DS_Store
-dataset/images/
+# Byte-compiled
+__pycache__/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
 .ipynb_checkpoints
-.idea
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Environments
+.venv
+
+# Rope project settings
+.ropeproject
+
+# Azure Functions artifacts
+bin
+obj
+appsettings.json
+local.settings.json
+.python_packages
+
+# vscode project settings
 .vscode
+*.code-workspace
 .code-workspace
-workspace.code-workspace
-__pycache__
+
+# data
+dataset/images/
