@@ -51,4 +51,5 @@ local.settings.json
 .code-workspace
 
 # data
+.DS_Store
 dataset/images/
