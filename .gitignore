@@ -47,6 +47,7 @@ local.settings.json
 
 # vscode project settings
 .vscode
+*.vscode
 *.code-workspace
 .code-workspace
 
