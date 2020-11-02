@@ -8,32 +8,17 @@ import dash_html_components as html
 import dash
 
 # %%
-# ----------------------------------- DATA ------------------------------------
-logo_image = os.path.join("images", "ds_logo.png")
-title_image = os.path.join("images", "models.png")
-
-# recipe classification
-recipe_classification_image = os.path.join("images", "recipe_classification.png")
-recipe_classification_app_link = (
-    "https://recipe-classification-dev-eun-web.azurewebsites.net"
-)
-recipe_classification_google_form_link = "https://docs.google.com/forms/d/e/1FAIpQLSft8vT9zybUeyDSr8gRGCdC96ZJKHlLkL7qbli_irKvF7XOAQ/viewform?usp=sf_link"
-
-# marketing classification
-marketing_classification_image = os.path.join("images", "marketing_classification.png")
-marketing_classification_app_link = (
-    "https://marketing-classification-dev-eun-web.azurewebsites.net"
-)
-marketing_classification_google_form_link = "https://docs.google.com/forms/d/e/1FAIpQLSfMAiz5Y0NzUXWiYb1UIuzYFf291haoGBgNzjXnabO2WgwEaw/viewform?usp=sf_link"
+# ---------------------------------------- DATA ----------------------------------------
+logo_image = os.path.join("images", "models.png")
 
 # %%
-# ------------------------------------ APP ------------------------------------
+# ---------------------------------------- APP -----------------------------------------
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
 )
 
-# ----------------------------------- IMAGES ----------------------------------
+# --------------------------------------- IMAGES ---------------------------------------
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
 
 img_ds = html.Img(
@@ -44,7 +29,7 @@ img_ds = html.Img(
     },
 )
 
-# ----------------------------------- CARDS -----------------------------------
+# --------------------------------------- CARDS ----------------------------------------
 card_login = dbc.Card(
     [
         # dbc.CardHeader(
@@ -84,7 +69,7 @@ card_login = dbc.Card(
     inverse=True,
 )
 
-# ----------------------------------- LAYOUT ----------------------------------
+# --------------------------------------- LAYOUT ---------------------------------------
 app.layout = dbc.Container(
     [
         html.Div(
