@@ -3,6 +3,7 @@ import base64
 import os
 
 import dash_bootstrap_components as dbc
+from dash_bootstrap_components import CardSubtitle
 import dash_html_components as html
 
 import dash
@@ -42,23 +43,25 @@ card_login = dbc.Card(
                     id="input_user_name",
                     placeholder="user name",
                     type="text",
-                    className="mb-5",
+                    className="mb-2",
                 ),
                 dbc.Input(
                     id="input_password",
                     placeholder="password",
                     type="text",
-                    className="mb-5",
+                    className="mb-2",
                 ),
                 dbc.Row(
                     [
                         dbc.Button(
-                            "login",
+                            "Login",
                             color="primary",
+                            className = "p-1, m-3",
                         ),
                         dbc.Button(
-                            "signup",
+                            "Signup",
                             color="primary",
+                            className ="p-1, m-3",
                         ),
                     ]
                 ),
@@ -68,7 +71,22 @@ card_login = dbc.Card(
     color="light",
     inverse=True,
 )
-
+card_info = dbc.Card(
+    [
+        dbc.CardHeader(
+            "Information",
+            className="card-title mb-0",
+            
+        ),
+        
+        dbc.CardBody(
+            "In development - 2020",
+            className = "card-body mb-0",
+                ),
+    ],
+    color="dark",
+    inverse=True,
+)
 # --------------------------------------- LAYOUT ---------------------------------------
 app.layout = dbc.Container(
     [
@@ -84,7 +102,12 @@ app.layout = dbc.Container(
                 dbc.Row(
                     dbc.Col(card_login, width={"size": 6, "offset": 3}),
                     align="center",
-                    className="mb-5",
+                    className="mb-5",   
+                ),
+                # row3 : info
+                dbc.Row(
+                    dbc.Col(card_info, width={"size": 3,}),
+                    className = "mb-5",
                 ),
             ]
         )
