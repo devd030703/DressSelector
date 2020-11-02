@@ -39,7 +39,7 @@ ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
 img_ds = html.Img(
     src=f"data:image/png;base64,{ds_logo_encoded.decode()}",
     style={
-        "float": "left",
+        "float": "centre",
         "width": "50%",
     },
 )
@@ -57,13 +57,13 @@ card_login = dbc.Card(
                     id="input_user_name",
                     placeholder="user name",
                     type="text",
-                    className="mb-3",
+                    className="mb-5",
                 ),
                 dbc.Input(
                     id="input_password",
                     placeholder="password",
                     type="text",
-                    className="mb-3",
+                    className="mb-5",
                 ),
                 dbc.Row(
                     [
@@ -80,7 +80,7 @@ card_login = dbc.Card(
             ]
         ),
     ],
-    color="dark",
+    color="light",
     inverse=True,
 )
 
