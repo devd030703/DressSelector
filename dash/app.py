@@ -75,11 +75,18 @@ card_login = dbc.Card(
     inverse=True,
 )
 
-alert = dbc.Alert(
-    "Hello! I am an alert",
-    id="alert",
+success = dbc.Alert(
+    "Please wait while we redirect you",
+    id="success",
     dismissable=True,
     is_open=False,
+)
+
+failure = dbc.Alert(
+    "Incorrect Username or Password entered",
+    id="failure",
+    dismissable = True,
+    is_open=False, 
 )
 
 # --------------------------------------- LAYOUT ---------------------------------------
@@ -106,7 +113,26 @@ app.layout = dbc.Container(
                     className="m-5",
                 ),
                 # row3: alert
-                dbc.Row(alert),
+                dbc.Row(
+                    dbc.Col(
+                        success,
+                        width={"size": 4, "offset": 3},
+                        ),
+                    align="center",
+                    className="m-5",
+                ),
+                    
+                
+                #row4 : failure
+                dbc.Row(
+                    dbc.Col(
+                        failure,
+                        width={"size": 6, "offset": 3},
+                        ),
+                    align="center",
+                    className="m-5",
+                ),
+                
             ]
         )
     ]
@@ -116,7 +142,10 @@ app.layout = dbc.Container(
 # ------------------------------------- CALLBACKS --------------------------------------
 # %%
 @app.callback(
-    Output("alert", "is_open"),
+    [
+        Output("success", "is_open"),
+        Output("failure", "is_open")
+    ],
     [
         Input("button_login", "n_clicks"),
     ],
@@ -131,7 +160,22 @@ def login(
     input_password_value,
 ):
     if login_button_n_clicks:
-        return True
+        if input_user_name_value is not None:
+            if input_user_name_value.isspace() == False:
+                if input_password_value is not None:
+                    if input_password_value.isspace() == False:
+                        return True, False
+                    else:
+                        return False,True
+                else:
+                    return False,True
+            else:
+                return False,True       
+        else:
+            return False,True
+    else:
+        return False,False
+            
 
 
 # %%
@@ -141,3 +185,7 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port="8080",
     )
+
+
+# squlite on a different server
+# create a new cards 
