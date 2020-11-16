@@ -1,17 +1,19 @@
 # %%
 import base64
 import os
-
-import dash_bootstrap_components as dbc
-import dash_html_components as html
+from pathlib import Path
 
 import dash
+import dash_bootstrap_components as dbc
+import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
+from database.query import DataBase
+
 # %%
 # ---------------------------------------- DATA ----------------------------------------
-logo_image = os.path.join("images", "models.png")
+logo_image = "logo.png"
 
 # %%
 # ---------------------------------------- APP -----------------------------------------
@@ -131,11 +133,18 @@ def login(
     input_password_value,
 ):
     if login_button_n_clicks:
-        return True
+        if database.check_user_exists(by="email", value=input_user_name_value):
+            return True
 
 
 # %%
 if __name__ == "__main__":
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
     app.run_server(
         debug=True,
         host="0.0.0.0",

@@ -2,8 +2,8 @@
 Storing an integer in sqlite results in BLOBs (binary values) instead of INTEGER in sqlite to fix I used:
 https://stackoverflow.com/questions/49456158/integer-in-python-pandas-becomes-blob-binary-in-sqlite
 """
-import os
 import sqlite3
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -15,7 +15,6 @@ sqlite3.register_adapter(np.int8, lambda val: int(val))
 
 class DataBase:
     def __init__(self, database_name):
-        super().__init__()
 
         self.cnxn = sqlite3.connect(database_name)
         print("database connected...")
@@ -45,7 +44,12 @@ class DataBase:
         for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO ITEMCATALOGUE VALUES (?,?,?,?)",
-                (row["id"], row["gender"], row["baseColour"], row["subCategory"],),
+                (
+                    row["id"],
+                    row["gender"],
+                    row["baseColour"],
+                    row["subCategory"],
+                ),
             )
 
         self.cnxn.commit()
@@ -58,7 +62,12 @@ class DataBase:
         for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO OUTFITCATALOGUE VALUES (?,?,?,?)",
-                (row["Headwear"], row["Topwear"], row["Bottomwear"], row["Shoes"],),
+                (
+                    row["Headwear"],
+                    row["Topwear"],
+                    row["Bottomwear"],
+                    row["Shoes"],
+                ),
             )
 
         self.cnxn.commit()
@@ -76,14 +85,26 @@ class DataBase:
 
 def main():
 
-    database = DataBase(os.path.join("dataset", "database", "database.db",))
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
 
     df_users = pd.read_csv(
-        os.path.join("dataset", "database", "Users.csv",), encoding="utf-8",
+        Path(
+            "database",
+            "Users.csv",
+        ),
+        encoding="utf-8",
     )
 
     df_item_catalogue = pd.read_csv(
-        os.path.join("dataset", "database", "ItemCatalogueSample.csv",),
+        Path(
+            "database",
+            "ItemCatalogueSample.csv",
+        ),
         encoding="utf-8",
     )
 

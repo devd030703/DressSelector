@@ -1,15 +1,14 @@
 """
-Table rows have a 64-bit signed integer ROWID which is unique among all rows in the same table
-We will use this as the unique PK for all tables
+Table rows have a 64-bit signed integer ROWID which is unique among all rows in
+the same table. We will use this as the unique PK for all tables
 """
 
-import os
 import sqlite3
+from pathlib import Path
 
 
 class DataBase:
     def __init__(self, database_name):
-        super().__init__()
 
         self.cnxn = sqlite3.connect(database_name)
         print("database connected...")
@@ -71,7 +70,12 @@ class DataBase:
 
 
 def main():
-    database = DataBase(os.path.join("dataset", "database", "database.db",))
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
     database.create_users_table()
     database.create_item_catalogue_table()
     database.create_outfit_table()

@@ -1,38 +1,29 @@
 import sqlite3
+from pathlib import Path
 
 
 class DataBase:
     def __init__(self, database_name):
-        super().__init__()
 
-        self.cnxn = sqlite3.connect(database_name)
+        self.cnxn = sqlite3.connect(database_name, check_same_thread=False)
         print("database connected...")
 
         self.cursor = self.cnxn.cursor()
 
-    def check_user_exists(self, by, filed):
+    def check_user_exists(self, by, value):
         if by == "email":
             row = self.cursor.execute(
-                "SELECT * FROM USERS WHERE Email=?", [email]
+                "SELECT * FROM USERS WHERE Email=?", [value]
             ).fetchone()
-        if row:
-            return True
+
+        elif by == "rowid":
+            row = self.cursor.execute(
+                "SELECT * FROM USERS WHERE rowid=?", [value]
+            ).fetchone()
+
         else:
             return False
 
-    def check_user_exists_using_email(self, email):
-        row = self.cursor.execute(
-            "SELECT * FROM USERS WHERE Email=?", [email]
-        ).fetchone()
-        if row:
-            return True
-        else:
-            return False
-
-    def check_user_exists_using_rowid(self, rowid):
-        row = self.cursor.execute(
-            "SELECT * FROM USERS WHERE rowid=?", [rowid]
-        ).fetchone()
         if row:
             return True
         else:
@@ -42,6 +33,7 @@ class DataBase:
         row = self.cursor.execute(
             "SELECT * FROM USERS WHERE Email=?", [email]
         ).fetchone()
+
         if row[4] == password:
             return True
         else:
@@ -103,7 +95,17 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
-    def insert_outfit(self, user_rowid):
-        self.cursor.execute("INSERT INTO OUTFITS VALUES (?)", (user_rowid))
-        print(f"{self.cursor.rowcount} record(s) were modified...")
-        self.cnxn.commit()
+
+def main():
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
+
+    database.check_user_exists(by="email", value="JakeSmith@gmail.com")
+
+
+if __name__ == "__main__":
+    main()
