@@ -116,7 +116,7 @@ app.layout = dbc.Container(
                 dbc.Row(
                     dbc.Col(
                         success,
-                        width={"size": 4, "offset": 3},
+                        width={"size": 6, "offset": 3},
                         ),
                     align="center",
                     className="m-5",
