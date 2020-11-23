@@ -152,7 +152,7 @@ def login(
                     return True, "danger", "Incorrect Username or Password entered"
 
             else:
-                return True, "danger", "Please enter your password username."
+                return True, "danger", "Please enter your password."
         else:
             return True, "danger", "Please enter your username."
     else:
