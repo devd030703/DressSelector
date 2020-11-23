@@ -1,13 +1,15 @@
 # %%
 import base64
 import os
-
-import dash_bootstrap_components as dbc
-import dash_html_components as html
+from pathlib import Path
 
 import dash
+import dash_bootstrap_components as dbc
+import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+
+from database.query import DataBase
 
 # %%
 # ---------------------------------------- DATA ----------------------------------------
@@ -75,19 +77,12 @@ card_login = dbc.Card(
     inverse=True,
 )
 
-success = dbc.Alert(
-    "Please wait while we redirect you",
-    id="success",
+alert = dbc.Alert(
+    id="alert",
     dismissable=True,
     is_open=False,
 )
 
-failure = dbc.Alert(
-    "Incorrect Username or Password entered",
-    id="failure",
-    dismissable = True,
-    is_open=False, 
-)
 
 # --------------------------------------- LAYOUT ---------------------------------------
 app.layout = dbc.Container(
@@ -112,27 +107,15 @@ app.layout = dbc.Container(
                     align="center",
                     className="m-5",
                 ),
-                # row3: alert
+                # row3: success
                 dbc.Row(
                     dbc.Col(
-                        success,
+                        alert,
                         width={"size": 6, "offset": 3},
-                        ),
+                    ),
                     align="center",
                     className="m-5",
                 ),
-                    
-                
-                #row4 : failure
-                dbc.Row(
-                    dbc.Col(
-                        failure,
-                        width={"size": 6, "offset": 3},
-                        ),
-                    align="center",
-                    className="m-5",
-                ),
-                
             ]
         )
     ]
@@ -143,8 +126,9 @@ app.layout = dbc.Container(
 # %%
 @app.callback(
     [
-        Output("success", "is_open"),
-        Output("failure", "is_open")
+        Output("alert", "is_open"),
+        Output("alert", "color"),
+        Output("alert", "children"),
     ],
     [
         Input("button_login", "n_clicks"),
@@ -160,32 +144,32 @@ def login(
     input_password_value,
 ):
     if login_button_n_clicks:
-        if input_user_name_value is not None:
-            if input_user_name_value.isspace() == False:
-                if input_password_value is not None:
-                    if input_password_value.isspace() == False:
-                        return True, False
-                    else:
-                        return False,True
+        if input_user_name_value is not None and ~input_user_name_value.isspace():
+            if input_password_value is not None and ~input_password_value.isspace():
+                if database.check_user_exists(by="email", value=input_user_name_value):
+                    return True, "success", "Please wait while we redirect you"
                 else:
-                    return False,True
+                    return True, "danger", "Incorrect Username or Password entered"
+
             else:
-                return False,True       
+                return True, "danger", "Please enter your password username."
         else:
-            return False,True
+            return True, "danger", "Please enter your username."
     else:
-        return False,False
-            
+        raise PreventUpdate
 
 
 # %%
 if __name__ == "__main__":
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
+
     app.run_server(
         debug=True,
         host="0.0.0.0",
         port="8080",
     )
-
-
-# squlite on a different server
-# create a new cards 

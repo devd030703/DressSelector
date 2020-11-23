@@ -10,6 +10,12 @@ class DataBase:
 
         self.cursor = self.cnxn.cursor()
 
+        self.first_name = None
+        self.last_name = None
+        self.gender = None
+        self.email = None
+        self.password = None
+
     def check_user_exists(self, by, value):
         if by == "email":
             row = self.cursor.execute(
@@ -25,16 +31,21 @@ class DataBase:
             return False
 
         if row:
+            # get user's details for later
+            (
+                self.first_name,
+                self.last_name,
+                self.gender,
+                self.email,
+                self.password,
+            ) = row
+
             return True
         else:
             return False
 
-    def check_user_password_is_correct(self, email, password):
-        row = self.cursor.execute(
-            "SELECT * FROM USERS WHERE Email=?", [email]
-        ).fetchone()
-
-        if row[4] == password:
+    def check_user_password_is_correct(self, password):
+        if password == self.password:
             return True
         else:
             return False
@@ -74,16 +85,6 @@ class DataBase:
         )
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
-
-    def get_user_info_using_rowid(self, rowid):
-        return self.cursor.execute(
-            "SELECT rowid, * FROM USERS WHERE rowid=?", [rowid]
-        ).fetchone()
-
-    def get_user_info_using_email(self, email):
-        return self.cursor.execute(
-            "SELECT rowid, * FROM USERS WHERE Email=?", [email]
-        ).fetchone()
 
     def delete_user(self, user_rowid):
         self.cursor.execute("DELETE FROM USERS WHERE rowid = ?", (user_rowid))

@@ -2,13 +2,12 @@
 import base64
 import os
 
-import dash_bootstrap_components as dbc
-from dash_bootstrap_components._components.CardBody import CardBody
-import dash_html_components as html
-
 import dash
+import dash_bootstrap_components as dbc
+import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from dash_bootstrap_components._components.CardBody import CardBody
 
 # %%
 
@@ -21,22 +20,26 @@ app = dash.Dash(
 # --------------------------------------- CARDS ----------------------------------------
 fashion_display = dbc.Card(
     [
-        dbc.CardImg(src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg", top=True),
-        dbc.CardBody(
-            html.P("This is the Hat", className="card-text")
+        dbc.CardImg(
+            src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+            top=True,
         ),
-        dbc.CardImg(src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/14691.jpg", top=True),
-        dbc.CardBody(
-            html.P("This is the Tshirt", className="card-text")
+        dbc.CardBody(html.P("This is the Hat", className="card-text")),
+        dbc.CardImg(
+            src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/14691.jpg",
+            top=True,
         ),
-        dbc.CardImg(src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/10858.jpg", top=True),
-        dbc.CardBody(
-            html.P("This is the Jeans", className="card-text")
+        dbc.CardBody(html.P("This is the Tshirt", className="card-text")),
+        dbc.CardImg(
+            src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/10858.jpg",
+            top=True,
         ),
-        dbc.CardImg(src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/38775.jpg", top=True),
-        dbc.CardBody(
-            html.P("This is the Footwear", className="card-text")
+        dbc.CardBody(html.P("This is the Jeans", className="card-text")),
+        dbc.CardImg(
+            src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/38775.jpg",
+            top=True,
         ),
+        dbc.CardBody(html.P("This is the Footwear", className="card-text")),
     ],
     style={"width": "18rem"},
 )
@@ -44,20 +47,19 @@ fashion_display = dbc.Card(
 user_buttons = dbc.Card(
     [
         dbc.CardBody(
-            
             [
                 dbc.Button(
-                            children="generate",
-                            id="button_senerate",
-                            color="primary",
-                            className="m-3",
-                        ),
+                    children="generate",
+                    id="button_senerate",
+                    color="primary",
+                    className="m-3",
+                ),
                 dbc.Button(
-                            children="save",
-                            id="button_save",
-                            color="primary",
-                            className="m-3",
-                        ),
+                    children="save",
+                    id="button_save",
+                    color="primary",
+                    className="m-3",
+                ),
             ]
         ),
     ]
@@ -84,7 +86,6 @@ app.layout = dbc.Container(
                     className="m-3",
                     align="center",
                 ),
-                        
             ]
         )
     ]
