@@ -1,6 +1,4 @@
 import dash
-<<<<<<< HEAD
-=======
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
@@ -164,7 +162,6 @@ if __name__ == "__main__":
             "database.db",
         )
     )
->>>>>>> 5c48a387654d709f7cebefda4b7c6ed70b890213
 
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
 server = app.server

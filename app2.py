@@ -67,7 +67,7 @@ user_buttons = dbc.Card(
 )
 
 # --------------------------------------- LAYOUT ---------------------------------------
-layout = dbc.Container(
+app.layout = dbc.Container(
     [
         html.Div(
             [

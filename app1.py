@@ -86,7 +86,7 @@ alert = dbc.Alert(
 
 
 # --------------------------------------- LAYOUT ---------------------------------------
-layout = dbc.Container(
+app.layout = dbc.Container(
     [
         html.Div(
             [
