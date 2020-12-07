@@ -192,6 +192,7 @@ app2_layout = dbc.Container(
     [
         html.Div(
             [
+                html.Div(id="page-content2"),
                 dbc.Row(
                     dbc.Col(
                         fashion_display,
@@ -219,7 +220,7 @@ app2_layout = dbc.Container(
     [
         Output("success", "is_open"),
         Output("failure", "is_open"),
-        Output("page-content", "children"),
+        Output("page-content2", "children"),
     ],
     [
         Input("button_login", "n_clicks"),
@@ -239,17 +240,17 @@ def login(
             if input_user_name_value.isspace() == False:
                 if input_password_value is not None:
                     if input_password_value.isspace() == False:
-                        return True, False, app2_layout
+                        return (True, False, None)
                     else:
-                        return False, True, None
+                        return (False, True, True)
                 else:
-                    return False, True, None
+                    return (False, True, None)
             else:
-                return False, True, None
+                return (False, True, None)
         else:
-            return False, True, None
+            return (False, True, None)
     else:
-        return False, False, None
+        return (False, False, None)
 
 
 # %%
