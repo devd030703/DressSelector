@@ -1,27 +1,15 @@
-# %%
 import base64
-import os
-from pathlib import Path
 
-import dash
 import dash_bootstrap_components as dbc
+import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-import dash_core_components as dcc
 
-from database.query import DataBase
+from app import app, database
 
-# %%
 # ---------------------------------------- DATA ----------------------------------------
 logo_image = "logo.png"
-
-# %%
-# ---------------------------------------- APP -----------------------------------------
-app = dash.Dash(
-    __name__,
-    external_stylesheets=[dbc.themes.FLATLY],
-)
 
 # --------------------------------------- IMAGES ---------------------------------------
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
@@ -86,7 +74,7 @@ alert = dbc.Alert(
 
 
 # --------------------------------------- LAYOUT ---------------------------------------
-app.layout = dbc.Container(
+layout = dbc.Container(
     [
         html.Div(
             [
@@ -126,7 +114,6 @@ app.layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
-# %%
 @app.callback(
     [
         Output("alert", "is_open"),
@@ -160,19 +147,3 @@ def login(
             return True, "danger", "Please enter your username."
     else:
         raise PreventUpdate
-
-
-# %%
-if __name__ == "__main__":
-    database = DataBase(
-        Path(
-            "database",
-            "database.db",
-        )
-    )
-
-    app.run_server(
-        debug=True,
-        host="0.0.0.0",
-        port="8080",
-    )
