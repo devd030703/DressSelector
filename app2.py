@@ -8,6 +8,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from dash_bootstrap_components._components.CardBody import CardBody
+import dash_core_components as dcc
 
 # %%
 
@@ -66,7 +67,7 @@ user_buttons = dbc.Card(
 )
 
 # --------------------------------------- LAYOUT ---------------------------------------
-app.layout = dbc.Container(
+layout = dbc.Container(
     [
         html.Div(
             [
@@ -86,6 +87,8 @@ app.layout = dbc.Container(
                     className="m-3",
                     align="center",
                 ),
+                html.Div(id="app-2-display-value"),
+                dcc.Link("Go to App 1", href="/app1"),
             ]
         )
     ]
