@@ -1,6 +1,6 @@
 # %%
-import base64
-import os
+# import base64
+# import os
 
 import dash
 import dash_bootstrap_components as dbc
@@ -67,7 +67,7 @@ user_buttons = dbc.Card(
 )
 
 # --------------------------------------- LAYOUT ---------------------------------------
-app.layout = dbc.Container(
+layout = dbc.Container(
     [
         html.Div(
             [
