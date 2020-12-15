@@ -1,11 +1,12 @@
 import base64
+import time
 
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
+import app2
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
@@ -105,8 +106,6 @@ layout = dbc.Container(
                     align="center",
                     className="m-5",
                 ),
-                html.Div(id="app-1-display-value"),
-                dcc.Link("Go to App 2", href="/apps/app2"),
             ]
         )
     ]
@@ -128,7 +127,7 @@ layout = dbc.Container(
         State("input_password", "value"),
     ],
 )
-def login(
+def validate_login(
     login_button_n_clicks,
     input_user_name_value,
     input_password_value,
@@ -136,14 +135,50 @@ def login(
     if login_button_n_clicks:
         if input_user_name_value is not None and ~input_user_name_value.isspace():
             if input_password_value is not None and ~input_password_value.isspace():
-                if database.check_user_exists(by="email", value=input_user_name_value):
-                    return True, "success", "Please wait while we redirect you"
+                if database.check_user_exists(
+                    by="email", value=input_user_name_value
+                ) and database.check_password_is_correct(
+                    password=int(input_password_value)
+                ):
+                    return (
+                        True,
+                        "success",
+                        "Please wait while we redirect you",
+                    )
                 else:
-                    return True, "danger", "Incorrect Username or Password entered"
+                    return (
+                        True,
+                        "danger",
+                        "Incorrect Username or Password entered",
+                    )
 
             else:
-                return True, "danger", "Please enter your password username."
+                return (
+                    True,
+                    "danger",
+                    "Please enter your password username.",
+                )
         else:
-            return True, "danger", "Please enter your username."
+            return (
+                True,
+                "danger",
+                "Please enter your username.",
+            )
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("url", "pathname"),
+    [
+        Input("alert", "color"),
+    ],
+)
+def login(alert_color):
+
+    print("alert_color", alert_color)
+    if alert_color == "success":
+        time.sleep(1)
+        return "/app2"
     else:
         raise PreventUpdate

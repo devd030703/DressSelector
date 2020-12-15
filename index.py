@@ -6,6 +6,7 @@ import app1
 import app2
 from app import app
 
+# define the main app layout
 app.layout = html.Div(
     [
         dcc.Location(id="url", refresh=False),
@@ -14,6 +15,8 @@ app.layout = html.Div(
 )
 
 
+# change the main app page layout to either app1/app2 layout depending on the pathname
+# if the pathname is not defined, use app1 layout
 @app.callback(
     Output("page-content", "children"),
     Input("url", "pathname"),

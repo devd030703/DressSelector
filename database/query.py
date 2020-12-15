@@ -44,7 +44,7 @@ class DataBase:
         else:
             return False
 
-    def check_user_password_is_correct(self, password):
+    def check_password_is_correct(self, password):
         if password == self.password:
             return True
         else:
