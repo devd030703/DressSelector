@@ -23,7 +23,7 @@ class DataBase:
             "LastName"	TEXT NOT NULL,
             "Gender"	TEXT NOT NULL,
             "Email"	TEXT NOT NULL,
-            "Password"	INTEGER NOT NULL
+            "Password"	TEXT NOT NULL
         );
         """
         )
