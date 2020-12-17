@@ -2,8 +2,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-import app1
-import app2
+import loginPage
+import selectorPage;
 from app import app
 
 # define the main app layout
@@ -23,11 +23,11 @@ app.layout = html.Div(
 )
 def display_page(pathname):
     if pathname == "/app1":
-        return app1.layout
+        return loginPage.layout
     elif pathname == "/app2":
-        return app2.layout
+        return selectorPage.layout
     else:
-        return app1.layout
+        return selectorPage.layout
 
 
 if __name__ == "__main__":

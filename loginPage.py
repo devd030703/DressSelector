@@ -6,7 +6,6 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
-import app2
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
@@ -179,6 +178,6 @@ def login(alert_color):
     print("alert_color", alert_color)
     if alert_color == "success":
         time.sleep(1)
-        return "/app2"
+        return "/selectorPage"
     else:
         raise PreventUpdate
