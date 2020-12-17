@@ -27,7 +27,7 @@ def display_page(pathname):
     elif pathname == "/selectorPage":
         return selectorPage.layout
     else:
-        return selectorPage.layout
+        return loginPage.layout
 
 
 if __name__ == "__main__":
