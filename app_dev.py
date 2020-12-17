@@ -1,10 +1,9 @@
+import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-
-import dash
 
 app = dash.Dash(
     __name__,
@@ -37,14 +36,26 @@ card_login = dbc.Card(
                     className="mb-3",
                 ),
                 dbc.Collapse(
-                    dbc.CardBody(
-                        dbc.Input(
-                            id="input_first_name",
-                            placeholder="first name",
-                            type="text",
-                            className="mb-3",
-                        ),
+                    dbc.Input(
+                        id="input_first_name",
+                        placeholder="first name",
+                        type="text",
+                        className="mb-3",
                     ),
+                    #     dbc.Input(
+                    #         id="input_last_name",
+                    #         placeholder="last name",
+                    #         type="text",
+                    #         className="mb-3",
+                    #     ),
+                    #     dbc.DropdownMenu(
+                    #         label="Gender",
+                    #         children=[
+                    #             dbc.DropdownMenuItem("Female"),
+                    #             dbc.DropdownMenuItem("Male"),
+                    #         ],
+                    #         className="mb-3",
+                    #     ),
                     id="collapse",
                 ),
                 dbc.Row(
@@ -140,7 +151,10 @@ def login(
     if login_button_n_clicks:
         if input_user_name_value is not None and ~input_user_name_value.isspace():
             if input_password_value is not None and ~input_password_value.isspace():
-                if input_user_name_value == 'test.email@gmail.com' and input_password_value == '1234':
+                if (
+                    input_user_name_value == "test.email@gmail.com"
+                    and input_password_value == "1234"
+                ):
                     return True, "success", "Please wait while we redirect you"
                 else:
                     return True, "danger", "Incorrect Username or Password entered"
@@ -155,18 +169,18 @@ def login(
 
 
 @app.callback(
-    [Output("collapse", "is_open")],
+    Output("collapse", "is_open"),
     [Input("button_signup", "n_clicks")],
     [State("collapse", "is_open")],
 )
-def toggle_collapse(n, is_open):
-    if n:
-        return not is_open
-    return is_open
+def toggle_collapse(button_signup_n_clicks, collapse_is_open):
+    if button_signup_n_clicks:
+        return not collapse_is_open
+    return collapse_is_open
 
 
 app.run_server(
-    debug=False,
-    host='0.0.0.0',
-    port='8080',
+    debug=True,
+    host="0.0.0.0",
+    port="8080",
 )
