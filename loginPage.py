@@ -43,6 +43,38 @@ card_login = dbc.Card(
                     type="text",
                     className="mb-3",
                 ),
+                dbc.Collapse(
+                    [
+                        dbc.Input(
+                            id="input_first_name",
+                            placeholder="first name",
+                            type="text",
+                            className="mb-3",
+                        ),
+                        dbc.Input(
+                            id="input_last_name",
+                            placeholder="last name",
+                            type="text",
+                            className="mb-3",
+                        ),
+                        dbc.DropdownMenu(
+                            id="drop_down_menu_gender",
+                            label="Gender",
+                            children=[
+                                dbc.DropdownMenuItem(
+                                    "Female",
+                                    id="drop_down_menu_item_female",
+                                ),
+                                dbc.DropdownMenuItem(
+                                    "Male",
+                                    id="drop_down_menu_item_male",
+                                ),
+                            ],
+                            className="mb-3",
+                        ),
+                    ],
+                    id="collapse",
+                ),
                 dbc.Row(
                     [
                         dbc.Button(
@@ -136,9 +168,7 @@ def validate_login(
             if input_password_value is not None and ~input_password_value.isspace():
                 if database.check_user_exists(
                     by="email", value=input_user_name_value
-                ) and database.check_password_is_correct(
-                    password=int(input_password_value)
-                ):
+                ) and database.check_password_is_correct(password=input_password_value):
                     return (
                         True,
                         "success",
@@ -179,5 +209,36 @@ def login(alert_color):
     if alert_color == "success":
         time.sleep(1)
         return "/selectorPage"
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("collapse", "is_open"),
+    [Input("button_signup", "n_clicks")],
+    [State("collapse", "is_open")],
+)
+def collapse_signup(button_signup_n_clicks, collapse_is_open):
+    if button_signup_n_clicks:
+        return not collapse_is_open
+    return collapse_is_open
+
+
+@app.callback(
+    Output("url", "pathname"),
+    [Input("button_signup", "n_clicks")],
+    [
+        State("input_user_name", "value"),
+        State("input_password", "value"),
+        State("input_first_name", "value"),
+        State("input_last_name", "value"),
+        State("drop_down_menu_gender", "n_clicks"),
+    ],
+)
+def signup(button_signup_n_clicks):
+    if button_signup_n_clicks:
+        if input_user_name_value is not None and ~input_user_name_value.isspace():
+            if input_password_value is not None and ~input_password_value.isspace():
+                return "/selectorPage"
     else:
         raise PreventUpdate
