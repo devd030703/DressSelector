@@ -3,7 +3,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 import loginPage
-import selectorPage;
+import selectorPage
 from app import app
 
 # define the main app layout
@@ -22,9 +22,9 @@ app.layout = html.Div(
     Input("url", "pathname"),
 )
 def display_page(pathname):
-    if pathname == "/app1":
+    if pathname == "/loginPage":
         return loginPage.layout
-    elif pathname == "/app2":
+    elif pathname == "/selectorPage":
         return selectorPage.layout
     else:
         return selectorPage.layout
