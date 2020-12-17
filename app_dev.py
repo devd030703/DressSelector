@@ -36,26 +36,28 @@ card_login = dbc.Card(
                     className="mb-3",
                 ),
                 dbc.Collapse(
-                    dbc.Input(
-                        id="input_first_name",
-                        placeholder="first name",
-                        type="text",
-                        className="mb-3",
-                    ),
-                    #     dbc.Input(
-                    #         id="input_last_name",
-                    #         placeholder="last name",
-                    #         type="text",
-                    #         className="mb-3",
-                    #     ),
-                    #     dbc.DropdownMenu(
-                    #         label="Gender",
-                    #         children=[
-                    #             dbc.DropdownMenuItem("Female"),
-                    #             dbc.DropdownMenuItem("Male"),
-                    #         ],
-                    #         className="mb-3",
-                    #     ),
+                    [
+                        dbc.Input(
+                            id="input_first_name",
+                            placeholder="first name",
+                            type="text",
+                            className="mb-3",
+                        ),
+                        dbc.Input(
+                            id="input_last_name",
+                            placeholder="last name",
+                            type="text",
+                            className="mb-3",
+                        ),
+                        dbc.DropdownMenu(
+                            label="Gender",
+                            children=[
+                                dbc.DropdownMenuItem("Female"),
+                                dbc.DropdownMenuItem("Male"),
+                            ],
+                            className="mb-3",
+                        ),
+                    ],
                     id="collapse",
                 ),
                 dbc.Row(
