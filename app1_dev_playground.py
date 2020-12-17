@@ -1,4 +1,4 @@
-import base64
+
 
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -6,21 +6,16 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
-from app import app, database
+import dash
+
+app = dash.Dash(
+    __name__,
+    suppress_callback_exceptions=True,
+    external_stylesheets=[dbc.themes.FLATLY],
+)
+
 
 # ---------------------------------------- DATA ----------------------------------------
-logo_image = "logo.png"
-
-# --------------------------------------- IMAGES ---------------------------------------
-ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
-
-img_ds = html.Img(
-    src=f"data:image/png;base64,{ds_logo_encoded.decode()}",
-    style={
-        "float": "centre",
-        "width": "50%",
-    },
-)
 
 # --------------------------------------- CARDS ----------------------------------------
 card_login = dbc.Card(
@@ -147,15 +142,14 @@ def login(
     if login_button_n_clicks:
         if input_user_name_value is not None and ~input_user_name_value.isspace():
             if input_password_value is not None and ~input_password_value.isspace():
-                if database.check_user_exists(by="email", value=input_user_name_value):
+                if input_user_name_value == 'test.email@gmail.com' and input_password_value == '1234':
                     return True, "success", "Please wait while we redirect you"
                 else:
                     return True, "danger", "Incorrect Username or Password entered"
 
             else:
                 return True, "danger", "Please enter your password username."
-            
-            
+
         else:
             return True, "danger", "Please enter your username."
     else:
@@ -163,7 +157,7 @@ def login(
 
 
 @app.callback(
-    Output("collapse", "is_open"),
+    [Output("collapse", "is_open")],
     [Input("button_signup", "n_clicks")],
     [State("collapse", "is_open")],
 )
@@ -171,3 +165,10 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
+
+app.run_server(
+    debug=False,
+    host='0.0.0.0',
+    port='8080',
+)
