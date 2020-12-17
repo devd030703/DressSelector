@@ -54,6 +54,8 @@ card_login = dbc.Card(
                             children=[
                                 dbc.DropdownMenuItem("Female"),
                                 dbc.DropdownMenuItem("Male"),
+                                dbc.DropdownMenuItem("Prefer Not To Say"),
+
                             ],
                             className="mb-3",
                         ),
@@ -179,6 +181,11 @@ def toggle_collapse(button_signup_n_clicks, collapse_is_open):
     if button_signup_n_clicks:
         return not collapse_is_open
     return collapse_is_open
+
+
+# @app.callback(
+#     Output("collapse", "label"),
+#     [Input("children", )]
 
 
 app.run_server(
