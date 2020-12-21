@@ -193,20 +193,6 @@ def validate_login(
         raise PreventUpdate
 
 
-# @app.callback(
-#     Output("url", "pathname"),
-#     [
-#         Input("alert", "color"),
-#     ],
-# )
-# def login(alert_color):
-#     if alert_color == "success":
-#         time.sleep(1)
-#         return "/selectorPage"
-#     else:
-#         raise PreventUpdate
-
-
 @app.callback(
     Output("url", "pathname"),
     [
