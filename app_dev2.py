@@ -185,7 +185,7 @@ user_buttons = dbc.Card(
                                 color="primary",
                                 className="m-3",
                             ),
-                            align="end",
+                        width={"size": 1, "offset": 1},
                         ),
 
                         dbc.Col(
@@ -195,7 +195,7 @@ user_buttons = dbc.Card(
                                 color="primary",
                                 className="m-3",
                             ),
-                            align="end",
+                         width={"size": 1, "offset": 5},
                         ),
                     ]
 
