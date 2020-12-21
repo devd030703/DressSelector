@@ -57,20 +57,19 @@ card_login = dbc.Card(
                             type="text",
                             className="mb-3",
                         ),
-                        dbc.DropdownMenu(
-                            id="drop_down_menu_gender",
-                            label="Gender",
-                            children=[
-                                dbc.DropdownMenuItem(
-                                    "Female",
-                                    id="drop_down_menu_item_female",
+                        dbc.InputGroup(
+                            [
+                                dbc.InputGroupAddon(
+                                    "Gender",
+                                    addon_type="prepend",
                                 ),
-                                dbc.DropdownMenuItem(
-                                    "Male",
-                                    id="drop_down_menu_item_male",
+                                dbc.Select(
+                                    options=[
+                                        {"label": "Female", "value": 1},
+                                        {"label": "Male", "value": 2},
+                                    ]
                                 ),
-                            ],
-                            className="mb-3",
+                            ]
                         ),
                     ],
                     id="collapse",
@@ -224,21 +223,21 @@ def collapse_signup(button_signup_n_clicks, collapse_is_open):
     return collapse_is_open
 
 
-@app.callback(
-    Output("url", "pathname"),
-    [Input("button_signup", "n_clicks")],
-    [
-        State("input_user_name", "value"),
-        State("input_password", "value"),
-        State("input_first_name", "value"),
-        State("input_last_name", "value"),
-        State("drop_down_menu_gender", "n_clicks"),
-    ],
-)
-def signup(button_signup_n_clicks):
-    if button_signup_n_clicks:
-        if input_user_name_value is not None and ~input_user_name_value.isspace():
-            if input_password_value is not None and ~input_password_value.isspace():
-                return "/selectorPage"
-    else:
-        raise PreventUpdate
+# @app.callback(
+#     Output("url", "pathname"),
+#     [Input("button_signup", "n_clicks")],
+#     [
+#         State("input_user_name", "value"),
+#         State("input_password", "value"),
+#         State("input_first_name", "value"),
+#         State("input_last_name", "value"),
+#         State("drop_down_menu_gender", "n_clicks"),
+#     ],
+# )
+# def signup(button_signup_n_clicks):
+#     if button_signup_n_clicks:
+#         if input_user_name_value is not None and ~input_user_name_value.isspace():
+#             if input_password_value is not None and ~input_password_value.isspace():
+#                 return "/selectorPage"
+#     else:
+#         raise PreventUpdate
