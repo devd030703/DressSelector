@@ -233,34 +233,3 @@ def display(button_login_n_clicks, button_signup_n_clicks, alert_color):
 
         else:
             raise PreventUpdate
-
-
-# @app.callback(
-#     Output("collapse", "is_open"),
-#     [Input("button_signup", "n_clicks")],
-#     [State("collapse", "is_open")],
-# )
-# def collapse_signup(button_signup_n_clicks, collapse_is_open):
-#     if button_signup_n_clicks:
-#         return not collapse_is_open
-#     return collapse_is_open
-
-
-# @app.callback(
-#     Output("url", "pathname"),
-#     [Input("button_signup", "n_clicks")],
-#     [
-#         State("input_user_name", "value"),
-#         State("input_password", "value"),
-#         State("input_first_name", "value"),
-#         State("input_last_name", "value"),
-#         State("drop_down_menu_gender", "n_clicks"),
-#     ],
-# )
-# def signup(button_signup_n_clicks):
-#     if button_signup_n_clicks:
-#         if input_user_name_value is not None and ~input_user_name_value.isspace():
-#             if input_password_value is not None and ~input_password_value.isspace():
-#                 return "/selectorPage"
-#     else:
-#         raise PreventUpdate
