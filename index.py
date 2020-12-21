@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output
 
 import loginPage
 import selectorPage
+import signupPage
 from app import app
 
 # define the main app layout
@@ -15,16 +16,18 @@ app.layout = html.Div(
 )
 
 
-# change the main app page layout to either app1/app2 layout depending on the pathname
-# if the pathname is not defined, use app1 layout
+# change the main app page layout depending on the pathname
+# if the pathname is not defined, use login layout
 @app.callback(
     Output("page-content", "children"),
     Input("url", "pathname"),
 )
 def display_page(pathname):
-    if pathname == "/loginPage":
+    if pathname == "/login":
         return loginPage.layout
-    elif pathname == "/selectorPage":
+    elif pathname == "/signup":
+        return signupPage.layout
+    elif pathname == "/selector":
         return selectorPage.layout
     else:
         return loginPage.layout
