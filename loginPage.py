@@ -1,9 +1,7 @@
 import base64
-import time
 
 import dash_bootstrap_components as dbc
 import dash_html_components as html
-from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -191,31 +189,3 @@ def validate_login(
             )
     else:
         raise PreventUpdate
-
-
-@app.callback(
-    Output("url", "pathname"),
-    [
-        Input("button_login", "n_clicks"),
-        Input("button_signup", "n_clicks"),
-        Input("alert", "color"),
-    ],
-)
-def display(button_login_n_clicks, button_signup_n_clicks, alert_color):
-    ctx = callback_context
-
-    if not ctx.triggered:
-        raise PreventUpdate
-
-    else:
-        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-        if button_id == "button_login" and alert_color == "success":
-            time.sleep(1)
-            return "/selector"
-
-        elif button_id == "button_signup":
-            return "/signup"
-
-        else:
-            raise PreventUpdate
