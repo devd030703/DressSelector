@@ -55,9 +55,11 @@ def display(
             return "/selector"
 
         elif button_id == "button_signup":
+            time.sleep(1)
             return "/signup"
 
         elif button_id == "button_back":
+            time.sleep(0.5)
             return "/login"
 
         elif button_id == "button_create" and alert_color == "success":

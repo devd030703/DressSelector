@@ -23,30 +23,30 @@ img_ds = html.Img(
 )
 
 # --------------------------------------- CARDS ----------------------------------------
-card_login = dbc.Card(
+signup_card = dbc.Card(
     [
         dbc.CardBody(
             [
                 dbc.Input(
-                    id="input_user_name",
+                    id="signup_input_user_name",
                     placeholder="user name",
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
-                    id="input_password",
+                    id="signup_input_password",
                     placeholder="password",
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
-                    id="input_first_name",
+                    id="signup_input_first_name",
                     placeholder="first name",
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
-                    id="input_last_name",
+                    id="signup_input_last_name",
                     placeholder="last name",
                     type="text",
                     className="mb-3",
@@ -70,13 +70,13 @@ card_login = dbc.Card(
                     [
                         dbc.Button(
                             children="back",
-                            id="button_back",
+                            id="signup_button_back",
                             color="primary",
                             className="m-3",
                         ),
                         dbc.Button(
                             children="create",
-                            id="button_create",
+                            id="signup_button_create",
                             color="primary",
                             className="m-3",
                         ),
@@ -89,8 +89,8 @@ card_login = dbc.Card(
     inverse=True,
 )
 
-alert = dbc.Alert(
-    id="alert",
+signup_alert = dbc.Alert(
+    id="signup_alert",
     dismissable=True,
     is_open=False,
 )
@@ -112,7 +112,7 @@ layout = dbc.Container(
                 # row2: login
                 dbc.Row(
                     dbc.Col(
-                        card_login,
+                        signup_card,
                         width={"size": 6, "offset": 3},
                     ),
                     align="center",
@@ -121,7 +121,7 @@ layout = dbc.Container(
                 # row3: success
                 dbc.Row(
                     dbc.Col(
-                        alert,
+                        signup_alert,
                         width={"size": 6, "offset": 3},
                     ),
                     align="center",
@@ -144,21 +144,21 @@ layout = dbc.Container(
 #         Input("button_login", "n_clicks"),
 #     ],
 #     [
-#         State("input_user_name", "value"),
-#         State("input_password", "value"),
+#         State("signup_input_user_name", "value"),
+#         State("signup_input_password", "value"),
 #     ],
 # )
 # def validate_login(
 #     login_button_n_clicks,
-#     input_user_name_value,
-#     input_password_value,
+#     signup_input_user_name_value,
+#     signup_input_password_value,
 # ):
 #     if login_button_n_clicks:
-#         if input_user_name_value is not None and ~input_user_name_value.isspace():
-#             if input_password_value is not None and ~input_password_value.isspace():
+#         if signup_input_user_name_value is not None and ~signup_input_user_name_value.isspace():
+#             if signup_input_password_value is not None and ~signup_input_password_value.isspace():
 #                 if database.check_user_exists(
-#                     by="email", value=input_user_name_value
-#                 ) and database.check_password_is_correct(password=input_password_value):
+#                     by="email", value=signup_input_user_name_value
+#                 ) and database.check_password_is_correct(password=signup_input_password_value):
 #                     return (
 #                         True,
 #                         "success",
@@ -218,17 +218,17 @@ layout = dbc.Container(
 #     Output("url", "pathname"),
 #     [Input("button_signup", "n_clicks")],
 #     [
-#         State("input_user_name", "value"),
-#         State("input_password", "value"),
-#         State("input_first_name", "value"),
-#         State("input_last_name", "value"),
+#         State("signup_input_user_name", "value"),
+#         State("signup_input_password", "value"),
+#         State("signup_input_first_name", "value"),
+#         State("signup_input_last_name", "value"),
 #         State("drop_down_menu_gender", "n_clicks"),
 #     ],
 # )
 # def signup(button_signup_n_clicks):
 #     if button_signup_n_clicks:
-#         if input_user_name_value is not None and ~input_user_name_value.isspace():
-#             if input_password_value is not None and ~input_password_value.isspace():
+#         if signup_input_user_name_value is not None and ~signup_input_user_name_value.isspace():
+#             if signup_input_password_value is not None and ~signup_input_password_value.isspace():
 #                 return "/selectorPage"
 #     else:
 #         raise PreventUpdate

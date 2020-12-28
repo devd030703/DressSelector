@@ -1,9 +1,10 @@
 from inspect import indentsize
+
 import dash_bootstrap_components as dbc
-from dash_bootstrap_components._components.CardBody import CardBody
-from dash_bootstrap_components._components.Col import Col
 import dash_core_components as dcc
 import dash_html_components as html
+from dash_bootstrap_components._components.CardBody import CardBody
+from dash_bootstrap_components._components.Col import Col
 
 from app import app, database
 
@@ -199,7 +200,6 @@ app.layout = dbc.Container(
                         dbc.Col(topwear),
                     ],
                 ),
-
                 dbc.Row(
                     [
                         dbc.Col(bottomwear),
@@ -207,7 +207,10 @@ app.layout = dbc.Container(
                     ],
                 ),
                 dbc.Row(
-                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
+                    dbc.Col(
+                        user_buttons,
+                        width={"size": 4, "offset": 4},
+                    ),
                     className="m-3",
                     align="center",
                 ),
@@ -221,5 +224,7 @@ app.layout = dbc.Container(
 
 
 app.run_server(
-    debug=True, host="0.0.0.0", port="8080",
+    debug=True,
+    host="0.0.0.0",
+    port="8080",
 )
