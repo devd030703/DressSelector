@@ -195,23 +195,17 @@ app.layout = dbc.Container(
         html.Div(
             [
                 dbc.Row(
-                    [
-                        dbc.Col(headwear),
-                        dbc.Col(topwear),
-                    ],
+                    [dbc.Col(headwear, width=3,), dbc.Col(topwear, width=3,),],
+                    justify="end",
                 ),
                 dbc.Row(
-                    [
-                        dbc.Col(bottomwear),
-                        dbc.Col(footwear),
-                    ],
+                    [dbc.Col(bottomwear, width=3,), dbc.Col(footwear, width=3,),],
+                    justify="end",
                 ),
                 dbc.Row(
-                    dbc.Col(
-                        user_buttons,
-                        width={"size": 4, "offset": 4},
-                    ),
+                    dbc.Col(user_buttons, width=4,),
                     className="m-3",
+                    justify="end",
                     align="center",
                 ),
                 html.Div(id="app-2-display-value"),
@@ -224,7 +218,6 @@ app.layout = dbc.Container(
 
 
 app.run_server(
-    debug=True,
-    host="0.0.0.0",
-    port="8080",
+    debug=True, host="0.0.0.0", port="8080",
 )
+
