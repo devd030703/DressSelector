@@ -12,228 +12,202 @@ from app import app, database
 # --------------------------------------- IMAGES ---------------------------------------
 
 # --------------------------------------- CARDS ----------------------------------------
-headwear = dbc.Card(
-    [dbc.CardBody(
-        html.P(
-            "Headwear", className="card-text"
-        )
-    ),
-        dbc.CardImg(
-        src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
-        top=True
-    ),
-
-
-        dbc.Row(
+headwear = (
+    dbc.Card(
         [
-            dbc.Button(
-                children="🔀",
-                id="headwear_randomisce",
-                color="primary",
-                className="m-3",
+            dbc.CardBody(html.P("Headwear", className="card-text")),
+            dbc.CardImg(
+                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                top=True,
             ),
-
-            dbc.Button(
-                children="✓",
-                id="headwear_tick",
-                color="primary",
-                className="m-3",
+            dbc.Row(
+                [
+                    dbc.Button(
+                        children="🔀",
+                        id="headwear_randomisce",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✓",
+                        id="headwear_tick",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✖",
+                        id="headwear_cross",
+                        color="primary",
+                        className="m-3",
+                    ),
+                ],
+                justify="center",
             ),
-            dbc.Button(
-                children="✖",
-                id="headwear_cross",
-                color="primary",
-                className="m-3",
-            ),
-        ],
-        justify="center"
-
+        ]
     ),
-    ]
-),
+)
 
 
-topwear = dbc.Card(
-    [dbc.CardBody(
-        html.P(
-            "Topwear", className="card-text"
-        )
-    ),
-        dbc.CardImg(
-        src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
-        top=True
-    ),
-
-
-        dbc.Row(
+topwear = (
+    dbc.Card(
         [
-            dbc.Button(
-                children="🔀",
-                id="topwear_randomise",
-                color="primary",
-                className="m-3",
+            dbc.CardBody(html.P("Topwear", className="card-text")),
+            dbc.CardImg(
+                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                top=True,
             ),
-
-            dbc.Button(
-                children="✓",
-                id="topwear_tick",
-                color="primary",
-                className="m-3",
+            dbc.Row(
+                [
+                    dbc.Button(
+                        children="🔀",
+                        id="topwear_randomise",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✓",
+                        id="topwear_tick",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✖",
+                        id="topwear_cross",
+                        color="primary",
+                        className="m-3",
+                    ),
+                ],
+                justify="center",
             ),
-            dbc.Button(
-                children="✖",
-                id="topwear_cross",
-                color="primary",
-                className="m-3",
-            ),
-        ],
-        justify="center"
-
+        ]
     ),
-    ]
-),
+)
 
-bottomwear = dbc.Card(
-    [dbc.CardBody(
-        html.P(
-            "Bottomwear", className="card-text"
-        )
-    ),
-        dbc.CardImg(
-        src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
-        top=True
-    ),
-
-
-        dbc.Row(
+bottomwear = (
+    dbc.Card(
         [
-            dbc.Button(
-                children="🔀",
-                id="bottomwear_randomise",
-                color="primary",
-                className="m-3",
+            dbc.CardBody(html.P("Bottomwear", className="card-text")),
+            dbc.CardImg(
+                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                top=True,
             ),
-
-            dbc.Button(
-                children="✓",
-                id="bottomwear_tick",
-                color="primary",
-                className="m-3",
+            dbc.Row(
+                [
+                    dbc.Button(
+                        children="🔀",
+                        id="bottomwear_randomise",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✓",
+                        id="bottomwear_tick",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✖",
+                        id="bottomwear_cross",
+                        color="primary",
+                        className="m-3",
+                    ),
+                ],
+                justify="center",
             ),
-            dbc.Button(
-                children="✖",
-                id="bottomwear_cross",
-                color="primary",
-                className="m-3",
-            ),
-        ],
-        justify="center"
-
+        ]
     ),
-    ]
-),
+)
 
 
-footwear = dbc.Card(
-    [dbc.CardBody(
-        html.P(
-            "Footwear", className="card-text"
-        )
-    ),
-        dbc.CardImg(
-        src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
-        top=True
-    ),
-
-
-        dbc.Row(
+footwear = (
+    dbc.Card(
         [
-            dbc.Button(
-                children="🔀",
-                id="footwear_randomise",
-                color="primary",
-                className="m-3",
+            dbc.CardBody(html.P("Footwear", className="card-text")),
+            dbc.CardImg(
+                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                top=True,
             ),
-
-            dbc.Button(
-                children="✓",
-                id="footwear_tick",
-                color="primary",
-                className="m-3",
+            dbc.Row(
+                [
+                    dbc.Button(
+                        children="🔀",
+                        id="footwear_randomise",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✓",
+                        id="footwear_tick",
+                        color="primary",
+                        className="m-3",
+                    ),
+                    dbc.Button(
+                        children="✖",
+                        id="footwear_cross",
+                        color="primary",
+                        className="m-3",
+                    ),
+                ],
+                justify="center",
             ),
-            dbc.Button(
-                children="✖",
-                id="footwear_cross",
-                color="primary",
-                className="m-3",
-            ),
-        ],
-        justify="center"
-
+        ]
     ),
-    ]
-),
+)
 
-user_buttons = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            dbc.Button(
-                                children="generate",
-                                id="button_generate",
-                                color="primary",
-                                className="m-3",
+user_buttons = (
+    dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                dbc.Button(
+                                    children="generate",
+                                    id="button_generate",
+                                    color="primary",
+                                    className="m-3",
+                                ),
+                                width={"size": "auto"},
                             ),
-                            width={"size": "auto"},
-                        ),
-
-                        dbc.Col(
-                            dbc.Button(
-                                children="save",
-                                id="button_save",
-                                color="primary",
-                                className="m-3",
+                            dbc.Col(
+                                dbc.Button(
+                                    children="save",
+                                    id="button_save",
+                                    color="primary",
+                                    className="m-3",
+                                ),
+                                width={"size": "auto"},
                             ),
-                            width={"size": "auto"},
-                        ),
-                    ],
-                    justify="center"
-
-                ),
-            ]
-        ),
-    ]
-),
+                        ],
+                        justify="center",
+                    ),
+                ]
+            ),
+        ]
+    ),
+)
 
 # --------------------------------------- LAYOUT ---------------------------------------
 app.layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row([
-                    dbc.Col(
-                        headwear,
-                    ),
-                    dbc.Col(
-                        topwear,
-                    ),
-                    dbc.Col(
-                        bottomwear,
-                    ),
-                    dbc.Col(
-                        footwear,
-                    ),
-                ]
+                dbc.Row(
+                    [
+                        dbc.Col(headwear),
+                        dbc.Col(topwear),
+                    ],
                 ),
 
                 dbc.Row(
-                    dbc.Col(
-                        user_buttons,
-                        width={"size": 4, "offset": 4},
-                    ),
+                    [
+                        dbc.Col(bottomwear),
+                        dbc.Col(footwear),
+                    ],
+                ),
+                dbc.Row(
+                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
                     className="m-3",
                     align="center",
                 ),
@@ -243,12 +217,9 @@ app.layout = dbc.Container(
         )
     ]
 )
-
 # ------------------------------------- CALLBACKS --------------------------------------
 
 
 app.run_server(
-    debug=True,
-    host="0.0.0.0",
-    port="8080",
+    debug=True, host="0.0.0.0", port="8080",
 )
