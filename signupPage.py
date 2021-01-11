@@ -137,6 +137,7 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
+# https://dash-bootstrap-components.opensource.faculty.ai/docs/components/input/
 @app.callback(
     [
         Output("alert_signup", "is_open"),
@@ -149,7 +150,7 @@ layout = dbc.Container(
         State("input_password_signup", "value"),
         State("input_first_name_signup", "value"),
         State("input_last_name_signup", "value"),
-        State("gender_select", "value"),
+        State("input_gender_select", "value"),
     ],
 )
 def validate_signup(
@@ -158,7 +159,7 @@ def validate_signup(
     input_password_signup_value,
     input_first_name_signup_value,
     input_last_name_signup_value,
-    gender_select_value,
+    input_gender_select_value,
 ):
     if button_signup_n_clicks:
         if (
