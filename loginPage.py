@@ -159,7 +159,7 @@ def validate_login(
                 return (
                     True,
                     "danger",
-                    "Please enter your password username.",
+                    "Please enter your password.",
                 )
         else:
             return (
