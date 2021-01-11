@@ -2,6 +2,7 @@ import base64
 import time
 
 import dash_bootstrap_components as dbc
+import dash_core_components as dcc
 import dash_html_components as html
 from dash import callback_context
 from dash.dependencies import Input, Output, State
@@ -53,6 +54,7 @@ login_card = dbc.Card(
                             id="button_signup",
                             color="primary",
                             className="m-3",
+                            href="/signup",
                         ),
                     ]
                 ),
@@ -157,7 +159,7 @@ def validate_login(
                 return (
                     True,
                     "danger",
-                    "Please enter your password username.",
+                    "Please enter your password.",
                 )
         else:
             return (
@@ -165,5 +167,24 @@ def validate_login(
                 "danger",
                 "Please enter your username.",
             )
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("url", "pathname"),
+    [
+        Input("button_login", "n_clicks"),
+        Input("alert_login", "color"),
+    ],
+)
+def change_pathname(
+    button_login_n_clicks,
+    alert_login_color,
+):
+    if button_login_n_clicks and alert_login_color == "success":
+        time.sleep(1)
+        return "/selector"
+
     else:
         raise PreventUpdate

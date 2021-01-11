@@ -59,10 +59,11 @@ signup_card = dbc.Card(
                             addon_type="prepend",
                         ),
                         dbc.Select(
+                            id="gender_select",
                             options=[
                                 {"label": "Female", "value": 1},
                                 {"label": "Male", "value": 2},
-                            ]
+                            ],
                         ),
                     ],
                     className="mb-3",
@@ -74,6 +75,7 @@ signup_card = dbc.Card(
                             id="button_back_signup",
                             color="primary",
                             className="m-3",
+                            href="/login",
                         ),
                         dbc.Button(
                             children="create",
@@ -135,102 +137,80 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
-# @app.callback(
-#     [
-#         Output("alert", "is_open"),
-#         Output("alert", "color"),
-#         Output("alert", "children"),
-#     ],
-#     [
-#         Input("button_login", "n_clicks"),
-#     ],
-#     [
-#         State("input_user_name_signup", "value"),
-#         State("input_password_signup", "value"),
-#     ],
-# )
-# def validate_login(
-#     login_button_n_clicks,
-#     input_user_name_signup_value,
-#     input_password_signup_value,
-# ):
-#     if login_button_n_clicks:
-#         if input_user_name_signup_value is not None and ~input_user_name_signup_value.isspace():
-#             if input_password_signup_value is not None and ~input_password_signup_value.isspace():
-#                 if database.check_user_exists(
-#                     by="email", value=input_user_name_signup_value
-#                 ) and database.check_password_is_correct(password=input_password_signup_value):
-#                     return (
-#                         True,
-#                         "success",
-#                         "Please wait while we redirect you",
-#                     )
-#                 else:
-#                     return (
-#                         True,
-#                         "danger",
-#                         "Incorrect Username or Password entered",
-#                     )
+@app.callback(
+    [
+        Output("alert_signup", "is_open"),
+        Output("alert_signup", "color"),
+        Output("alert_signup", "children"),
+    ],
+    [Input("button_create_signup", "n_clicks")],
+    [
+        State("input_user_name_signup", "value"),
+        State("input_password_signup", "value"),
+        State("input_first_name_signup", "value"),
+        State("input_last_name_signup", "value"),
+        State("gender_select", "value"),
+    ],
+)
+def validate_signup(
+    button_signup_n_clicks,
+    input_user_name_signup_value,
+    input_password_signup_value,
+    input_first_name_signup_value,
+    input_last_name_signup_value,
+    gender_select_value,
+):
+    if button_signup_n_clicks:
+        if (
+            input_user_name_signup_value is not None
+            and ~input_user_name_signup_value.isspace()
+        ):
 
-#             else:
-#                 return (
-#                     True,
-#                     "danger",
-#                     "Please enter your password username.",
-#                 )
-#         else:
-#             return (
-#                 True,
-#                 "danger",
-#                 "Please enter your username.",
-#             )
-#     else:
-#         raise PreventUpdate
+            if (
+                input_password_signup_value is not None
+                and ~input_password_signup_value.isspace()
+            ):
 
+                if (
+                    input_first_name_signup_value is not None
+                    and ~input_first_name_signup_value.isspace()
+                ):
+                    if (
+                        input_last_name_signup_value is not None
+                        and ~input_last_name_signup_value.isspace()
+                    ):
+                        return (
+                            True,
+                            "success",
+                            "Please wait while we redirect you",
+                        )
 
-# @app.callback(
-#     Output("url", "pathname"),
-#     [
-#         Input("alert", "color"),
-#     ],
-# )
-# def login(alert_color):
+                    else:
+                        return (
+                            True,
+                            "danger",
+                            "Please enter your last name.",
+                        )
 
-#     print("alert_color", alert_color)
-#     if alert_color == "success":
-#         time.sleep(1)
-#         return "/selectorPage"
-#     else:
-#         raise PreventUpdate
+                else:
+                    return (
+                        True,
+                        "danger",
+                        "Please enter your first name.",
+                    )
 
+            else:
+                return (
+                    True,
+                    "danger",
+                    "Please enter your password.",
+                )
 
-# @app.callback(
-#     Output("collapse", "is_open"),
-#     [Input("button_signup", "n_clicks")],
-#     [State("collapse", "is_open")],
-# )
-# def collapse_signup(button_signup_n_clicks, collapse_is_open):
-#     if button_signup_n_clicks:
-#         return not collapse_is_open
-#     return collapse_is_open
-
-
-# @app.callback(
-#     Output("url", "pathname"),
-#     [Input("button_signup", "n_clicks")],
-#     [
-#         State("input_user_name_signup", "value"),
-#         State("input_password_signup", "value"),
-#         State("input_first_name_signup", "value"),
-#         State("input_last_name_signup", "value"),
-#         State("drop_down_menu_gender", "n_clicks"),
-#     ],
-# )
-# def signup(button_signup_n_clicks):
-#     if button_signup_n_clicks:
-#         if input_user_name_signup_value is not None and ~input_user_name_signup_value.isspace():
-#             if input_password_signup_value is not None and ~input_password_signup_value.isspace():
-#                 return "/selectorPage"
-#     else:
-#         raise PreventUpdate
-
+        else:
+            return (
+                True,
+                "danger",
+                "Please enter your username.",
+            )
+    else:
+        raise PreventUpdate
