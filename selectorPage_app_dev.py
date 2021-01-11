@@ -189,24 +189,44 @@ user_buttons = (
     ),
 )
 
+user_details = (
+    (
+        dbc.Card(
+            dbc.CardBody(
+                dbc.Row(
+                    [
+                        html.H4("User Details", className="card-title"),
+                        html.P(
+                            "this is the stuff the user sees", className="card-text"
+                        ),
+                    ],
+                    justify="center",
+                ),
+            ),
+        ),
+    ),
+)
+
+
 # --------------------------------------- LAYOUT ---------------------------------------
 app.layout = dbc.Container(
     [
         html.Div(
             [
                 dbc.Row(
-                    [dbc.Col(headwear, width=3,), dbc.Col(topwear, width=3,),],
-                    justify="end",
+                    [
+                        dbc.Col(headwear, width=3,),
+                        dbc.Col(topwear, width=3,),
+                        dbc.Col(user_details, width=3,),
+                    ],
+                    justify="centre",
                 ),
                 dbc.Row(
                     [dbc.Col(bottomwear, width=3,), dbc.Col(footwear, width=3,),],
                     justify="end",
                 ),
                 dbc.Row(
-                    dbc.Col(user_buttons, width=4,),
-                    className="m-3",
-                    justify="end",
-                    align="center",
+                    dbc.Col(user_buttons, width=4,), className="m-3", justify="start",
                 ),
                 html.Div(id="app-2-display-value"),
                 dcc.Link("Go to App 1", href="/app1"),
