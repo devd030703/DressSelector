@@ -74,6 +74,7 @@ signup_card = dbc.Card(
                             id="button_back_signup",
                             color="primary",
                             className="m-3",
+                            href="/login",
                         ),
                         dbc.Button(
                             children="create",
@@ -233,4 +234,3 @@ layout = dbc.Container(
 #                 return "/selectorPage"
 #     else:
 #         raise PreventUpdate
-
