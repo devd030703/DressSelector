@@ -190,19 +190,13 @@ user_buttons = (
 )
 
 user_details = (
-    (
-        dbc.Card(
-            dbc.CardBody(
-                dbc.Row(
-                    [
-                        html.H4("User Details", className="card-title"),
-                        html.P(
-                            "this is the stuff the user sees", className="card-text"
-                        ),
-                    ],
-                    justify="center",
-                ),
-            ),
+    dbc.Card(
+        dbc.CardBody(
+            [
+                dbc.Row(html.H4("Account Details", className="card-title"),),
+                dbc.Row(html.P("Name:", className="card-text"),),
+                dbc.Row(html.P("Gender:", className="card-text"),),
+            ],
         ),
     ),
 )
@@ -210,12 +204,15 @@ user_details = (
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Dress Selector", href="#")),
+        dbc.NavItem(dbc.NavLink("Dress Selector", href="#"),),
+        dbc.NavItem(dbc.NavLink("Saved Outfits", href="#"),),
+        dbc.NavItem(dbc.NavLink("Account Details", href="#"),),
+        
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("Options", header=True),
-                dbc.DropdownMenuItem("Saved Outfits", href="#"),
-                dbc.DropdownMenuItem("Account Details", href="#"),
+                # dbc.DropdownMenuItem("Saved Outfits", href="#"),
+                # dbc.DropdownMenuItem("Account Details", href="#"),
             ],
             nav=True,
             in_navbar=True,
@@ -234,6 +231,7 @@ app.layout = dbc.Container(
         html.Div(
             [
                 dbc.Row(dbc.Col(navbar,),),
+                dbc.Row(dbc.Col(user_details,),),
                 dbc.Row(
                     [
                         dbc.Col(headwear,),
