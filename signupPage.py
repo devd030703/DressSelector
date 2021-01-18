@@ -1,9 +1,7 @@
 import base64
-import time
 
 import dash_bootstrap_components as dbc
 import dash_html_components as html
-from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -59,7 +57,7 @@ signup_card = dbc.Card(
                             addon_type="prepend",
                         ),
                         dbc.Select(
-                            id="gender_select",
+                            id="input_gender_select",
                             options=[
                                 {"label": "Female", "value": 1},
                                 {"label": "Male", "value": 2},
@@ -137,7 +135,6 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
-# https://dash-bootstrap-components.opensource.faculty.ai/docs/components/input/
 @app.callback(
     [
         Output("alert_signup", "is_open"),
@@ -154,14 +151,14 @@ layout = dbc.Container(
     ],
 )
 def validate_signup(
-    button_signup_n_clicks,
+    button_create_signup_n_clicks,
     input_user_name_signup_value,
     input_password_signup_value,
     input_first_name_signup_value,
     input_last_name_signup_value,
     input_gender_select_value,
 ):
-    if button_signup_n_clicks:
+    if button_create_signup_n_clicks:
         if (
             input_user_name_signup_value is not None
             and ~input_user_name_signup_value.isspace()
@@ -180,11 +177,20 @@ def validate_signup(
                         input_last_name_signup_value is not None
                         and ~input_last_name_signup_value.isspace()
                     ):
-                        return (
-                            True,
-                            "success",
-                            "Please wait while we redirect you",
-                        )
+
+                        if input_gender_select_value is not None:
+                            return (
+                                True,
+                                "success",
+                                "Account created successfully, please go back and login with your new details",
+                            )
+
+                        else:
+                            return (
+                                True,
+                                "danger",
+                                "Please enter your gender.",
+                            )
 
                     else:
                         return (
