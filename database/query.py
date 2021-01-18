@@ -78,7 +78,7 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
-    def insert_new_user(self, first_name, last_name, gender, email, password):
+    def create_new_user(self, first_name, last_name, gender, email, password):
         self.cursor.execute(
             "INSERT INTO USERS VALUES (?, ?, ?, ?, ?)",
             (first_name, last_name, gender, email, password),
