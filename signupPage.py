@@ -179,6 +179,13 @@ def validate_signup(
                     ):
 
                         if input_gender_select_value is not None:
+                            database.create_new_user(
+                                first_name=input_first_name_signup_value,
+                                last_name=input_last_name_signup_value,
+                                gender=input_gender_select_value,
+                                email=input_user_name_signup_value,
+                                password=input_password_signup_value,
+                            )
                             return (
                                 True,
                                 "success",
