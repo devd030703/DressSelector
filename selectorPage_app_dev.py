@@ -207,7 +207,6 @@ navbar = dbc.NavbarSimple(
         dbc.NavItem(dbc.NavLink("Dress Selector", href="#"),),
         dbc.NavItem(dbc.NavLink("Saved Outfits", href="#"),),
         dbc.NavItem(dbc.NavLink("Account Details", href="#"),),
-        
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("Options", header=True),
