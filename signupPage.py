@@ -12,18 +12,12 @@ logo_image = "logo.png"
 
 # --------------------------------------- IMAGES ---------------------------------------
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
-
-img_ds = html.Img(
-    src=f"data:image/png;base64,{ds_logo_encoded.decode()}",
-    style={
-        "float": "centre",
-        "width": "50%",
-    },
-)
+ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 
 # --------------------------------------- CARDS ----------------------------------------
 signup_card = dbc.Card(
     [
+        dbc.CardImg(src=ds_logo_decoded, top=True),
         dbc.CardBody(
             [
                 dbc.Input(
@@ -68,18 +62,22 @@ signup_card = dbc.Card(
                 ),
                 dbc.Row(
                     [
-                        dbc.Button(
-                            children="back",
-                            id="button_back_signup",
-                            color="primary",
-                            className="m-3",
-                            href="/login",
+                        dbc.Col(
+                            dbc.Button(
+                                children="back",
+                                id="button_back_signup",
+                                color="primary",
+                                className="m-3",
+                                href="/login",
+                            ),
                         ),
-                        dbc.Button(
-                            children="create",
-                            id="button_create_signup",
-                            color="primary",
-                            className="m-3",
+                        dbc.Col(
+                            dbc.Button(
+                                children="create",
+                                id="button_create_signup",
+                                color="primary",
+                                className="m-3",
+                            ),
                         ),
                     ]
                 ),
@@ -101,16 +99,7 @@ layout = dbc.Container(
     [
         html.Div(
             [
-                # row1: logos
-                dbc.Row(
-                    dbc.Col(
-                        html.Div("TITLE"),
-                        width={"size": 6, "offset": 3},
-                    ),
-                    align="center",
-                    className="m-5",
-                ),
-                # row2: signup
+                # row1: signup
                 dbc.Row(
                     dbc.Col(
                         signup_card,
@@ -119,7 +108,7 @@ layout = dbc.Container(
                     align="center",
                     className="m-5",
                 ),
-                # row3: alert
+                # row2: alert
                 dbc.Row(
                     dbc.Col(
                         alert_signup,
