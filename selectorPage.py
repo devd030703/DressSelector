@@ -1,6 +1,7 @@
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output, State
 
 from app import app, database
 
@@ -21,19 +22,19 @@ headwear = (
                 [
                     dbc.Button(
                         children="🔀",
-                        id="headwear_randomisce",
+                        id="button_headwear_randomise",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✓",
-                        id="headwear_tick",
+                        id="button_headwear_tick",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✖",
-                        id="headwear_cross",
+                        id="button_headwear_cross",
                         color="primary",
                         className="m-3",
                     ),
@@ -57,19 +58,19 @@ topwear = (
                 [
                     dbc.Button(
                         children="🔀",
-                        id="topwear_randomise",
+                        id="button_topwear_randomise",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✓",
-                        id="topwear_tick",
+                        id="button_topwear_tick",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✖",
-                        id="topwear_cross",
+                        id="button_topwear_cross",
                         color="primary",
                         className="m-3",
                     ),
@@ -92,19 +93,19 @@ bottomwear = (
                 [
                     dbc.Button(
                         children="🔀",
-                        id="bottomwear_randomise",
+                        id="button_bottomwear_randomise",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✓",
-                        id="bottomwear_tick",
+                        id="button_bottomwear_tick",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✖",
-                        id="bottomwear_cross",
+                        id="button_bottomwear_cross",
                         color="primary",
                         className="m-3",
                     ),
@@ -128,19 +129,19 @@ footwear = (
                 [
                     dbc.Button(
                         children="🔀",
-                        id="footwear_randomise",
+                        id="button_footwear_randomise",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✓",
-                        id="footwear_tick",
+                        id="button_footwear_tick",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
                         children="✖",
-                        id="footwear_cross",
+                        id="button_footwear_cross",
                         color="primary",
                         className="m-3",
                     ),
@@ -190,9 +191,15 @@ user_details = (
     dbc.Card(
         dbc.CardBody(
             [
-                dbc.Row(html.H4("Account Details", className="card-title"),),
-                dbc.Row(html.P("Name:", className="card-text"),),
-                dbc.Row(html.P("Gender:", className="card-text"),),
+                dbc.Row(
+                    html.H4("Account Details", className="card-title"),
+                ),
+                dbc.Row(
+                    html.P("Name:", className="card-text"),
+                ),
+                dbc.Row(
+                    html.P("Gender:", className="card-text"),
+                ),
             ],
         ),
     ),
@@ -201,9 +208,15 @@ user_details = (
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Dress Selector", href="#"),),
-        dbc.NavItem(dbc.NavLink("Saved Outfits", href="#"),),
-        dbc.NavItem(dbc.NavLink("Account Details", href="#"),),
+        dbc.NavItem(
+            dbc.NavLink("Dress Selector", href="#"),
+        ),
+        dbc.NavItem(
+            dbc.NavLink("Saved Outfits", href="#"),
+        ),
+        dbc.NavItem(
+            dbc.NavLink("Account Details", href="#"),
+        ),
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("Options", header=True),
@@ -226,18 +239,37 @@ layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row(dbc.Col(navbar,),),
-                dbc.Row(dbc.Col(user_details,),),
+                dbc.Row(
+                    dbc.Col(
+                        navbar,
+                    ),
+                ),
+                dbc.Row(
+                    dbc.Col(
+                        user_details,
+                    ),
+                ),
                 dbc.Row(
                     [
-                        dbc.Col(headwear,),
-                        dbc.Col(topwear,),
-                        dbc.Col(bottomwear,),
-                        dbc.Col(footwear,),
+                        dbc.Col(
+                            headwear,
+                        ),
+                        dbc.Col(
+                            topwear,
+                        ),
+                        dbc.Col(
+                            bottomwear,
+                        ),
+                        dbc.Col(
+                            footwear,
+                        ),
                     ]
                 ),
                 dbc.Row(
-                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
+                    dbc.Col(
+                        user_buttons,
+                        width={"size": 4, "offset": 4},
+                    ),
                     className="m-3",
                     align="center",
                 ),
@@ -245,3 +277,25 @@ layout = dbc.Container(
         )
     ]
 )
+
+# ------------------------------------- CALLBACKS --------------------------------------
+@app.callback(
+    [
+        Output("alert_login", "is_open"),
+        Output("alert_login", "color"),
+        Output("alert_login", "children"),
+    ],
+    [
+        Input("button_headwear_randomise", "n_clicks"),
+    ],
+    [
+        State("input_user_name_login", "value"),
+        State("input_password_login", "value"),
+    ],
+)
+def randomise_headwear(
+    button_login_n_clicks,
+    input_user_name_login_value,
+    input_password_login_value,
+):
+pass
