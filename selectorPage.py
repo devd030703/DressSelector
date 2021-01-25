@@ -181,7 +181,8 @@ user_buttons = (
                     ),
                 ]
             ),
-        ]
+        ],
+        className="card mb-4 border-0",
     ),
 )
 
@@ -244,4 +245,3 @@ layout = dbc.Container(
         )
     ]
 )
-
