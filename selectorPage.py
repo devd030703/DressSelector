@@ -1,21 +1,30 @@
+import base64
+
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
 
 # --------------------------------------- IMAGES ---------------------------------------
+ds_logo_encoded = base64.b64encode(open("images/Headwear/Men/2467.jpg", "rb").read())
+ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
     dbc.Card(
         [
-            dbc.CardBody(html.P("Headwear", className="card-text")),
+            dbc.CardBody(
+                html.P("Headwear", className="card-text"),
+            ),
             dbc.CardImg(
-                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                # src="images/Headwear/Men/2467.jpg",
+                # src=ds_logo_decoded,
+                id="card_img_headwear",
                 top=True,
             ),
             dbc.Row(
@@ -278,24 +287,18 @@ layout = dbc.Container(
     ]
 )
 
+
 # ------------------------------------- CALLBACKS --------------------------------------
 @app.callback(
-    [
-        Output("alert_login", "is_open"),
-        Output("alert_login", "color"),
-        Output("alert_login", "children"),
-    ],
+    Output("card_img_headwear", "src"),
     [
         Input("button_headwear_randomise", "n_clicks"),
     ],
-    [
-        State("input_user_name_login", "value"),
-        State("input_password_login", "value"),
-    ],
 )
 def randomise_headwear(
-    button_login_n_clicks,
-    input_user_name_login_value,
-    input_password_login_value,
+    button_headwear_randomise_n_clicks,
 ):
-pass
+    if button_headwear_randomise_n_clicks:
+        return ds_logo_decoded
+    else:
+        raise PreventUpdate
