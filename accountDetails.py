@@ -132,13 +132,11 @@ layout = dbc.Container(
         html.Div(
             [
                 dbc.Row(dbc.Col(navbar,),),
-                # row1: signup
                 dbc.Row(
                     dbc.Col(signup_card, width={"size": 6, "offset": 3},),
                     align="center",
                     className="m-5",
                 ),
-                # row2: alert
                 dbc.Row(
                     dbc.Col(alert_signup, width={"size": 6, "offset": 3},),
                     align="center",
@@ -152,16 +150,3 @@ layout = dbc.Container(
 
 # ------------------------------------- CALLBACKS --------------------------------------
 
-
-# i have had to rename output to make this work, not sure why
-# also this is an ugly page reload
-@app.callback(
-    Output("url_account", "pathname_account"), [Input("dress_selector", "n_clicks"),],
-)
-def change_pathname(account_details_n_clicks):
-    if account_details_n_clicks == "success":
-        time.sleep(1)
-        return "/selector"
-
-    else:
-        raise PreventUpdate

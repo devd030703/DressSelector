@@ -195,17 +195,17 @@ user_buttons = (
     ),
 )
 
-user_details = (
-    dbc.Card(
-        dbc.CardBody(
-            [
-                dbc.Row(html.H4("Account Details", className="card-title"),),
-                dbc.Row(html.P("Name:", className="card-text"),),
-                dbc.Row(html.P("Gender:", className="card-text"),),
-            ],
-        ),
-    ),
-)
+# user_details = (
+#     dbc.Card(
+#         dbc.CardBody(
+#             [
+#                 dbc.Row(html.H4("Account Details", className="card-title"),),
+#                 dbc.Row(html.P("Name:", className="card-text"),),
+#                 dbc.Row(html.P("Gender:", className="card-text"),),
+#             ],
+#         ),
+#     ),
+# )
 
 
 navbar = dbc.NavbarSimple(
@@ -271,19 +271,5 @@ layout = dbc.Container(
 def randomise_headwear(button_headwear_randomise_n_clicks,):
     if button_headwear_randomise_n_clicks:
         return ds_logo_decoded
-    else:
-        raise PreventUpdate
-
-
-# i have had to rename output to make this work, not sure why
-# also this is an ugly page reload
-@app.callback(
-    Output("url_account", "pathname_account"), [Input("account_details", "n_clicks"),],
-)
-def change_pathname(account_details_n_clicks):
-    if account_details_n_clicks == "success":
-        time.sleep(1)
-        return "/accountdetails"
-
     else:
         raise PreventUpdate
