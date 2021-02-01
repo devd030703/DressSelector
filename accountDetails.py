@@ -1,5 +1,6 @@
 import base64
 
+import time
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -88,11 +89,49 @@ signup_card = dbc.Card(
 
 alert_signup = dbc.Alert(id="alert_signup", dismissable=True, is_open=False,)
 
+
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(
+            dbc.NavLink(
+                "Dress Selector",
+                href="/selector",
+                id="dress_selector",
+                external_link=True,
+            ),
+        ),
+        dbc.NavItem(dbc.NavLink("Saved Outfits", href="#"),),
+        dbc.NavItem(
+            dbc.NavLink(
+                "Account Details",
+                # href="/accountdetails",
+                # id="account_details",
+                # external_link=True,
+            ),
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Options", header=True),
+                # dbc.DropdownMenuItem("Saved Outfits", href="#"),
+                # dbc.DropdownMenuItem("Account Details", href="#"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="More",
+        ),
+    ],
+    brand="Navigation",
+    brand_href="#",
+    color="primary",
+    dark=True,
+)
+
 # --------------------------------------- LAYOUT ---------------------------------------
 layout = dbc.Container(
     [
         html.Div(
             [
+                dbc.Row(dbc.Col(navbar,),),
                 # row1: signup
                 dbc.Row(
                     dbc.Col(signup_card, width={"size": 6, "offset": 3},),
@@ -113,3 +152,16 @@ layout = dbc.Container(
 
 # ------------------------------------- CALLBACKS --------------------------------------
 
+
+# i have had to rename output to make this work, not sure why
+# also this is an ugly page reload
+@app.callback(
+    Output("url_account", "pathname_account"), [Input("dress_selector", "n_clicks"),],
+)
+def change_pathname(account_details_n_clicks):
+    if account_details_n_clicks == "success":
+        time.sleep(1)
+        return "/selector"
+
+    else:
+        raise PreventUpdate
