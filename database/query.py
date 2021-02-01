@@ -16,6 +16,9 @@ class DataBase:
         self.email = None
         self.password = None
 
+    def get_users_details(self):
+        return self.first_name, self.last_name, self.gender, self.email, self.password
+
     def check_user_exists(self, by, value):
         if by == "email":
             row = self.cursor.execute(
