@@ -1,5 +1,5 @@
-import time
 import base64
+import time
 
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -19,7 +19,9 @@ ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 headwear = (
     dbc.Card(
         [
-            dbc.CardBody(html.P("Headwear", className="card-text"),),
+            dbc.CardBody(
+                html.P("Headwear", className="card-text"),
+            ),
             dbc.CardImg(
                 # src="images/Headwear/Men/2467.jpg",
                 # src=ds_logo_decoded,
@@ -210,8 +212,12 @@ user_buttons = (
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Dress Selector", href="#"),),
-        dbc.NavItem(dbc.NavLink("Saved Outfits", href="#"),),
+        dbc.NavItem(
+            dbc.NavLink("Dress Selector", href="#"),
+        ),
+        dbc.NavItem(
+            dbc.NavLink("Saved Outfits", href="#"),
+        ),
         dbc.NavItem(
             dbc.NavLink(
                 "Account Details",
@@ -242,18 +248,33 @@ layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row(dbc.Col(navbar,),),
+                dbc.Row(
+                    dbc.Col(
+                        navbar,
+                    ),
+                ),
                 # dbc.Row(dbc.Col(user_details,),),
                 dbc.Row(
                     [
-                        dbc.Col(headwear,),
-                        dbc.Col(topwear,),
-                        dbc.Col(bottomwear,),
-                        dbc.Col(footwear,),
+                        dbc.Col(
+                            headwear,
+                        ),
+                        dbc.Col(
+                            topwear,
+                        ),
+                        dbc.Col(
+                            bottomwear,
+                        ),
+                        dbc.Col(
+                            footwear,
+                        ),
                     ]
                 ),
                 dbc.Row(
-                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
+                    dbc.Col(
+                        user_buttons,
+                        width={"size": 4, "offset": 4},
+                    ),
                     className="m-3",
                     align="center",
                 ),
@@ -266,9 +287,13 @@ layout = dbc.Container(
 # ------------------------------------- CALLBACKS --------------------------------------
 @app.callback(
     Output("card_img_headwear", "src"),
-    [Input("button_headwear_randomise", "n_clicks"),],
+    [
+        Input("button_headwear_randomise", "n_clicks"),
+    ],
 )
-def randomise_headwear(button_headwear_randomise_n_clicks,):
+def randomise_headwear(
+    button_headwear_randomise_n_clicks,
+):
     if button_headwear_randomise_n_clicks:
         return ds_logo_decoded
     else:

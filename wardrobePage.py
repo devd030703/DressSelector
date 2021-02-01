@@ -88,9 +88,18 @@ app.layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row([dbc.Col(headwear,),]),
                 dbc.Row(
-                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
+                    [
+                        dbc.Col(
+                            headwear,
+                        ),
+                    ]
+                ),
+                dbc.Row(
+                    dbc.Col(
+                        user_buttons,
+                        width={"size": 4, "offset": 4},
+                    ),
                     className="m-3",
                     align="center",
                 ),
@@ -105,6 +114,7 @@ app.layout = dbc.Container(
 
 
 app.run_server(
-    debug=True, host="0.0.0.0", port="8080",
+    debug=True,
+    host="0.0.0.0",
+    port="8080",
 )
-
