@@ -19,6 +19,9 @@ class DataBase:
     def get_users_details(self):
         return self.first_name, self.last_name, self.gender, self.email, self.password
 
+    def get_user_first_name(self):
+        return self.first_name
+
     def check_user_exists(self, by, value):
         if by == "email":
             row = self.cursor.execute(
@@ -42,6 +45,8 @@ class DataBase:
                 self.email,
                 self.password,
             ) = row
+
+            print("HERE IS FIRST NAME" + (self.first_name))
 
             return True
         else:
@@ -108,12 +113,7 @@ class DataBase:
 
 
 def main():
-    database = DataBase(
-        Path(
-            "database",
-            "database.db",
-        )
-    )
+    database = DataBase(Path("database", "database.db",))
 
     database.check_user_exists(by="email", value="JakeSmith@gmail.com")
 
