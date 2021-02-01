@@ -9,6 +9,11 @@ from dash.exceptions import PreventUpdate
 
 from app import app, database
 
+first_name = database.get_user_first_name()
+print(first_name)
+
+print(database.get_users_details())
+
 # ---------------------------------------- DATA ----------------------------------------
 logo_image = "logo.png"
 
@@ -24,25 +29,25 @@ signup_card = dbc.Card(
             [
                 dbc.Input(
                     id="input_user_name_signup_update",
-                    placeholder="user name",
+                    placeholder="{}".format(first_name),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_password_signup_update",
-                    placeholder="password",
+                    placeholder="{}".format(database.password),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_first_name_signup_update",
-                    placeholder="first name",
+                    placeholder="{}".format(database.first_name),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_last_name_signup_update",
-                    placeholder="last name",
+                    placeholder="{}".format(database.last_name),
                     type="text",
                     className="mb-3",
                 ),
@@ -149,4 +154,3 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
-
