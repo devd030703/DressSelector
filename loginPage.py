@@ -50,6 +50,7 @@ login_card = dbc.Card(
                                 color="primary",
                                 className="m-3",
                                 href="/signup",
+                                external_link=True,
                             ),
                         ),
                     ]

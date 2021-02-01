@@ -69,6 +69,7 @@ signup_card = dbc.Card(
                                 color="primary",
                                 className="m-3",
                                 href="/login",
+                                external_link=True,
                             ),
                         ),
                         dbc.Col(
