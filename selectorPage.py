@@ -243,7 +243,7 @@ layout = dbc.Container(
         html.Div(
             [
                 dbc.Row(dbc.Col(navbar,),),
-                dbc.Row(dbc.Col(user_details,),),
+                # dbc.Row(dbc.Col(user_details,),),
                 dbc.Row(
                     [
                         dbc.Col(headwear,),
