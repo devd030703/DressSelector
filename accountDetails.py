@@ -56,6 +56,7 @@ signup_card = dbc.Card(
                         dbc.InputGroupAddon("Gender", addon_type="prepend",),
                         dbc.Select(
                             id="input_gender_select_update",
+                            placeholder="{}".format(database.gender),
                             options=[
                                 {"label": "Female", "value": 1},
                                 {"label": "Male", "value": 2},
@@ -68,8 +69,18 @@ signup_card = dbc.Card(
                     [
                         dbc.Col(
                             dbc.Button(
+                                children="back",
+                                id="back_button_update",
+                                color="primary",
+                                className="m-3",
+                                href="/selector",
+                                external_link=True,
+                            ),
+                        ),
+                        dbc.Col(
+                            dbc.Button(
                                 children="delete",
-                                id="button_delete_signup",
+                                id="button_delete_update",
                                 color="primary",
                                 className="m-3",
                                 href="",
@@ -78,7 +89,7 @@ signup_card = dbc.Card(
                         dbc.Col(
                             dbc.Button(
                                 children="update",
-                                id="button_update_signup",
+                                id="button_update_update",
                                 color="primary",
                                 className="m-3",
                             ),
