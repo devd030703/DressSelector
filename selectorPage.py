@@ -1,5 +1,5 @@
 import base64
-import time
+from pathlib import Path
 
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -11,9 +11,28 @@ from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
 
+
 # --------------------------------------- IMAGES ---------------------------------------
-ds_logo_encoded = base64.b64encode(open("images/Headwear/Men/2467.jpg", "rb").read())
-ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
+def process_image(img):
+    img_encoded = base64.b64encode(open(img, "rb").read())
+    return f"data:image/png;base64,{img_encoded.decode()}"
+
+
+headwear_placeholder_men = process_image(
+    Path("images", "Headwear", "PlaceHolderMen.png"),
+)
+
+topwear_placeholder_men = process_image(
+    Path("images", "Topwear", "PlaceHolderMen.png"),
+)
+
+bottomwear_placeholder_men = process_image(
+    Path("images", "Bottomwear", "PlaceHolderMen.png"),
+)
+
+shoes_placeholder_men = process_image(
+    Path("images", "Shoes", "PlaceHolderMen.png"),
+)
 
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
@@ -23,8 +42,7 @@ headwear = (
                 html.P("Headwear", className="card-text"),
             ),
             dbc.CardImg(
-                # src="images/Headwear/Men/2467.jpg",
-                # src=ds_logo_decoded,
+                src=headwear_placeholder_men,
                 id="card_img_headwear",
                 top=True,
             ),
@@ -61,7 +79,7 @@ topwear = (
         [
             dbc.CardBody(html.P("Topwear", className="card-text")),
             dbc.CardImg(
-                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                src=topwear_placeholder_men,
                 top=True,
             ),
             dbc.Row(
@@ -96,7 +114,7 @@ bottomwear = (
         [
             dbc.CardBody(html.P("Bottomwear", className="card-text")),
             dbc.CardImg(
-                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                src=bottomwear_placeholder_men,
                 top=True,
             ),
             dbc.Row(
@@ -132,7 +150,7 @@ footwear = (
         [
             dbc.CardBody(html.P("Footwear", className="card-text")),
             dbc.CardImg(
-                src="/Users/devdeepak/Desktop/GitHub/DressSelector/dash/images/2467.jpg",
+                src=shoes_placeholder_men,
                 top=True,
             ),
             dbc.Row(
