@@ -24,19 +24,13 @@ headwear = (
             dbc.Row(
                 [
                     dbc.Button(
-                        children="🔀",
+                        children="⬅️",
                         id="headwear_randomisce",
                         color="primary",
                         className="m-3",
                     ),
                     dbc.Button(
-                        children="✓",
-                        id="headwear_tick",
-                        color="primary",
-                        className="m-3",
-                    ),
-                    dbc.Button(
-                        children="✖",
+                        children="➡️",
                         id="headwear_cross",
                         color="primary",
                         className="m-3",
@@ -83,28 +77,58 @@ user_buttons = (
     ),
 )
 
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(
+            dbc.NavLink(
+                "Dress Selector",
+                href="/selector",
+                id="dress_selector",
+                external_link=True,
+            ),
+        ),
+        dbc.NavItem(
+            dbc.NavLink(
+                "Saved Outfits", href="/wardrobe", id="wardrobe", external_link=True,
+            ),
+        ),
+        dbc.NavItem(
+            dbc.NavLink(
+                "Account Details",
+                href="/accountdetails",
+                id="account_details",
+                external_link=True,
+            ),
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Options", header=True),
+                # dbc.DropdownMenuItem("Saved Outfits", href="#"),
+                # dbc.DropdownMenuItem("Account Details", href="#"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="More",
+        ),
+    ],
+    brand="Navigation",
+    brand_href="#",
+    color="primary",
+    dark=True,
+)
+
 # --------------------------------------- LAYOUT ---------------------------------------
-app.layout = dbc.Container(
+layout = dbc.Container(
     [
         html.Div(
             [
+                dbc.Row(dbc.Col(navbar,),),
+                dbc.Row([dbc.Col(headwear,),]),
                 dbc.Row(
-                    [
-                        dbc.Col(
-                            headwear,
-                        ),
-                    ]
-                ),
-                dbc.Row(
-                    dbc.Col(
-                        user_buttons,
-                        width={"size": 4, "offset": 4},
-                    ),
+                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
                     className="m-3",
                     align="center",
                 ),
-                html.Div(id="app-2-display-value"),
-                dcc.Link("Go to App 1", href="/app1"),
             ]
         )
     ]
@@ -112,9 +136,3 @@ app.layout = dbc.Container(
 
 # ------------------------------------- CALLBACKS --------------------------------------
 
-
-app.run_server(
-    debug=True,
-    host="0.0.0.0",
-    port="8080",
-)

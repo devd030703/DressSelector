@@ -116,13 +116,17 @@ navbar = dbc.NavbarSimple(
                 external_link=True,
             ),
         ),
-        dbc.NavItem(dbc.NavLink("Saved Outfits", href="#"),),
+        dbc.NavItem(
+            dbc.NavLink(
+                "Saved Outfits", href="/wardrobe", id="wardrobe", external_link=True,
+            ),
+        ),
         dbc.NavItem(
             dbc.NavLink(
                 "Account Details",
-                # href="/accountdetails",
-                # id="account_details",
-                # external_link=True,
+                href="/accountdetails",
+                id="account_details",
+                external_link=True,
             ),
         ),
         dbc.DropdownMenu(
