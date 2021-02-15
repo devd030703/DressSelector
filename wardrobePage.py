@@ -37,9 +37,6 @@ shoes_placeholder_men = process_image(
 headwear = (
     dbc.Card(
         [
-            dbc.CardBody(
-                html.P("Headwear", className="card-text"),
-            ),
             dbc.CardImg(
                 src=headwear_placeholder_men,
                 id="card_img_headwear",
@@ -53,7 +50,6 @@ headwear = (
 topwear = (
     dbc.Card(
         [
-            dbc.CardBody(html.P("Topwear", className="card-text")),
             dbc.CardImg(
                 src=topwear_placeholder_men,
                 top=True,
@@ -65,7 +61,6 @@ topwear = (
 bottomwear = (
     dbc.Card(
         [
-            dbc.CardBody(html.P("Bottomwear", className="card-text")),
             dbc.CardImg(
                 src=bottomwear_placeholder_men,
                 top=True,
@@ -78,7 +73,6 @@ bottomwear = (
 footwear = (
     dbc.Card(
         [
-            dbc.CardBody(html.P("Footwear", className="card-text")),
             dbc.CardImg(
                 src=shoes_placeholder_men,
                 top=True,
@@ -176,23 +170,20 @@ layout = dbc.Container(
                 ),
                 dbc.Row(
                     [
-                        dbc.Col(
-                            headwear,
-                        ),
-                        dbc.Col(
-                            topwear,
-                        ),
-                    ]
+                        dbc.Col(headwear, width=2),
+                        dbc.Col(topwear, width=2),
+                    ],
+                    justify="center",
+                    className="mt-3"
+                    # style={"margin-top": "25px"},
                 ),
                 dbc.Row(
                     [
-                        dbc.Col(
-                            headwear,
-                        ),
-                        dbc.Col(
-                            topwear,
-                        ),
+                        dbc.Col(bottomwear, width=2),
+                        dbc.Col(footwear, width=2),
                     ],
+                    justify="center",
+                    className="mt-3",
                 ),
                 dbc.Row(
                     dbc.Col(
