@@ -1,6 +1,6 @@
 import base64
-
 import time
+
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -9,13 +9,9 @@ from dash.exceptions import PreventUpdate
 
 from app import app, database
 
-first_name = database.get_user_first_name()
-print(first_name)
-
-print(database.get_users_details())
-
 # ---------------------------------------- DATA ----------------------------------------
 logo_image = "logo.png"
+first_name, last_name, gender, email, password = database.get_users_details()
 
 # --------------------------------------- IMAGES ---------------------------------------
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
@@ -29,7 +25,7 @@ signup_card = dbc.Card(
             [
                 dbc.Input(
                     id="input_user_name_signup_update",
-                    placeholder="{}".format(first_name),
+                    placeholder="{}".format(database.email),
                     type="text",
                     className="mb-3",
                 ),
@@ -53,7 +49,10 @@ signup_card = dbc.Card(
                 ),
                 dbc.InputGroup(
                     [
-                        dbc.InputGroupAddon("Gender", addon_type="prepend",),
+                        dbc.InputGroupAddon(
+                            "Gender",
+                            addon_type="prepend",
+                        ),
                         dbc.Select(
                             id="input_gender_select_update",
                             placeholder="{}".format(database.gender),
@@ -103,7 +102,11 @@ signup_card = dbc.Card(
     inverse=True,
 )
 
-alert_signup = dbc.Alert(id="alert_signup", dismissable=True, is_open=False,)
+alert_signup = dbc.Alert(
+    id="alert_signup",
+    dismissable=True,
+    is_open=False,
+)
 
 
 navbar = dbc.NavbarSimple(
@@ -118,7 +121,10 @@ navbar = dbc.NavbarSimple(
         ),
         dbc.NavItem(
             dbc.NavLink(
-                "Saved Outfits", href="/wardrobe", id="wardrobe", external_link=True,
+                "Saved Outfits",
+                href="/wardrobe",
+                id="wardrobe",
+                external_link=True,
             ),
         ),
         dbc.NavItem(
@@ -151,14 +157,27 @@ layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row(dbc.Col(navbar,),),
+                # row1: Navbar
                 dbc.Row(
-                    dbc.Col(signup_card, width={"size": 6, "offset": 3},),
+                    dbc.Col(
+                        navbar,
+                    ),
+                ),
+                # row2: signup details
+                dbc.Row(
+                    dbc.Col(
+                        signup_card,
+                        width={"size": 6, "offset": 3},
+                    ),
                     align="center",
                     className="m-5",
                 ),
+                # row3: alert
                 dbc.Row(
-                    dbc.Col(alert_signup, width={"size": 6, "offset": 3},),
+                    dbc.Col(
+                        alert_signup,
+                        width={"size": 6, "offset": 3},
+                    ),
                     align="center",
                     className="m-5",
                 ),
