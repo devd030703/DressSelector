@@ -89,7 +89,10 @@ navbar = dbc.NavbarSimple(
         ),
         dbc.NavItem(
             dbc.NavLink(
-                "Saved Outfits", href="/wardrobe", id="wardrobe", external_link=True,
+                "Saved Outfits",
+                href="/wardrobe",
+                id="wardrobe",
+                external_link=True,
             ),
         ),
         dbc.NavItem(
@@ -122,10 +125,23 @@ layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row(dbc.Col(navbar,),),
-                dbc.Row([dbc.Col(headwear,),]),
                 dbc.Row(
-                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
+                    dbc.Col(
+                        navbar,
+                    ),
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            headwear,
+                        ),
+                    ]
+                ),
+                dbc.Row(
+                    dbc.Col(
+                        user_buttons,
+                        width={"size": 4, "offset": 4},
+                    ),
                     className="m-3",
                     align="center",
                 ),
@@ -135,4 +151,3 @@ layout = dbc.Container(
 )
 
 # ------------------------------------- CALLBACKS --------------------------------------
-

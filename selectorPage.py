@@ -30,15 +30,21 @@ bottomwear_placeholder_men = process_image(
     Path("images", "Bottomwear", "PlaceHolderMen.png"),
 )
 
-shoes_placeholder_men = process_image(Path("images", "Shoes", "PlaceHolderMen.png"),)
+shoes_placeholder_men = process_image(
+    Path("images", "Shoes", "PlaceHolderMen.png"),
+)
 
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
     dbc.Card(
         [
-            dbc.CardBody(html.P("Headwear", className="card-text"),),
+            dbc.CardBody(
+                html.P("Headwear", className="card-text"),
+            ),
             dbc.CardImg(
-                src=headwear_placeholder_men, id="card_img_headwear", top=True,
+                src=headwear_placeholder_men,
+                id="card_img_headwear",
+                top=True,
             ),
             dbc.Row(
                 [
@@ -72,7 +78,10 @@ topwear = (
     dbc.Card(
         [
             dbc.CardBody(html.P("Topwear", className="card-text")),
-            dbc.CardImg(src=topwear_placeholder_men, top=True,),
+            dbc.CardImg(
+                src=topwear_placeholder_men,
+                top=True,
+            ),
             dbc.Row(
                 [
                     dbc.Button(
@@ -104,7 +113,10 @@ bottomwear = (
     dbc.Card(
         [
             dbc.CardBody(html.P("Bottomwear", className="card-text")),
-            dbc.CardImg(src=bottomwear_placeholder_men, top=True,),
+            dbc.CardImg(
+                src=bottomwear_placeholder_men,
+                top=True,
+            ),
             dbc.Row(
                 [
                     dbc.Button(
@@ -137,7 +149,10 @@ footwear = (
     dbc.Card(
         [
             dbc.CardBody(html.P("Footwear", className="card-text")),
-            dbc.CardImg(src=shoes_placeholder_men, top=True,),
+            dbc.CardImg(
+                src=shoes_placeholder_men,
+                top=True,
+            ),
             dbc.Row(
                 [
                     dbc.Button(
@@ -225,7 +240,10 @@ navbar = dbc.NavbarSimple(
         ),
         dbc.NavItem(
             dbc.NavLink(
-                "Saved Outfits", href="/wardrobe", id="wardrobe", external_link=True,
+                "Saved Outfits",
+                href="/wardrobe",
+                id="wardrobe",
+                external_link=True,
             ),
         ),
         dbc.NavItem(
@@ -258,18 +276,33 @@ layout = dbc.Container(
     [
         html.Div(
             [
-                dbc.Row(dbc.Col(navbar,),),
+                dbc.Row(
+                    dbc.Col(
+                        navbar,
+                    ),
+                ),
                 # dbc.Row(dbc.Col(user_details,),),
                 dbc.Row(
                     [
-                        dbc.Col(headwear,),
-                        dbc.Col(topwear,),
-                        dbc.Col(bottomwear,),
-                        dbc.Col(footwear,),
+                        dbc.Col(
+                            headwear,
+                        ),
+                        dbc.Col(
+                            topwear,
+                        ),
+                        dbc.Col(
+                            bottomwear,
+                        ),
+                        dbc.Col(
+                            footwear,
+                        ),
                     ]
                 ),
                 dbc.Row(
-                    dbc.Col(user_buttons, width={"size": 4, "offset": 4},),
+                    dbc.Col(
+                        user_buttons,
+                        width={"size": 4, "offset": 4},
+                    ),
                     className="m-3",
                     align="center",
                 ),
@@ -282,9 +315,13 @@ layout = dbc.Container(
 # ------------------------------------- CALLBACKS --------------------------------------
 @app.callback(
     Output("card_img_headwear", "src"),
-    [Input("button_headwear_randomise", "n_clicks"),],
+    [
+        Input("button_headwear_randomise", "n_clicks"),
+    ],
 )
-def randomise_headwear(button_headwear_randomise_n_clicks,):
+def randomise_headwear(
+    button_headwear_randomise_n_clicks,
+):
     if button_headwear_randomise_n_clicks:
         return ds_logo_decoded
     else:
