@@ -25,8 +25,8 @@
         "python.venvPath"
     ],
     "python.formatting.provider": "black",
-    "python.formatting.blackPath": "/Users/gabriel/.local/bin/black",
-    "python.sortImports.path": "/Users/gabriel/.local/bin/isort",
+    "python.formatting.blackPath": "/Users/devdeepak/.local/bin/black",
+    "python.sortImports.path": "/Users/devdeepak/.local/bin/isort",
     "python.sortImports.args": [
         "--multi-line=3",
         "--trailing-comma",
@@ -37,7 +37,7 @@
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,
     "python.linting.flake8Enabled": true,
-    "python.linting.flake8Path": "/Users/gabriel/.local/bin/flake8",
+    "python.linting.flake8Path": "/Users/devdeepak/.local/bin/flake8",
     "python.linting.flake8Args": [
         "--ignore=E265, E50, E501",
         "--select=C,E,F,W,B,B950",
