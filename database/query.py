@@ -64,7 +64,7 @@ class DataBase:
             return False
 
     def update_user_details(
-        self, user_rowid, first_name, last_name, gender, email, password
+        self, first_name, last_name, gender, email, password, user_rowid
     ):
         self.cursor.execute(
             "UPDATE USERS SET FirstName=?, LastName=?, Gender=?, Email=?, Password=? WHERE rowid=?",
@@ -82,7 +82,7 @@ class DataBase:
         self.cnxn.commit()
 
     def delete_user(self, user_rowid):
-        self.cursor.execute("DELETE FROM USERS WHERE rowid = ?", (user_rowid))
+        self.cursor.execute("DELETE FROM USERS WHERE rowid = ?", [user_rowid])
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 

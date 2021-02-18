@@ -229,12 +229,12 @@ def update_delete_details(
             )
         elif button_id == "button_update_account":
             database.update_user_details(
-                user_rowid=database.user_rowid,
                 first_name=input_first_name_account_value,
                 last_name=input_last_name_account_value,
                 gender=input_gender_select_account_value,
                 email=input_user_name_account_value,
                 password=input_password_account_value,
+                user_rowid=database.user_rowid,
             )
             return (
                 True,
