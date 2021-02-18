@@ -10,40 +10,48 @@ class DataBase:
 
         self.cursor = self.cnxn.cursor()
 
+        self.user_rowid = None
         self.first_name = None
         self.last_name = None
         self.gender = None
         self.email = None
         self.password = None
 
-    def get_users_details(self):
-        return self.first_name, self.last_name, self.gender, self.email, self.password
+    def get_user_details(self):
+        return (
+            self.user_rowid,
+            self.first_name,
+            self.last_name,
+            self.gender,
+            self.email,
+            self.password,
+        )
 
     def check_user_exists(self, by, value):
         if by == "email":
             row = self.cursor.execute(
-                "SELECT * FROM USERS WHERE Email=?", [value]
+                "SELECT rowid, * FROM USERS WHERE Email=?", [value]
             ).fetchone()
 
         elif by == "rowid":
             row = self.cursor.execute(
-                "SELECT * FROM USERS WHERE rowid=?", [value]
+                "SELECT rowid, * FROM USERS WHERE rowid=?", [value]
             ).fetchone()
 
         else:
             return False
 
         if row:
+            print("HERE", row)
             # get user's details for later
             (
+                self.user_rowid,
                 self.first_name,
                 self.last_name,
                 self.gender,
                 self.email,
                 self.password,
             ) = row
-
-            print("HERE IS FIRST NAME" + (self.first_name))
 
             return True
         else:
@@ -55,30 +63,12 @@ class DataBase:
         else:
             return False
 
-    def update_user_first_name(self, rowid, first_name):
+    def update_user_details(
+        self, user_rowid, first_name, last_name, gender, email, password
+    ):
         self.cursor.execute(
-            "UPDATE USERS SET FirstName=? WHERE rowid=?", (first_name, rowid)
-        )
-        print(f"{self.cursor.rowcount} record(s) were modified...")
-        self.cnxn.commit()
-
-    def update_user_last_name(self, rowid, last_name):
-        self.cursor.execute(
-            "UPDATE USERS SET LastName=? WHERE rowid=?", (last_name, rowid)
-        )
-        print(f"{self.cursor.rowcount} record(s) were modified...")
-        self.cnxn.commit()
-
-    def update_user_email(self, rowid, new_email):
-        self.cursor.execute(
-            "UPDATE USERS SET Email=? WHERE rowid=?", (new_email, rowid)
-        )
-        print(f"{self.cursor.rowcount} record(s) were modified...")
-        self.cnxn.commit()
-
-    def update_user_password(self, rowid, new_password):
-        self.cursor.execute(
-            "UPDATE USERS SET Password=? WHERE rowid=?", (new_password, rowid)
+            "UPDATE USERS SET FirstName=?, LastName=?, Gender=?, Email=?, Password=? WHERE rowid=?",
+            (first_name, last_name, gender, email, password, user_rowid),
         )
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
@@ -110,7 +100,12 @@ class DataBase:
 
 
 def main():
-    database = DataBase(Path("database", "database.db",))
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
 
     database.check_user_exists(by="email", value="JakeSmith@gmail.com")
 

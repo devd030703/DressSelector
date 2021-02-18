@@ -4,6 +4,7 @@ import time
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -11,39 +12,40 @@ from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
 logo_image = "logo.png"
-first_name, last_name, gender, email, password = database.get_users_details()
+user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
+gender_values = {"Female": 1, "Male": 2}
 
 # --------------------------------------- IMAGES ---------------------------------------
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
 ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 
 # --------------------------------------- CARDS ----------------------------------------
-signup_card = dbc.Card(
+account_card = dbc.Card(
     [
         dbc.CardImg(src=ds_logo_decoded, top=True),
         dbc.CardBody(
             [
                 dbc.Input(
-                    id="input_user_name_signup_update",
-                    placeholder="{}".format(database.email),
+                    id="input_user_name_account",
+                    value="{}".format(database.email),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
-                    id="input_password_signup_update",
-                    placeholder="{}".format(database.password),
+                    id="input_password_account",
+                    value="{}".format(database.password),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
-                    id="input_first_name_signup_update",
-                    placeholder="{}".format(database.first_name),
+                    id="input_first_name_account",
+                    value="{}".format(database.first_name),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
-                    id="input_last_name_signup_update",
-                    placeholder="{}".format(database.last_name),
+                    id="input_last_name_account",
+                    value="{}".format(database.last_name),
                     type="text",
                     className="mb-3",
                 ),
@@ -54,8 +56,8 @@ signup_card = dbc.Card(
                             addon_type="prepend",
                         ),
                         dbc.Select(
-                            id="input_gender_select_update",
-                            placeholder="{}".format(database.gender),
+                            id="input_gender_select_account",
+                            value=gender_values[database.gender],
                             options=[
                                 {"label": "Female", "value": 1},
                                 {"label": "Male", "value": 2},
@@ -69,7 +71,7 @@ signup_card = dbc.Card(
                         dbc.Col(
                             dbc.Button(
                                 children="back",
-                                id="back_button_update",
+                                id="button_back_account",
                                 color="primary",
                                 className="m-3",
                                 href="/selector",
@@ -79,16 +81,15 @@ signup_card = dbc.Card(
                         dbc.Col(
                             dbc.Button(
                                 children="delete",
-                                id="button_delete_update",
+                                id="button_delete_account",
                                 color="primary",
                                 className="m-3",
-                                href="",
                             ),
                         ),
                         dbc.Col(
                             dbc.Button(
                                 children="update",
-                                id="button_update_update",
+                                id="button_update_account",
                                 color="primary",
                                 className="m-3",
                             ),
@@ -102,8 +103,8 @@ signup_card = dbc.Card(
     inverse=True,
 )
 
-alert_signup = dbc.Alert(
-    id="alert_signup",
+alert_account = dbc.Alert(
+    id="alert_account",
     dismissable=True,
     is_open=False,
 )
@@ -114,24 +115,24 @@ navbar = dbc.NavbarSimple(
         dbc.NavItem(
             dbc.NavLink(
                 "Dress Selector",
+                id="navlink_dress_selector_account",
                 href="/selector",
-                id="dress_selector",
                 external_link=True,
             ),
         ),
         dbc.NavItem(
             dbc.NavLink(
                 "Saved Outfits",
+                id="navlink_saved_outfits_account",
                 href="/wardrobe",
-                id="wardrobe",
                 external_link=True,
             ),
         ),
         dbc.NavItem(
             dbc.NavLink(
                 "Account Details",
+                id="navlink_account_details_account",
                 href="/accountdetails",
-                id="account_details",
                 external_link=True,
             ),
         ),
@@ -163,10 +164,10 @@ layout = dbc.Container(
                         navbar,
                     ),
                 ),
-                # row2: signup details
+                # row2: account details
                 dbc.Row(
                     dbc.Col(
-                        signup_card,
+                        account_card,
                         width={"size": 6, "offset": 3},
                     ),
                     align="center",
@@ -175,7 +176,7 @@ layout = dbc.Container(
                 # row3: alert
                 dbc.Row(
                     dbc.Col(
-                        alert_signup,
+                        alert_account,
                         width={"size": 6, "offset": 3},
                     ),
                     align="center",
@@ -188,3 +189,60 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
+@app.callback(
+    [
+        Output("alert_account", "is_open"),
+        Output("alert_account", "color"),
+        Output("alert_account", "children"),
+    ],
+    [
+        Input("button_delete_account", "n_clicks"),
+        Input("button_update_account", "n_clicks"),
+    ],
+    [
+        State("input_user_name_account", "value"),
+        State("input_password_account", "value"),
+        State("input_first_name_account", "value"),
+        State("input_last_name_account", "value"),
+        State("input_gender_select_account", "value"),
+    ],
+)
+def update_delete_details(
+    button_delete_account_n_clicks,
+    button_update_account_n_clicks,
+    input_user_name_account_value,
+    input_password_account_value,
+    input_first_name_account_value,
+    input_last_name_account_value,
+    input_gender_select_account_value,
+):
+    if button_delete_account_n_clicks or button_update_account_n_clicks:
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_delete_account":
+            database.delete_user(database.user_rowid)
+            return (
+                True,
+                "success",
+                "Account deleted successfully.",
+            )
+        elif button_id == "button_update_account":
+            database.update_user_details(
+                user_rowid=database.user_rowid,
+                first_name=input_first_name_account_value,
+                last_name=input_last_name_account_value,
+                gender=input_gender_select_account_value,
+                email=input_user_name_account_value,
+                password=input_password_account_value,
+            )
+            return (
+                True,
+                "success",
+                "Account updated successfully",
+            )
+        else:
+            raise PreventUpdate
+
+    else:
+        raise PreventUpdate

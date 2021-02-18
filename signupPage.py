@@ -143,7 +143,7 @@ layout = dbc.Container(
         State("input_gender_select", "value"),
     ],
 )
-def validate_signup(
+def create_new_user(
     button_create_signup_n_clicks,
     input_user_name_signup_value,
     input_password_signup_value,
