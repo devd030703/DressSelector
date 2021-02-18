@@ -71,6 +71,7 @@ signup_card = dbc.Card(
                                 href="/login",
                                 external_link=True,
                             ),
+                            width={"size": "auto"},
                         ),
                         dbc.Col(
                             dbc.Button(
@@ -79,8 +80,10 @@ signup_card = dbc.Card(
                                 color="primary",
                                 className="m-3",
                             ),
+                            width={"size": "auto"},
                         ),
-                    ]
+                    ],
+                    justify="center",
                 ),
             ]
         ),
