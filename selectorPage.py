@@ -49,24 +49,25 @@ headwear = (
                         children="🔀",
                         id="button_headwear_randomise",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✓",
                         id="button_headwear_tick",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_headwear_cross",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                 ],
                 justify="center",
             ),
-        ]
+        ],
+        className="card mb-4 border-0",
     ),
 )
 
@@ -84,24 +85,25 @@ topwear = (
                         children="🔀",
                         id="button_topwear_randomise",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✓",
                         id="button_topwear_tick",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_topwear_cross",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                 ],
                 justify="center",
             ),
-        ]
+        ],
+        className="card mb-4 border-0",
     ),
 )
 
@@ -118,24 +120,25 @@ bottomwear = (
                         children="🔀",
                         id="button_bottomwear_randomise",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✓",
                         id="button_bottomwear_tick",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_bottomwear_cross",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                 ],
                 justify="center",
             ),
-        ]
+        ],
+        className="card mb-4 border-0",
     ),
 )
 
@@ -153,24 +156,25 @@ footwear = (
                         children="🔀",
                         id="button_footwear_randomise",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✓",
                         id="button_footwear_tick",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_footwear_cross",
                         color="primary",
-                        className="m-3",
+                        className="m-2",
                     ),
                 ],
                 justify="center",
             ),
-        ]
+        ],
+        className="card mb-4 border-0",
     ),
 )
 
@@ -186,7 +190,7 @@ user_buttons = (
                                     children="generate",
                                     id="button_generate",
                                     color="primary",
-                                    className="m-3",
+                                    className="m-2",
                                 ),
                                 width={"size": "auto"},
                             ),
@@ -195,7 +199,7 @@ user_buttons = (
                                     children="save",
                                     id="button_save",
                                     color="primary",
-                                    className="m-3",
+                                    className="m-2",
                                 ),
                                 width={"size": "auto"},
                             ),
@@ -290,15 +294,17 @@ layout = dbc.Container(
                         dbc.Col(
                             footwear,
                         ),
-                    ]
+                    ],
+                    className="mt-4",
                 ),
                 dbc.Row(
                     dbc.Col(
                         user_buttons,
-                        width={"size": 4, "offset": 4},
+                        width=4,
                     ),
-                    className="m-3",
+                    className="m-2",
                     align="center",
+                    justify="center",
                 ),
             ]
         )
