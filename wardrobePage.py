@@ -6,6 +6,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from dash_bootstrap_components._components.Row import Row
 
 from app import app, database
 
@@ -93,7 +94,7 @@ user_buttons = (
                                     children="Delete",
                                     id="button_generate",
                                     color="primary",
-                                    className="m-3",
+                                    className="mb-3",
                                 ),
                                 width={"size": "auto"},
                             ),
@@ -101,6 +102,32 @@ user_buttons = (
                                 dbc.Button(
                                     children="Download",
                                     id="button_save",
+                                    color="primary",
+                                    className="mb-3",
+                                ),
+                                width={"size": "auto"},
+                            ),
+                        ],
+                        justify="center",
+                    ),
+                ]
+            ),
+        ],
+        className="border-0",
+    ),
+)
+
+left_button = (
+    dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                dbc.Button(
+                                    children="⬅",
+                                    id="left_button",
                                     color="primary",
                                     className="m-3",
                                 ),
@@ -111,10 +138,36 @@ user_buttons = (
                     ),
                 ]
             ),
-        ]
+        ],
+        className="border-0",
     ),
 )
 
+right_button = (
+    dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                dbc.Button(
+                                    children="➡",
+                                    id="right_button",
+                                    color="primary",
+                                    className="m-3",
+                                ),
+                                width={"size": "auto"},
+                            ),
+                        ],
+                        justify="center",
+                    ),
+                ]
+            ),
+        ],
+        className="border-0",
+    ),
+)
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(
@@ -170,28 +223,35 @@ layout = dbc.Container(
                 ),
                 dbc.Row(
                     [
-                        dbc.Col(headwear, width=2),
-                        dbc.Col(topwear, width=2),
+                        dbc.Col(headwear, width=3),
+                        dbc.Col(topwear, width=3),
                     ],
                     justify="center",
-                    className="mt-3"
-                    # style={"margin-top": "25px"},
+                    className="mt-3",
                 ),
+                # dbc.Row(
+                #     [dbc.Col(left_button, width=1), dbc.Col(right_button, width=1)],
+                #     justify="between",
+                # ),
                 dbc.Row(
                     [
-                        dbc.Col(bottomwear, width=2),
-                        dbc.Col(footwear, width=2),
+                        dbc.Col(bottomwear, width=3),
+                        dbc.Col(footwear, width=3),
                     ],
                     justify="center",
                     className="mt-3",
                 ),
                 dbc.Row(
+                    [dbc.Col(left_button, width=1), dbc.Col(right_button, width=1)],
+                    justify="center",
+                ),
+                dbc.Row(
                     dbc.Col(
                         user_buttons,
-                        width={"size": 4, "offset": 4},
+                        width=4,
                     ),
                     className="m-3",
-                    align="center",
+                    justify="center",
                 ),
             ]
         )
