@@ -42,6 +42,7 @@ login_card = dbc.Card(
                                 color="primary",
                                 className="m-3",
                             ),
+                            width={"size": "auto"},
                         ),
                         dbc.Col(
                             dbc.Button(
@@ -52,8 +53,10 @@ login_card = dbc.Card(
                                 href="/signup",
                                 external_link=True,
                             ),
+                            width={"size": "auto"},
                         ),
-                    ]
+                    ],
+                    justify="center",
                 ),
             ]
         ),
@@ -79,7 +82,6 @@ layout = dbc.Container(
                         login_card,
                         width={"size": 6, "offset": 3},
                     ),
-                    align="center",
                     className="m-5",
                 ),
                 # row2: alert
@@ -88,7 +90,6 @@ layout = dbc.Container(
                         alert_login,
                         width={"size": 6, "offset": 3},
                     ),
-                    align="center",
                     className="m-5",
                 ),
             ]
