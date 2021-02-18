@@ -6,6 +6,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from dash_bootstrap_components._components.Col import Col
 from dash_bootstrap_components._components.Row import Row
 
 from app import app, database
@@ -82,7 +83,7 @@ footwear = (
     ),
 )
 
-user_buttons = (
+delete_button = (
     dbc.Card(
         [
             dbc.CardBody(
@@ -92,23 +93,11 @@ user_buttons = (
                             dbc.Col(
                                 dbc.Button(
                                     children="Delete",
-                                    id="button_generate",
+                                    id="button_delete",
                                     color="primary",
-                                    className="mb-3",
                                 ),
-                                width={"size": "auto"},
-                            ),
-                            dbc.Col(
-                                dbc.Button(
-                                    children="Download",
-                                    id="button_save",
-                                    color="primary",
-                                    className="mb-3",
-                                ),
-                                width={"size": "auto"},
                             ),
                         ],
-                        justify="center",
                     ),
                 ]
             ),
@@ -116,6 +105,31 @@ user_buttons = (
         className="border-0",
     ),
 )
+
+
+download_button = (
+    dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                dbc.Button(
+                                    children="Download",
+                                    id="button_download",
+                                    color="primary",
+                                ),
+                            ),
+                        ],
+                    ),
+                ]
+            ),
+        ],
+        className="border-0",
+    ),
+)
+
 
 left_button = (
     dbc.Card(
@@ -129,12 +143,9 @@ left_button = (
                                     children="⬅",
                                     id="left_button",
                                     color="primary",
-                                    className="m-3",
                                 ),
-                                width={"size": "auto"},
                             ),
                         ],
-                        justify="center",
                     ),
                 ]
             ),
@@ -142,7 +153,6 @@ left_button = (
         className="border-0",
     ),
 )
-
 right_button = (
     dbc.Card(
         [
@@ -155,12 +165,9 @@ right_button = (
                                     children="➡",
                                     id="right_button",
                                     color="primary",
-                                    className="m-3",
                                 ),
-                                width={"size": "auto"},
                             ),
                         ],
-                        justify="center",
                     ),
                 ]
             ),
@@ -229,10 +236,6 @@ layout = dbc.Container(
                     justify="center",
                     className="mt-3",
                 ),
-                # dbc.Row(
-                #     [dbc.Col(left_button, width=1), dbc.Col(right_button, width=1)],
-                #     justify="between",
-                # ),
                 dbc.Row(
                     [
                         dbc.Col(bottomwear, width=3),
@@ -242,18 +245,57 @@ layout = dbc.Container(
                     className="mt-3",
                 ),
                 dbc.Row(
-                    [dbc.Col(left_button, width=1), dbc.Col(right_button, width=1)],
-                    justify="center",
-                ),
-                dbc.Row(
                     dbc.Col(
-                        user_buttons,
-                        width=4,
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    dbc.Row(
+                                        dbc.Col(
+                                            left_button,
+                                            width={"size": "10%"},
+                                        ),
+                                        justify="start",
+                                        no_gutters=True,
+                                    ),
+                                ),
+                                dbc.Col(
+                                    dbc.Row(
+                                        dbc.Col(
+                                            delete_button,
+                                            width={"size": "10%"},
+                                        ),
+                                        justify="end",
+                                        no_gutters=True,
+                                    ),
+                                ),
+                                dbc.Col(
+                                    dbc.Row(
+                                        dbc.Col(
+                                            download_button,
+                                            width={"size": "10%"},
+                                        ),
+                                        justify="start",
+                                        no_gutters=True,
+                                    ),
+                                ),
+                                dbc.Col(
+                                    dbc.Row(
+                                        dbc.Col(
+                                            right_button,
+                                            width={"size": "10%"},
+                                        ),
+                                        justify="end",
+                                        no_gutters=True,
+                                    ),
+                                ),
+                            ],
+                            no_gutters=True,
+                            justify="center",
+                        ),
+                        width={"size": 6, "offset": 3},
                     ),
-                    className="m-3",
-                    justify="center",
                 ),
-            ]
+            ],
         )
     ]
 )
