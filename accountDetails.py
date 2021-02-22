@@ -12,8 +12,8 @@ from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
 user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
-gender_str_to_int = {"Female": 1, "Male": 2}
-gender_int_to_str = {1: "Female", 2: "Male"}
+gender_str_to_int = {"Female": "1", "Male": "2"}
+gender_int_to_str = {"1": "Female", "2": "Male"}
 
 # --------------------------------------- IMAGES ---------------------------------------
 logo_image = "logo.png"
@@ -216,6 +216,14 @@ def update_delete_details(
     if button_delete_account_n_clicks or button_update_account_n_clicks:
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        print(
+            input_user_name_account_value,
+            input_password_account_value,
+            input_first_name_account_value,
+            input_last_name_account_value,
+            input_gender_select_account_value,
+        )
 
         if button_id == "button_delete_account":
             database.delete_user(database.user_rowid)
