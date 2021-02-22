@@ -50,7 +50,8 @@ class DataBase:
             "Subcategory"	TEXT NOT NULL,
             "Gender"	TEXT NOT NULL,
             "Season"	TEXT NOT NULL,
-            "Colour"	TEXT NOT NULL
+            "Colour"	TEXT NOT NULL,
+            "Image"	BLOB
         );
         """
         )
@@ -71,7 +72,12 @@ class DataBase:
 
 
 def main():
-    database = DataBase(Path("database", "database.db",))
+    database = DataBase(
+        Path(
+            "database",
+            "database.db",
+        )
+    )
     database.create_users_table()
     database.create_item_catalogue_table()
     database.create_outfit_table()
