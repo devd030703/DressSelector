@@ -38,12 +38,11 @@ class DataBase:
 
         rows = self.cursor.execute("SELECT rowid, * FROM USERS").fetchall()
         for row in rows:
-            print(row)
 
     def populate_item_catalogue_table(self, df):
         for row_index, row in df.iterrows():
 
-            with open("img.png", "rb") as f:
+            with open(row["Image"], "rb") as f:
                 image = f.read()
 
             self.cursor.execute(
@@ -98,6 +97,7 @@ def main():
         )
     )
 
+    # --------------------------------------- USEARS ---------------------------------------
     df_users = pd.read_csv(
         Path(
             "database",
@@ -106,6 +106,9 @@ def main():
         encoding="utf-8",
     )
 
+    database.populate_users_table(df_users)
+
+    # ------------------------------------ ITEMCATALOGUE -----------------------------------
     df_item_catalogue = pd.read_csv(
         Path(
             "database",
@@ -114,13 +117,17 @@ def main():
         encoding="utf-8",
     )
 
+    def image_path(s):
+        return Path("images", s["Subcategory"], s["Gender"], f"{s['ItemID']}.jpg")
+
+    df_item_catalogue["Image"] = df_item_catalogue.apply(image_path, axis=1)
+
+    database.populate_item_catalogue_table(df_item_catalogue)
+
     # take a sample outfit
     # df_item_catalogue.pivot_table(
     #     values="id", index=["gender"], columns=["subCategory"], aggfunc=np.sum,
     # )
-
-    database.populate_users_table(df_users)
-    database.populate_item_catalogue_table(df_item_catalogue)
 
 
 if __name__ == "__main__":
