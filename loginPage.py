@@ -9,9 +9,9 @@ from dash.exceptions import PreventUpdate
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
-logo_image = "logo.png"
 
 # --------------------------------------- IMAGES ---------------------------------------
+logo_image = "logo.png"
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
 ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 

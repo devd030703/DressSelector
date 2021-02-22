@@ -34,6 +34,46 @@ shoes_placeholder_men = process_image(
     Path("images", "Shoes", "PlaceHolderMen.png"),
 )
 
+# --------------------------------------- NAVBAR ---------------------------------------
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(
+            dbc.NavLink(
+                "Dress Selector",
+                href="/selector",
+                id="dress_selector",
+                external_link=True,
+            ),
+        ),
+        dbc.NavItem(
+            dbc.NavLink(
+                "Saved Outfits",
+                href="/wardrobe",
+                id="wardrobe",
+                external_link=True,
+            ),
+        ),
+        dbc.NavItem(
+            dbc.NavLink(
+                "Account Details",
+                href="/accountdetails",
+                id="account_details",
+                external_link=True,
+            ),
+        ),
+        dbc.DropdownMenu(
+            children=[dbc.DropdownMenuItem("Options", header=True)],
+            nav=True,
+            in_navbar=True,
+            label="More",
+        ),
+    ],
+    brand="Navigation",
+    brand_href="#",
+    color="primary",
+    dark=True,
+)
+
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
     dbc.Card(
@@ -224,50 +264,6 @@ user_buttons = (
 #         ),
 #     ),
 # )
-
-
-navbar = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(
-            dbc.NavLink(
-                "Dress Selector",
-                href="/selector",
-                id="dress_selector",
-                external_link=True,
-            ),
-        ),
-        dbc.NavItem(
-            dbc.NavLink(
-                "Saved Outfits",
-                href="/wardrobe",
-                id="wardrobe",
-                external_link=True,
-            ),
-        ),
-        dbc.NavItem(
-            dbc.NavLink(
-                "Account Details",
-                href="/accountdetails",
-                id="account_details",
-                external_link=True,
-            ),
-        ),
-        dbc.DropdownMenu(
-            children=[
-                dbc.DropdownMenuItem("Options", header=True),
-                # dbc.DropdownMenuItem("Saved Outfits", href="#"),
-                # dbc.DropdownMenuItem("Account Details", href="#"),
-            ],
-            nav=True,
-            in_navbar=True,
-            label="More",
-        ),
-    ],
-    brand="Navigation",
-    brand_href="#",
-    color="primary",
-    dark=True,
-)
 
 # --------------------------------------- LAYOUT ---------------------------------------
 layout = dbc.Container(

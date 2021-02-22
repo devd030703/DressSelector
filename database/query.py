@@ -42,7 +42,6 @@ class DataBase:
             return False
 
         if row:
-            print("HERE", row)
             # get user's details for later
             (
                 self.user_rowid,

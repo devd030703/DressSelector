@@ -22,16 +22,18 @@ app.layout = html.Div(
 )
 def change_page_layout(pathname):
     if pathname == "/login":
-
         return loginPage.layout
+
     elif pathname == "/signup":
         import signupPage
 
         return signupPage.layout
+
     elif pathname == "/selector":
         import selectorPage
 
         return selectorPage.layout
+
     elif pathname == "/accountdetails":
         import accountDetails
 
@@ -41,6 +43,7 @@ def change_page_layout(pathname):
         import wardrobePage
 
         return wardrobePage.layout
+
     else:
         return loginPage.layout
 

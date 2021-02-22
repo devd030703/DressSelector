@@ -1,8 +1,6 @@
 import base64
-import time
 
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
 import dash_html_components as html
 from dash import callback_context
 from dash.dependencies import Input, Output, State
@@ -10,12 +8,15 @@ from dash.exceptions import PreventUpdate
 
 from app import app, database
 
+# TODO: you need to refresh the page for the buttons to work
+
 # ---------------------------------------- DATA ----------------------------------------
-logo_image = "logo.png"
 user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
-gender_values = {"Female": 1, "Male": 2}
+gender_str_to_int = {"Female": 1, "Male": 2}
+gender_int_to_str = {1: "Female", 2: "Male"}
 
 # --------------------------------------- IMAGES ---------------------------------------
+logo_image = "logo.png"
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
 ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 
@@ -27,25 +28,25 @@ account_card = dbc.Card(
             [
                 dbc.Input(
                     id="input_user_name_account",
-                    value="{}".format(database.email),
+                    value="{}".format(email),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_password_account",
-                    value="{}".format(database.password),
+                    value="{}".format(password),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_first_name_account",
-                    value="{}".format(database.first_name),
+                    value="{}".format(first_name),
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_last_name_account",
-                    value="{}".format(database.last_name),
+                    value="{}".format(last_name),
                     type="text",
                     className="mb-3",
                 ),
@@ -57,7 +58,7 @@ account_card = dbc.Card(
                         ),
                         dbc.Select(
                             id="input_gender_select_account",
-                            value=gender_values[database.gender],
+                            value=gender_str_to_int[gender],
                             options=[
                                 {"label": "Female", "value": 1},
                                 {"label": "Male", "value": 2},
@@ -137,11 +138,7 @@ navbar = dbc.NavbarSimple(
             ),
         ),
         dbc.DropdownMenu(
-            children=[
-                dbc.DropdownMenuItem("Options", header=True),
-                # dbc.DropdownMenuItem("Saved Outfits", href="#"),
-                # dbc.DropdownMenuItem("Account Details", href="#"),
-            ],
+            children=[dbc.DropdownMenuItem("Options", header=True)],
             nav=True,
             in_navbar=True,
             label="More",
@@ -231,7 +228,7 @@ def update_delete_details(
             database.update_user_details(
                 first_name=input_first_name_account_value,
                 last_name=input_last_name_account_value,
-                gender=input_gender_select_account_value,
+                gender=gender_int_to_str[input_gender_select_account_value],
                 email=input_user_name_account_value,
                 password=input_password_account_value,
                 user_rowid=database.user_rowid,
