@@ -8,9 +8,10 @@ from dash.exceptions import PreventUpdate
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
-logo_image = "logo.png"
+gender_int_to_str = {"1": "Female", "2": "Male"}
 
 # --------------------------------------- IMAGES ---------------------------------------
+logo_image = "logo.png"
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())
 ds_logo_decoded = f"data:image/png;base64,{ds_logo_encoded.decode()}"
 
@@ -175,7 +176,7 @@ def create_new_user(
                             database.create_new_user(
                                 first_name=input_first_name_signup_value,
                                 last_name=input_last_name_signup_value,
-                                gender=input_gender_select_value,
+                                gender=gender_int_to_str[input_gender_select_value],
                                 email=input_user_name_signup_value,
                                 password=input_password_signup_value,
                             )
