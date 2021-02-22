@@ -13,12 +13,6 @@ sqlite3.register_adapter(np.int32, lambda val: int(val))
 sqlite3.register_adapter(np.int8, lambda val: int(val))
 
 
-# def convert_into_binary(file_path):
-#     with open(Path("4940.jpg"), "rb") as file:
-#         blobData = file.read()
-#     return blobData
-
-
 class DataBase:
     def __init__(self, database_name):
 
@@ -27,25 +21,7 @@ class DataBase:
 
         self.cursor = self.cnxn.cursor()
 
-    # def insert_file(
-    #     self,
-    #     df,
-    # ):
-    #     sqlite_insert_blob_query = "INSERT INTO ITEMCATALOGUE (Image) VALUES (?) "
-
-    #     # Convert the file into binary
-    #     binary_file = convert_into_binary(Path("4940.jpg"))
-    #     data_tuple = (Path("4940.jpg"), binary_file)
-
-    #     # Execute the query
-    #     self.cursor.execute(sqlite_insert_blob_query, data_tuple)
-    #     self.cnxn.commit()
-    #     print("File inserted successfully")
-
-    def populate_users_table(
-        self,
-        df,
-    ):
+    def populate_users_table(self, df):
         for row_index, row in df.iterrows():
             self.cursor.execute(
                 "INSERT INTO USERS VALUES (?, ?, ?, ?, ?)",
@@ -66,15 +42,19 @@ class DataBase:
 
     def populate_item_catalogue_table(self, df):
         for row_index, row in df.iterrows():
+
+            with open("img.png", "rb") as f:
+                image = f.read()
+
             self.cursor.execute(
-                "INSERT INTO ITEMCATALOGUE VALUES (?,?,?,?,?)",
+                "INSERT INTO ITEMCATALOGUE VALUES (?,?,?,?,?,?)",
                 (
                     row["ItemID"],
                     row["Subcategory"],
                     row["Gender"],
                     row["Season"],
                     row["Colour"],
-                    # row["Image"],
+                    image,
                 ),
             )
 
@@ -141,7 +121,6 @@ def main():
 
     database.populate_users_table(df_users)
     database.populate_item_catalogue_table(df_item_catalogue)
-    database.insert_file(df_item_catalogue)
 
 
 if __name__ == "__main__":
