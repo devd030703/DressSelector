@@ -10,6 +10,9 @@ from dash.exceptions import PreventUpdate
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
+user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
+gender_item = {"Female": "Women", "Male": "Men"}
+print(user_rowid, first_name, last_name, gender, email, password)
 
 
 # --------------------------------------- IMAGES ---------------------------------------
@@ -117,6 +120,7 @@ topwear = (
         [
             dbc.CardImg(
                 src=topwear_placeholder_men,
+                id="card_img_topwear",
                 top=True,
             ),
             dbc.Row(
@@ -152,6 +156,7 @@ bottomwear = (
         [
             dbc.CardImg(
                 src=bottomwear_placeholder_men,
+                id="card_img_bottomwear",
                 top=True,
             ),
             dbc.Row(
@@ -188,6 +193,7 @@ footwear = (
         [
             dbc.CardImg(
                 src=shoes_placeholder_men,
+                id="card_img_footwear",
                 top=True,
             ),
             dbc.Row(
@@ -253,18 +259,6 @@ user_buttons = (
     ),
 )
 
-# user_details = (
-#     dbc.Card(
-#         dbc.CardBody(
-#             [
-#                 dbc.Row(html.H4("Account Details", className="card-title"),),
-#                 dbc.Row(html.P("Name:", className="card-text"),),
-#                 dbc.Row(html.P("Gender:", className="card-text"),),
-#             ],
-#         ),
-#     ),
-# )
-
 # --------------------------------------- LAYOUT ---------------------------------------
 layout = dbc.Container(
     [
@@ -275,7 +269,6 @@ layout = dbc.Container(
                         navbar,
                     ),
                 ),
-                # dbc.Row(dbc.Col(user_details,),),
                 dbc.Row(
                     [
                         dbc.Col(
@@ -319,6 +312,59 @@ def randomise_headwear(
     button_headwear_randomise_n_clicks,
 ):
     if button_headwear_randomise_n_clicks:
-        return ds_logo_decoded
+        item = database.select_random_item("Headwear", gender_item[gender])
+        image = Path("images", item[1], item[2], f"{item[0]}.jpg")
+        return process_image(image)
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("card_img_topwear", "src"),
+    [
+        Input("button_topwear_randomise", "n_clicks"),
+    ],
+)
+def randomise_topwear(
+    button_topwear_randomise_n_clicks,
+):
+    if button_topwear_randomise_n_clicks:
+        item = database.select_random_item("Topwear", gender_item[gender])
+        image = Path("images", item[1], item[2], f"{item[0]}.jpg")
+        return process_image(image)
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("card_img_bottomwear", "src"),
+    [
+        Input("button_bottomwear_randomise", "n_clicks"),
+    ],
+)
+def randomise_bottomwear(
+    button_bottomwear_randomise_n_clicks,
+):
+    if button_bottomwear_randomise_n_clicks:
+        item = database.select_random_item("Bottomwear", gender_item[gender])
+        image = Path("images", item[1], item[2], f"{item[0]}.jpg")
+        return process_image(image)
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("card_img_footwear", "src"),
+    [
+        Input("button_footwear_randomise", "n_clicks"),
+    ],
+)
+def randomise_shoes(
+    button_footwear_randomise_n_clicks,
+):
+    if button_footwear_randomise_n_clicks:
+        item = database.select_random_item("Shoes", gender_item[gender])
+        image = Path("images", item[1], item[2], f"{item[0]}.jpg")
+        return process_image(image)
     else:
         raise PreventUpdate

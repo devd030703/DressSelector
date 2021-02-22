@@ -90,12 +90,12 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
-    def select_random_item_id(self, sub_category):
+    def select_random_item(self, sub_category, gender):
         row = self.cursor.execute(
-            "SELECT * FROM ITEMCATALOGUE WHERE subCategory=? ORDER BY RANDOM() LIMIT 1",
-            [sub_category],
+            "SELECT * FROM ITEMCATALOGUE WHERE subCategory=? AND Gender=? ORDER BY RANDOM() LIMIT 1",
+            (sub_category, gender),
         ).fetchone()
-        return row["ItemID"]
+        return row
 
 
 def main():
