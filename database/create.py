@@ -51,7 +51,7 @@ class DataBase:
             "Gender"	TEXT NOT NULL,
             "Season"	TEXT NOT NULL,
             "Colour"	TEXT NOT NULL,
-            "Image"	BLOB
+            "Image"	BLOB NOT NULL
         );
         """
         )

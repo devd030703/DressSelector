@@ -24,12 +24,14 @@ login_card = dbc.Card(
                 dbc.Input(
                     id="input_user_name_login",
                     placeholder="user name",
+                    value="admin@gmail.com",
                     type="text",
                     className="mb-3",
                 ),
                 dbc.Input(
                     id="input_password_login",
                     placeholder="password",
+                    value="12345",
                     type="text",
                     className="mb-3",
                 ),
