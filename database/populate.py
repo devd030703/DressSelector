@@ -36,8 +36,9 @@ class DataBase:
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM USERS").fetchall()
-        for row in rows:
+        # rows = self.cursor.execute("SELECT rowid, * FROM USERS").fetchall()
+        # for row in rows:
+        #     print(row)
 
     def populate_item_catalogue_table(self, df):
         for row_index, row in df.iterrows():
@@ -59,9 +60,9 @@ class DataBase:
 
         self.cnxn.commit()
 
-        rows = self.cursor.execute("SELECT rowid, * FROM ITEMCATALOGUE").fetchall()
-        for row in rows:
-            print(row)
+        # rows = self.cursor.execute("SELECT rowid, * FROM ITEMCATALOGUE").fetchall()
+        # for row in rows:
+        #     print(row)
 
     def populate_outfit_catalogue_table(self, df):
         for row_index, row in df.iterrows():
