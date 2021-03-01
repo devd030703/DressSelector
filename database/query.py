@@ -97,6 +97,19 @@ class DataBase:
         ).fetchone()
         return row
 
+    def select_random_outfit(self, gender):
+        row = self.cursor.execute(
+            "SELECT * FROM ITEMCATALOGUE WHERE Gender=? ORDER BY RANDOM() LIMIT 1",
+            (gender),
+        ).fetchone()
+
+        row = cursor.execute(
+            "SELECT * FROM ITEMCATALOGUE WHERE Gender=Male GROUB BY ORDER BY RANDOM() LIMIT 1",
+            (gender),
+        ).fetchone()
+
+        return row
+
 
 def main():
     database = DataBase(
