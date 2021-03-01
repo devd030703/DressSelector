@@ -98,17 +98,12 @@ class DataBase:
         return row
 
     def select_random_outfit(self, gender):
-        row = self.cursor.execute(
-            "SELECT * FROM ITEMCATALOGUE WHERE Gender=? ORDER BY RANDOM() LIMIT 1",
+        rows = self.cursor.execute(
+            "SELECT * FROM ITEMCATALOGUE WHERE Gender=? GROUP BY Subcategory ORDER BY RANDOM()",
             (gender),
-        ).fetchone()
+        ).fetchall()
 
-        row = cursor.execute(
-            "SELECT * FROM ITEMCATALOGUE WHERE Gender=Male GROUB BY ORDER BY RANDOM() LIMIT 1",
-            (gender),
-        ).fetchone()
-
-        return row
+        return rows
 
 
 def main():
@@ -119,7 +114,7 @@ def main():
         )
     )
 
-    database.check_user_exists(by="email", value="JakeSmith@gmail.com")
+    database.select_random_outfit(gender="Men")
 
 
 if __name__ == "__main__":
