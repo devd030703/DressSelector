@@ -21,6 +21,11 @@ def process_image(img):
     return f"data:image/png;base64,{img_encoded.decode()}"
 
 
+def process_binary_image(img):
+    img_encoded = base64.b64encode(img)
+    return f"data:image/png;base64,{img_encoded.decode()}"
+
+
 headwear_placeholder_men = process_image(
     Path("images", "Headwear", "PlaceHolderMen.png"),
 )
@@ -314,7 +319,7 @@ def randomise_headwear(
     if button_headwear_randomise_n_clicks:
         item = database.select_random_item("Headwear", gender_item[gender])
         image = Path("images", item[1], item[2], f"{item[0]}.jpg")
-        return process_image(image)
+        return process_binary_image(image)
     else:
         raise PreventUpdate
 
@@ -331,7 +336,7 @@ def randomise_topwear(
     if button_topwear_randomise_n_clicks:
         item = database.select_random_item("Topwear", gender_item[gender])
         image = Path("images", item[1], item[2], f"{item[0]}.jpg")
-        return process_image(image)
+        return process_binary_image(image)
     else:
         raise PreventUpdate
 
@@ -348,7 +353,7 @@ def randomise_bottomwear(
     if button_bottomwear_randomise_n_clicks:
         item = database.select_random_item("Bottomwear", gender_item[gender])
         image = Path("images", item[1], item[2], f"{item[0]}.jpg")
-        return process_image(image)
+        return process_binary_image(image)
     else:
         raise PreventUpdate
 
@@ -365,6 +370,6 @@ def randomise_shoes(
     if button_footwear_randomise_n_clicks:
         item = database.select_random_item("Shoes", gender_item[gender])
         image = Path("images", item[1], item[2], f"{item[0]}.jpg")
-        return process_image(image)
+        return process_binary_image(image)
     else:
         raise PreventUpdate
