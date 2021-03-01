@@ -92,7 +92,7 @@ class DataBase:
 
     def select_random_item(self, sub_category, gender):
         row = self.cursor.execute(
-            "SELECT * FROM ITEMCATALOGUE WHERE subCategory=? AND Gender=? ORDER BY RANDOM() LIMIT 1",
+            "SELECT * FROM ITEMCATALOGUE WHERE Subcategory=? AND Gender=? ORDER BY RANDOM() LIMIT 1",
             (sub_category, gender),
         ).fetchone()
         return row
@@ -100,7 +100,7 @@ class DataBase:
     def select_random_outfit(self, gender):
         rows = self.cursor.execute(
             "SELECT * FROM ITEMCATALOGUE WHERE Gender=? GROUP BY Subcategory ORDER BY RANDOM()",
-            (gender),
+            [gender],
         ).fetchall()
 
         return rows
@@ -114,7 +114,9 @@ def main():
         )
     )
 
-    database.select_random_outfit(gender="Men")
+    rows = database.select_random_outfit(gender="Men")
+    for row in rows:
+        print(row[0:5])
 
 
 if __name__ == "__main__":
