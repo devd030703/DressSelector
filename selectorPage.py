@@ -309,92 +309,71 @@ layout = dbc.Container(
 
 # ------------------------------------- CALLBACKS --------------------------------------
 @app.callback(
-    Output("card_img_headwear", "src"),
+    [
+        Output("card_img_headwear", "src"),
+        Output("card_img_topwear", "src"),
+        Output("card_img_bottomwear", "src"),
+        Output("card_img_footwear", "src"),
+    ],
     [
         Input("button_headwear_randomise", "n_clicks"),
-        Input("button_generate", "n_clicks"),
-    ],
-)
-def randomise_headwear(
-    button_headwear_randomise_n_clicks,
-    button_generate_n_clicks,
-):
-    if button_headwear_randomise_n_clicks or button_generate_n_clicks:
-        item = database.select_random_item("Headwear", gender_item[gender])
-        image_blob = item[5]
-        return process_binary_image(image_blob)
-    else:
-        raise PreventUpdate
-
-
-@app.callback(
-    Output("card_img_topwear", "src"),
-    [
         Input("button_topwear_randomise", "n_clicks"),
+        Input("button_bottomwear_randomise", "n_clicks"),
+        Input("button_footwear_randomise", "n_clicks"),
         Input("button_generate", "n_clicks"),
     ],
 )
-def randomise_topwear(
+def randomise(
+    button_headwear_randomise_n_clicks,
     button_topwear_randomise_n_clicks,
+    button_bottomwear_randomise_n_clicks,
+    button_footwear_randomise_n_clicks,
     button_generate_n_clicks,
 ):
-    if button_topwear_randomise_n_clicks or button_generate_n_clicks:
-        item = database.select_random_item("Topwear", gender_item[gender])
-        image_blob = item[5]
-        return process_binary_image(image_blob)
+    if (
+        button_headwear_randomise_n_clicks
+        or button_topwear_randomise_n_clicks
+        or button_bottomwear_randomise_n_clicks
+        or button_footwear_randomise_n_clicks
+        or button_generate_n_clicks
+    ):
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_headwear_randomise":
+            item = database.select_random_item("Headwear", gender_item[gender])
+            image_blob = item[5]
+            return process_binary_image(image_blob), None, None, None
+
+        elif button_id == "button_topwear_randomise":
+            item = database.select_random_item("Topwear", gender_item[gender])
+            image_blob = item[5]
+            return None, process_binary_image(image_blob), None, None
+
+        elif button_id == "button_bottomwear_randomise":
+            item = database.select_random_item("Bottomwear", gender_item[gender])
+            image_blob = item[5]
+            return None, None, process_binary_image(image_blob), None
+
+        elif button_id == "button_footwear_randomise":
+            item = database.select_random_item("Shoes", gender_item[gender])
+            image_blob = item[5]
+            return None, None, None, process_binary_image(image_blob)
+
+        elif button_id == "button_generate":
+            item_headwear = database.select_random_item("Headwear", gender_item[gender])
+            item_topwear = database.select_random_item("Topwear", gender_item[gender])
+            item_bottomwear = database.select_random_item(
+                "Bottomwear", gender_item[gender]
+            )
+            item_shoes = database.select_random_item("Shoes", gender_item[gender])
+
+            return (
+                process_binary_image(item_headwear[5]),
+                process_binary_image(item_topwear[5]),
+                process_binary_image(item_bottomwear[5]),
+                process_binary_image(item_shoes[5]),
+            )
+
     else:
         raise PreventUpdate
-
-
-# @app.callback(
-#     Output("card_img_bottomwear", "src"),
-#     [
-#         Input("button_bottomwear_randomise", "n_clicks"),
-#         Input("button_generate", "n_clicks"),
-#     ],
-# )
-# def randomise_bottomwear(
-#     button_bottomwear_randomise_n_clicks,
-#     button_generate_n_clicks,
-# ):
-#     if button_bottomwear_randomise_n_clicks or button_generate_n_clicks:
-#         ctx = callback_context
-#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-#         if button_id == "button_bottomwear_randomise" or button_id == "button_generate":
-#             item = database.select_random_item("Bottomwear", gender_item[gender])
-#             image_blob = item[5]
-#             return process_binary_image(image_blob)
-
-#         else:
-#             raise PreventUpdate
-
-#     else:
-#         raise PreventUpdate
-
-
-# @app.callback(
-#     Output("card_img_footwear", "src"),
-#     [
-#         Input("button_footwear_randomise", "n_clicks"),
-#         Input("button_generate", "n_clicks"),
-#     ],
-# )
-# def randomise_shoes(
-#     button_footwear_randomise_n_clicks,
-#     button_generate_n_clicks,
-# ):
-#     if button_footwear_randomise_n_clicks or button_generate_n_clicks:
-#         ctx = callback_context
-#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-#         if button_id == "button_footwear_randomise" or button_id == "button_generate":
-#             item = database.select_random_item("Shoes", gender_item[gender])
-#             image_blob = item[5]
-#             return process_binary_image(image_blob)
-
-#         else:
-#             raise PreventUpdate
-
-#     else:
-#         raise PreventUpdate
