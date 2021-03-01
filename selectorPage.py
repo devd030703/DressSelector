@@ -4,6 +4,7 @@ from pathlib import Path
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -311,12 +312,14 @@ layout = dbc.Container(
     Output("card_img_headwear", "src"),
     [
         Input("button_headwear_randomise", "n_clicks"),
+        Input("button_generate", "n_clicks"),
     ],
 )
 def randomise_headwear(
     button_headwear_randomise_n_clicks,
+    button_generate_n_clicks,
 ):
-    if button_headwear_randomise_n_clicks:
+    if button_headwear_randomise_n_clicks or button_generate_n_clicks:
         item = database.select_random_item("Headwear", gender_item[gender])
         image_blob = item[5]
         return process_binary_image(image_blob)
@@ -328,12 +331,14 @@ def randomise_headwear(
     Output("card_img_topwear", "src"),
     [
         Input("button_topwear_randomise", "n_clicks"),
+        Input("button_generate", "n_clicks"),
     ],
 )
 def randomise_topwear(
     button_topwear_randomise_n_clicks,
+    button_generate_n_clicks,
 ):
-    if button_topwear_randomise_n_clicks:
+    if button_topwear_randomise_n_clicks or button_generate_n_clicks:
         item = database.select_random_item("Topwear", gender_item[gender])
         image_blob = item[5]
         return process_binary_image(image_blob)
@@ -341,35 +346,55 @@ def randomise_topwear(
         raise PreventUpdate
 
 
-@app.callback(
-    Output("card_img_bottomwear", "src"),
-    [
-        Input("button_bottomwear_randomise", "n_clicks"),
-    ],
-)
-def randomise_bottomwear(
-    button_bottomwear_randomise_n_clicks,
-):
-    if button_bottomwear_randomise_n_clicks:
-        item = database.select_random_item("Bottomwear", gender_item[gender])
-        image_blob = item[5]
-        return process_binary_image(image_blob)
-    else:
-        raise PreventUpdate
+# @app.callback(
+#     Output("card_img_bottomwear", "src"),
+#     [
+#         Input("button_bottomwear_randomise", "n_clicks"),
+#         Input("button_generate", "n_clicks"),
+#     ],
+# )
+# def randomise_bottomwear(
+#     button_bottomwear_randomise_n_clicks,
+#     button_generate_n_clicks,
+# ):
+#     if button_bottomwear_randomise_n_clicks or button_generate_n_clicks:
+#         ctx = callback_context
+#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+#         if button_id == "button_bottomwear_randomise" or button_id == "button_generate":
+#             item = database.select_random_item("Bottomwear", gender_item[gender])
+#             image_blob = item[5]
+#             return process_binary_image(image_blob)
+
+#         else:
+#             raise PreventUpdate
+
+#     else:
+#         raise PreventUpdate
 
 
-@app.callback(
-    Output("card_img_footwear", "src"),
-    [
-        Input("button_footwear_randomise", "n_clicks"),
-    ],
-)
-def randomise_shoes(
-    button_footwear_randomise_n_clicks,
-):
-    if button_footwear_randomise_n_clicks:
-        item = database.select_random_item("Shoes", gender_item[gender])
-        image_blob = item[5]
-        return process_binary_image(image_blob)
-    else:
-        raise PreventUpdate
+# @app.callback(
+#     Output("card_img_footwear", "src"),
+#     [
+#         Input("button_footwear_randomise", "n_clicks"),
+#         Input("button_generate", "n_clicks"),
+#     ],
+# )
+# def randomise_shoes(
+#     button_footwear_randomise_n_clicks,
+#     button_generate_n_clicks,
+# ):
+#     if button_footwear_randomise_n_clicks or button_generate_n_clicks:
+#         ctx = callback_context
+#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+#         if button_id == "button_footwear_randomise" or button_id == "button_generate":
+#             item = database.select_random_item("Shoes", gender_item[gender])
+#             image_blob = item[5]
+#             return process_binary_image(image_blob)
+
+#         else:
+#             raise PreventUpdate
+
+#     else:
+#         raise PreventUpdate
