@@ -30,18 +30,6 @@ class DataBase:
 
         self.cnxn.commit()
 
-    def create_outfit_table(self):
-        self.cursor.execute(
-            """
-        CREATE TABLE "OUTFITS" (
-            "UserID"
-            INTEGER NOT NULL REFERENCES "USERS"("rowid") 
-        );
-        """
-        )
-
-        self.cnxn.commit()
-
     def create_item_catalogue_table(self):
         self.cursor.execute(
             """
@@ -58,12 +46,29 @@ class DataBase:
 
         self.cnxn.commit()
 
-    def create_outfit_catalogue_table(self):
+    def create_saved_outfits(self):
         self.cursor.execute(
             """
-        CREATE TABLE "OUTFITCATALOGUE" (
-            "OutfitID"	INTEGER NOT NULL REFERENCES "OUTFITS"("rowid"),
-            "ItemID"	INTEGER NOT NULL REFERENCES "ITEMCATALOGUE"("rowid")
+        CREATE TABLE "SAVEDOUTFITS" (
+            "OutfitID"	INTEGER REFERENCES "OUTFITS"("rowid"),
+            "Headwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
+            "Topwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
+            "Bottomwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
+            "Shoes"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID")
+        );
+        """
+        )
+
+        self.cnxn.commit()
+
+    def create_table_preferences(self):
+        self.cursor.execute(
+            """
+        CREATE TABLE "PREFERENCES" (
+            "PreferenceID" INTEGER NOT NULL,
+            "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid"),
+            "ItemID"	INTEGER NOT NULL REFERENCES "ITEMCATALOGUE"("ItemID"),
+            "Rating"	INTEGER NOT NULL
         );
         """
         )
@@ -80,8 +85,8 @@ def main():
     )
     database.create_users_table()
     database.create_item_catalogue_table()
-    database.create_outfit_table()
-    database.create_outfit_catalogue_table()
+    database.create_saved_outfits()
+    database.create_table_preferences()
 
 
 if __name__ == "__main__":
