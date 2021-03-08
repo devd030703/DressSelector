@@ -105,6 +105,14 @@ class DataBase:
 
         return rows
 
+    def insert_preferences(self, user_rowid, item_id, is_liked):
+        self.cursor.execute(
+            "INSERT INTO PREFERENCES VALUES (?, ?, ?)",
+            (user_rowid, item_id, is_liked),
+        )
+        print(f"{self.cursor.rowcount} record(s) were modified...")
+        self.cnxn.commit()
+
 
 def main():
     database = DataBase(

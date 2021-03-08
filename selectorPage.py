@@ -292,6 +292,9 @@ layout = dbc.Container(
                     ],
                     className="mt-4",
                 ),
+                dcc.Store(
+                    id="store_items_id",
+                ),
                 dbc.Row(
                     dbc.Col(
                         user_buttons,
@@ -377,3 +380,17 @@ def randomise(
 
     else:
         raise PreventUpdate
+
+
+# @app.callback(Output("store_headwear", "data"), Input("card_img_headwear", "src"))
+# def on_data_set_table(data):
+#     if data is None:
+#         raise PreventUpdate
+
+#     return data
+
+# https://dash.plotly.com/dash-core-components/store
+# dcc.Store(id="store_topwear"),
+# dcc.Store(id="store_headwear"),
+# dcc.Store(id="store_bottomwear"),
+# dcc.Store(id="store_footwear"),

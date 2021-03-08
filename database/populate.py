@@ -100,7 +100,7 @@ def main():
         )
     )
 
-    # --------------------------------------- USERS ---------------------------------------
+    # -------------------------------------- USERS -------------------------------------
     df_users = pd.read_csv(
         Path(
             "database",
@@ -111,7 +111,7 @@ def main():
 
     database.populate_users_table(df_users)
 
-    # ------------------------------------ ITEMCATALOGUE -----------------------------------
+    # ---------------------------------- ITEMCATALOGUE ---------------------------------
     df_item_catalogue = pd.read_csv(
         Path(
             "database",
@@ -132,7 +132,7 @@ def main():
     #     values="id", index=["gender"], columns=["subCategory"], aggfunc=np.sum,
     # )
 
-    # ------------------------------------ PREFERENCES -----------------------------------
+    # ----------------------------------- PREFERENCES ----------------------------------
     df_preferences = pd.read_csv(
         Path(
             "database",
@@ -143,7 +143,7 @@ def main():
 
     database.populate_preferences_table(df_preferences)
 
-    # ------------------------------------ SAVEDOUTFITS -----------------------------------
+    # ---------------------------------- SAVEDOUTFITS ----------------------------------
     df_savedoutfits = pd.read_csv(
         Path(
             "database",
