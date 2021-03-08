@@ -66,7 +66,7 @@ class DataBase:
         CREATE TABLE "PREFERENCES" (
             "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid"),
             "ItemID"	INTEGER NOT NULL REFERENCES "ITEMCATALOGUE"("ItemID"),
-            "Rating"	INTEGER NOT NULL
+            "Rating"	BOOLEAN NOT NULL
         );
         """
         )
