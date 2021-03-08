@@ -50,7 +50,6 @@ class DataBase:
         self.cursor.execute(
             """
         CREATE TABLE "SAVEDOUTFITS" (
-            "OutfitID"	INTEGER REFERENCES "OUTFITS"("rowid"),
             "Headwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
             "Topwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
             "Bottomwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
@@ -65,7 +64,6 @@ class DataBase:
         self.cursor.execute(
             """
         CREATE TABLE "PREFERENCES" (
-            "PreferenceID" INTEGER NOT NULL,
             "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid"),
             "ItemID"	INTEGER NOT NULL REFERENCES "ITEMCATALOGUE"("ItemID"),
             "Rating"	INTEGER NOT NULL
