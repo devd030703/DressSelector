@@ -311,71 +311,71 @@ layout = dbc.Container(
                     align="center",
                     justify="center",
                 ),
-                dbc.Tooltip(
-                    "New Outfit",
-                    target="button_generate",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "New Headwear",
-                    target="button_headwear_randomise",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "New Topwear",
-                    target="button_topwear_randomise",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "New Bottomwear",
-                    target="button_bottomwear_randomise",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "New Footwear",
-                    target="button_footwear_randomise",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "I want more of this",
-                    target="button_headwear_tick",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "I want more of this",
-                    target="button_topwear_tick",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "I want more of this",
-                    target="button_bottomwear_tick",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "I want more of this",
-                    target="button_footwear_tick",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "Don't show me this again",
-                    target="button_headwear_cross",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "Don't show me this again",
-                    target="button_topwear_cross",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "Don't show me this again",
-                    target="button_bottomwear_cross",
-                    placement="bottom",
-                ),
-                dbc.Tooltip(
-                    "Don't show me this again",
-                    target="button_footwear_cross",
-                    placement="bottom",
-                ),
+                # dbc.Tooltip(
+                #     "New Outfit",
+                #     target="button_generate",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "New Headwear",
+                #     target="button_headwear_randomise",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "New Topwear",
+                #     target="button_topwear_randomise",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "New Bottomwear",
+                #     target="button_bottomwear_randomise",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "New Footwear",
+                #     target="button_footwear_randomise",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "I want more of this",
+                #     target="button_headwear_tick",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "I want more of this",
+                #     target="button_topwear_tick",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "I want more of this",
+                #     target="button_bottomwear_tick",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "I want more of this",
+                #     target="button_footwear_tick",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "Don't show me this again",
+                #     target="button_headwear_cross",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "Don't show me this again",
+                #     target="button_topwear_cross",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "Don't show me this again",
+                #     target="button_bottomwear_cross",
+                #     placement="bottom",
+                # ),
+                # dbc.Tooltip(
+                #     "Don't show me this again",
+                #     target="button_footwear_cross",
+                #     placement="bottom",
+                # ),
             ]
         )
     ]
@@ -511,3 +511,64 @@ def randomise(
 
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    Output("card_img_headwear", "src"),
+    [
+        Input("button_headwear_tick", "n_clicks"),
+        Input("button_headwear_cross", "n_clicks"),
+        Input("button_topwear_tick", "n_clicks"),
+        Input("button_topwear_cross", "n_clicks"),
+        Input("button_bottomwear_tick", "n_clicks"),
+        Input("button_bottomwear_cross", "n_clicks"),
+        Input("button_footwear_tick", "n_clicks"),
+        Input("button_footwear_cross", "n_clicks"),
+    ],
+)
+def preferences(
+    button_headwear_tick_n_clicks,
+    button_headwear_cross_n_clicks,
+    button_topwear_tick_n_clicks,
+    button_topwear_cross_n_clicks,
+    button_bottomwear_tick_n_clicks,
+    button_bottomwear_cross_n_clicks,
+    button_footwear_tick_n_clicks,
+    button_footwear_cross_n_clicks,
+):
+    if (
+        button_headwear_tick_n_clicks
+        or button_headwear_cross_n_clicks
+        or button_topwear_tick_n_clicks
+        or button_topwear_cross_n_clicks
+        or button_bottomwear_tick_n_clicks
+        or button_bottomwear_cross_n_clicks
+        or button_footwear_tick_n_clicks
+        or button_footwear_cross_n_clicks
+    ):
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_headwear_tick":
+            pass
+
+        elif button_id == "button_headwear_cross":
+            pass
+
+        elif button_id == "button_topwear_tick":
+            pass
+
+        elif button_id == "button_topwear_cross":
+            pass
+
+        elif button_id == "button_bottomwear_tick":
+            pass
+
+        elif button_id == "button_bottomwear_cross":
+            pass
+
+        elif button_id == "button_footwear_tick":
+            pass
+
+        elif button_id == "button_footwear_cross":
+            pass
