@@ -39,7 +39,7 @@ bottomwear_placeholder_men = process_image(
     Path("images", "Bottomwear", "PlaceHolderMen.png"),
 )
 
-shoes_placeholder_men = process_image(
+footwear_placeholder_men = process_image(
     Path("images", "Shoes", "PlaceHolderMen.png"),
 )
 
@@ -198,7 +198,7 @@ footwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=shoes_placeholder_men,
+                src=footwear_placeholder_men,
                 id="card_img_footwear",
                 top=True,
             ),
@@ -294,6 +294,13 @@ layout = dbc.Container(
                 ),
                 dcc.Store(
                     id="store_items_id",
+                    storage_type="session",
+                    data={
+                        "headwear_item_id": None,
+                        "topwear_item_id": None,
+                        "bottomwear_item_id": None,
+                        "footwear_item_id": None,
+                    },
                 ),
                 dbc.Row(
                     dbc.Col(
@@ -317,6 +324,7 @@ layout = dbc.Container(
         Output("card_img_topwear", "src"),
         Output("card_img_bottomwear", "src"),
         Output("card_img_footwear", "src"),
+        Output("store_items_id", "data"),
     ],
     [
         Input("button_headwear_randomise", "n_clicks"),
@@ -325,6 +333,7 @@ layout = dbc.Container(
         Input("button_footwear_randomise", "n_clicks"),
         Input("button_generate", "n_clicks"),
     ],
+    State("store_items_id", "data"),
 )
 def randomise(
     button_headwear_randomise_n_clicks,
@@ -332,6 +341,7 @@ def randomise(
     button_bottomwear_randomise_n_clicks,
     button_footwear_randomise_n_clicks,
     button_generate_n_clicks,
+    store_items_id_data,
 ):
     if (
         button_headwear_randomise_n_clicks
@@ -346,22 +356,70 @@ def randomise(
         if button_id == "button_headwear_randomise":
             item = database.select_random_item("Headwear", gender_item[gender])
             image_blob = item[5]
-            return process_binary_image(image_blob), None, None, None
+            item_id = item[0]
+
+            store_items_id_data["headwear_item_id"] = item_id
+
+            print(store_items_id_data)
+
+            return (
+                process_binary_image(image_blob),
+                None,
+                None,
+                None,
+                store_items_id_data,
+            )
 
         elif button_id == "button_topwear_randomise":
             item = database.select_random_item("Topwear", gender_item[gender])
             image_blob = item[5]
-            return None, process_binary_image(image_blob), None, None
+            item_id = item[0]
+
+            store_items_id_data["topwear_item_id"] = item_id
+
+            print(store_items_id_data)
+
+            return (
+                None,
+                process_binary_image(image_blob),
+                None,
+                None,
+                store_items_id_data,
+            )
 
         elif button_id == "button_bottomwear_randomise":
             item = database.select_random_item("Bottomwear", gender_item[gender])
             image_blob = item[5]
-            return None, None, process_binary_image(image_blob), None
+            item_id = item[0]
+
+            store_items_id_data["bottomwear_item_id"] = item_id
+
+            print(store_items_id_data)
+
+            return (
+                None,
+                None,
+                process_binary_image(image_blob),
+                None,
+                store_items_id_data,
+            )
 
         elif button_id == "button_footwear_randomise":
             item = database.select_random_item("Shoes", gender_item[gender])
             image_blob = item[5]
-            return None, None, None, process_binary_image(image_blob)
+            item_id = item[0]
+
+            store_items_id_data["footwear_item_id"] = item_id
+
+            print(store_items_id_data)
+
+            return (
+                None,
+                None,
+                None,
+                process_binary_image(image_blob),
+                store_items_id_data,
+            )
 
         elif button_id == "button_generate":
             item_headwear = database.select_random_item("Headwear", gender_item[gender])
@@ -369,28 +427,22 @@ def randomise(
             item_bottomwear = database.select_random_item(
                 "Bottomwear", gender_item[gender]
             )
-            item_shoes = database.select_random_item("Shoes", gender_item[gender])
+            item_footwear = database.select_random_item("Shoes", gender_item[gender])
+
+            store_items_id_data["headwear_item_id"] = item_headwear[0]
+            store_items_id_data["topwear_item_id"] = item_topwear[0]
+            store_items_id_data["bottomwear_item_id"] = item_bottomwear[0]
+            store_items_id_data["footwear_item_id"] = item_footwear[0]
+
+            print(store_items_id_data)
 
             return (
                 process_binary_image(item_headwear[5]),
                 process_binary_image(item_topwear[5]),
                 process_binary_image(item_bottomwear[5]),
-                process_binary_image(item_shoes[5]),
+                process_binary_image(item_footwear[5]),
+                store_items_id_data,
             )
 
     else:
         raise PreventUpdate
-
-
-# @app.callback(Output("store_headwear", "data"), Input("card_img_headwear", "src"))
-# def on_data_set_table(data):
-#     if data is None:
-#         raise PreventUpdate
-
-#     return data
-
-# https://dash.plotly.com/dash-core-components/store
-# dcc.Store(id="store_topwear"),
-# dcc.Store(id="store_headwear"),
-# dcc.Store(id="store_bottomwear"),
-# dcc.Store(id="store_footwear"),
