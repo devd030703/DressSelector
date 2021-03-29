@@ -513,6 +513,34 @@ def randomise(
         raise PreventUpdate
 
 
+@app.callback(
+    [
+        Output("button_headwear_tick", "color"),
+        Output("button_headwear_cross", "color"),
+    ],
+    [
+        Input("button_headwear_tick", "n_clicks"),
+        Input("button_headwear_cross", "n_clicks"),
+    ],
+)
+def preferences_headwear(
+    button_headwear_tick_n_clicks,
+    button_headwear_cross_n_clicks,
+):
+    if button_headwear_tick_n_clicks or button_headwear_cross_n_clicks:
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_headwear_tick":
+            return "success", "primary"
+
+        elif button_id == "button_headwear_cross":
+            return "primary", "danger"
+
+    else:
+        raise PreventUpdate
+
+
 # @app.callback(
 #     Output("card_img_headwear", "src"),
 #     [
