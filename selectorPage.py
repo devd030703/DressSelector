@@ -628,13 +628,13 @@ def save_headwear_preferences(
 
         if button_id == "button_headwear_tick":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     True,
                     user_rowid,
                     headwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     headwear_item_id,
                     True,
@@ -643,13 +643,13 @@ def save_headwear_preferences(
 
         elif button_id == "button_headwear_cross":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     False,
                     user_rowid,
                     headwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     headwear_item_id,
                     False,
@@ -689,13 +689,13 @@ def save_topwear_preferences(
 
         if button_id == "button_topwear_tick":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     True,
                     user_rowid,
                     topwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     topwear_item_id,
                     True,
@@ -704,13 +704,13 @@ def save_topwear_preferences(
 
         elif button_id == "button_topwear_cross":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     False,
                     user_rowid,
                     topwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     topwear_item_id,
                     False,
@@ -750,13 +750,13 @@ def save_bottomwear_preferences(
 
         if button_id == "button_bottomwear_tick":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     True,
                     user_rowid,
                     bottomwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     bottomwear_item_id,
                     True,
@@ -765,13 +765,13 @@ def save_bottomwear_preferences(
 
         elif button_id == "button_bottomwear_cross":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     False,
                     user_rowid,
                     bottomwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     bottomwear_item_id,
                     False,
@@ -811,13 +811,13 @@ def save_footwear_preferences(
 
         if button_id == "button_footwear_tick":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     True,
                     user_rowid,
                     footwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     footwear_item_id,
                     True,
@@ -826,13 +826,13 @@ def save_footwear_preferences(
 
         elif button_id == "button_footwear_cross":
             if preference_exists:
-                database.update_preferences(
+                database.update_preference(
                     False,
                     user_rowid,
                     footwear_item_id,
                 )
             else:
-                database.add_preferences(
+                database.add_preference(
                     user_rowid,
                     footwear_item_id,
                     False,

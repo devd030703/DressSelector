@@ -132,7 +132,7 @@ class DataBase:
         else:
             return False
 
-    def add_preferences(self, user_rowid, item_id, is_liked):
+    def add_preference(self, user_rowid, item_id, is_liked):
         self.cursor.execute(
             "INSERT INTO PREFERENCES VALUES (?, ?, ?)",
             (user_rowid, item_id, is_liked),
@@ -140,7 +140,7 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
-    def update_preferences(self, is_liked, user_rowid, item_id):
+    def update_preference(self, is_liked, user_rowid, item_id):
         self.cursor.execute(
             "UPDATE PREFERENCES SET Rating=? WHERE UserID=? AND ItemID=?",
             (is_liked, user_rowid, item_id),
