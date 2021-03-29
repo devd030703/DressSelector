@@ -527,12 +527,11 @@ def randomise(
         Output("button_headwear_tick", "disabled"),
         Output("button_headwear_cross", "disabled"),
     ],
-    [
-        Input("button_headwear_randomise", "n_clicks"),
-    ],
+    Input("store_items_id", "data"),
 )
-def enable_headwear_buttons(button_headwear_randomise_n_clicks):
-    if button_headwear_randomise_n_clicks:
+def enable_headwear_preferences_buttons(store_items_id_data):
+
+    if store_items_id_data["headwear_item_id"]:
         return False, False
     else:
         raise PreventUpdate
@@ -543,12 +542,11 @@ def enable_headwear_buttons(button_headwear_randomise_n_clicks):
         Output("button_topwear_tick", "disabled"),
         Output("button_topwear_cross", "disabled"),
     ],
-    [
-        Input("button_topwear_randomise", "n_clicks"),
-    ],
+    Input("store_items_id", "data"),
 )
-def enable_topwear_buttons(button_topwear_randomise_n_clicks):
-    if button_topwear_randomise_n_clicks:
+def enable_topwear_preferences_buttons(store_items_id_data):
+
+    if store_items_id_data["topwear_item_id"]:
         return False, False
     else:
         raise PreventUpdate
@@ -559,12 +557,11 @@ def enable_topwear_buttons(button_topwear_randomise_n_clicks):
         Output("button_bottomwear_tick", "disabled"),
         Output("button_bottomwear_cross", "disabled"),
     ],
-    [
-        Input("button_bottomwear_randomise", "n_clicks"),
-    ],
+    Input("store_items_id", "data"),
 )
-def enable_bottomwear_buttons(button_bottomwear_randomise_n_clicks):
-    if button_bottomwear_randomise_n_clicks:
+def enable_bottomwear_preferences_buttons(store_items_id_data):
+
+    if store_items_id_data["bottomwear_item_id"]:
         return False, False
     else:
         raise PreventUpdate
@@ -575,13 +572,29 @@ def enable_bottomwear_buttons(button_bottomwear_randomise_n_clicks):
         Output("button_footwear_tick", "disabled"),
         Output("button_footwear_cross", "disabled"),
     ],
-    [
-        Input("button_footwear_randomise", "n_clicks"),
-    ],
+    Input("store_items_id", "data"),
 )
-def enable_footwear_buttons(button_footwear_randomise_n_clicks):
-    if button_footwear_randomise_n_clicks:
+def enable_footwear_preferences_buttons(store_items_id_data):
+
+    if store_items_id_data["footwear_item_id"]:
         return False, False
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output("button_save", "disabled"),
+    Input("store_items_id", "data"),
+)
+def enable_save_button(store_items_id_data):
+
+    if (
+        store_items_id_data["headwear_item_id"]
+        and store_items_id_data["topwear_item_id"]
+        and store_items_id_data["bottomwear_item_id"]
+        and store_items_id_data["footwear_item_id"]
+    ):
+        return False
     else:
         raise PreventUpdate
 
