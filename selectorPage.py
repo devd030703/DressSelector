@@ -104,12 +104,14 @@ headwear = (
                         children="✓",
                         id="button_headwear_tick",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_headwear_cross",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                 ],
@@ -141,12 +143,14 @@ topwear = (
                         children="✓",
                         id="button_topwear_tick",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_topwear_cross",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                 ],
@@ -177,12 +181,14 @@ bottomwear = (
                         children="✓",
                         id="button_bottomwear_tick",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_bottomwear_cross",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                 ],
@@ -214,12 +220,14 @@ footwear = (
                         children="✓",
                         id="button_footwear_tick",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                     dbc.Button(
                         children="✖",
                         id="button_footwear_cross",
                         color="primary",
+                        disabled=True,
                         className="m-2",
                     ),
                 ],
@@ -251,6 +259,7 @@ user_buttons = (
                                     children="save",
                                     id="button_save",
                                     color="primary",
+                                    disabled=True,
                                     className="m-2",
                                 ),
                                 width={"size": "auto"},
@@ -515,6 +524,70 @@ def randomise(
 
 @app.callback(
     [
+        Output("button_headwear_tick", "disabled"),
+        Output("button_headwear_cross", "disabled"),
+    ],
+    [
+        Input("button_headwear_randomise", "n_clicks"),
+    ],
+)
+def enable_headwear_buttons(button_headwear_randomise_n_clicks):
+    if button_headwear_randomise_n_clicks:
+        return False, False
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    [
+        Output("button_topwear_tick", "disabled"),
+        Output("button_topwear_cross", "disabled"),
+    ],
+    [
+        Input("button_topwear_randomise", "n_clicks"),
+    ],
+)
+def enable_topwear_buttons(button_topwear_randomise_n_clicks):
+    if button_topwear_randomise_n_clicks:
+        return False, False
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    [
+        Output("button_bottomwear_tick", "disabled"),
+        Output("button_bottomwear_cross", "disabled"),
+    ],
+    [
+        Input("button_bottomwear_randomise", "n_clicks"),
+    ],
+)
+def enable_bottomwear_buttons(button_bottomwear_randomise_n_clicks):
+    if button_bottomwear_randomise_n_clicks:
+        return False, False
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    [
+        Output("button_footwear_tick", "disabled"),
+        Output("button_footwear_cross", "disabled"),
+    ],
+    [
+        Input("button_footwear_randomise", "n_clicks"),
+    ],
+)
+def enable_footwear_buttons(button_footwear_randomise_n_clicks):
+    if button_footwear_randomise_n_clicks:
+        return False, False
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    [
         Output("button_headwear_tick", "color"),
         Output("button_headwear_cross", "color"),
     ],
@@ -523,7 +596,7 @@ def randomise(
         Input("button_headwear_cross", "n_clicks"),
     ],
 )
-def preferences_headwear(
+def save_headwear_preferences(
     button_headwear_tick_n_clicks,
     button_headwear_cross_n_clicks,
 ):
