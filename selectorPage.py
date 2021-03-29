@@ -619,20 +619,41 @@ def save_headwear_preferences(
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
+        headwear_item_id = store_items_id_data["headwear_item_id"]
+
+        preference_exists = database.check_preference_exists(
+            user_rowid,
+            headwear_item_id,
+        )
+
         if button_id == "button_headwear_tick":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["headwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    True,
+                    user_rowid,
+                    headwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    headwear_item_id,
+                    True,
+                )
             return "success", "primary"
 
         elif button_id == "button_headwear_cross":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["headwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    False,
+                    user_rowid,
+                    headwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    headwear_item_id,
+                    False,
+                )
             return "primary", "danger"
 
     else:
@@ -659,20 +680,41 @@ def save_topwear_preferences(
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
+        topwear_item_id = store_items_id_data["topwear_item_id"]
+
+        preference_exists = database.check_preference_exists(
+            user_rowid,
+            topwear_item_id,
+        )
+
         if button_id == "button_topwear_tick":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["topwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    True,
+                    user_rowid,
+                    topwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    topwear_item_id,
+                    True,
+                )
             return "success", "primary"
 
         elif button_id == "button_topwear_cross":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["topwear_item_id"],
-                False,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    False,
+                    user_rowid,
+                    topwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    topwear_item_id,
+                    False,
+                )
             return "primary", "danger"
 
     else:
@@ -699,20 +741,41 @@ def save_bottomwear_preferences(
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
+        bottomwear_item_id = store_items_id_data["bottomwear_item_id"]
+
+        preference_exists = database.check_preference_exists(
+            user_rowid,
+            bottomwear_item_id,
+        )
+
         if button_id == "button_bottomwear_tick":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["bottomwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    True,
+                    user_rowid,
+                    bottomwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    bottomwear_item_id,
+                    True,
+                )
             return "success", "primary"
 
         elif button_id == "button_bottomwear_cross":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["bottomwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    False,
+                    user_rowid,
+                    bottomwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    bottomwear_item_id,
+                    False,
+                )
             return "primary", "danger"
 
     else:
@@ -739,20 +802,41 @@ def save_footwear_preferences(
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
+        footwear_item_id = store_items_id_data["footwear_item_id"]
+
+        preference_exists = database.check_preference_exists(
+            user_rowid,
+            footwear_item_id,
+        )
+
         if button_id == "button_footwear_tick":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["footwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    True,
+                    user_rowid,
+                    footwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    footwear_item_id,
+                    True,
+                )
             return "success", "primary"
 
         elif button_id == "button_footwear_cross":
-            database.add_preferences(
-                user_rowid,
-                store_items_id_data["footwear_item_id"],
-                True,
-            )
+            if preference_exists:
+                database.update_preferences(
+                    False,
+                    user_rowid,
+                    footwear_item_id,
+                )
+            else:
+                database.add_preferences(
+                    user_rowid,
+                    footwear_item_id,
+                    False,
+                )
             return "primary", "danger"
 
     else:

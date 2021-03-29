@@ -121,10 +121,29 @@ class DataBase:
 
         return rows
 
+    def check_preference_exists(self, user_rowid, item_id):
+        row = self.cursor.execute(
+            "SELECT rowid, * FROM PREFERENCES WHERE UserID=? AND ItemID=?",
+            (user_rowid, item_id),
+        ).fetchone()
+
+        if row:
+            return True
+        else:
+            return False
+
     def add_preferences(self, user_rowid, item_id, is_liked):
         self.cursor.execute(
             "INSERT INTO PREFERENCES VALUES (?, ?, ?)",
             (user_rowid, item_id, is_liked),
+        )
+        print(f"{self.cursor.rowcount} record(s) were modified...")
+        self.cnxn.commit()
+
+    def update_preferences(self, is_liked, user_rowid, item_id):
+        self.cursor.execute(
+            "UPDATE PREFERENCES SET Rating=? WHERE UserID=? AND ItemID=?",
+            (is_liked, user_rowid, item_id),
         )
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
