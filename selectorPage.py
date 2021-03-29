@@ -608,19 +608,31 @@ def enable_save_button(store_items_id_data):
         Input("button_headwear_tick", "n_clicks"),
         Input("button_headwear_cross", "n_clicks"),
     ],
+    State("store_items_id", "data"),
 )
 def save_headwear_preferences(
     button_headwear_tick_n_clicks,
     button_headwear_cross_n_clicks,
+    store_items_id_data,
 ):
     if button_headwear_tick_n_clicks or button_headwear_cross_n_clicks:
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_headwear_tick":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["headwear_item_id"],
+                True,
+            )
             return "success", "primary"
 
         elif button_id == "button_headwear_cross":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["headwear_item_id"],
+                True,
+            )
             return "primary", "danger"
 
     else:
@@ -636,19 +648,31 @@ def save_headwear_preferences(
         Input("button_topwear_tick", "n_clicks"),
         Input("button_topwear_cross", "n_clicks"),
     ],
+    State("store_items_id", "data"),
 )
 def save_topwear_preferences(
     button_topwear_tick_n_clicks,
     button_topwear_cross_n_clicks,
+    store_items_id_data,
 ):
     if button_topwear_tick_n_clicks or button_topwear_cross_n_clicks:
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_topwear_tick":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["topwear_item_id"],
+                True,
+            )
             return "success", "primary"
 
         elif button_id == "button_topwear_cross":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["topwear_item_id"],
+                False,
+            )
             return "primary", "danger"
 
     else:
@@ -664,19 +688,31 @@ def save_topwear_preferences(
         Input("button_bottomwear_tick", "n_clicks"),
         Input("button_bottomwear_cross", "n_clicks"),
     ],
+    State("store_items_id", "data"),
 )
 def save_bottomwear_preferences(
     button_bottomwear_tick_n_clicks,
     button_bottomwear_cross_n_clicks,
+    store_items_id_data,
 ):
     if button_bottomwear_tick_n_clicks or button_bottomwear_cross_n_clicks:
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_bottomwear_tick":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["bottomwear_item_id"],
+                True,
+            )
             return "success", "primary"
 
         elif button_id == "button_bottomwear_cross":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["bottomwear_item_id"],
+                True,
+            )
             return "primary", "danger"
 
     else:
@@ -692,19 +728,31 @@ def save_bottomwear_preferences(
         Input("button_footwear_tick", "n_clicks"),
         Input("button_footwear_cross", "n_clicks"),
     ],
+    State("store_items_id", "data"),
 )
 def save_footwear_preferences(
     button_footwear_tick_n_clicks,
     button_footwear_cross_n_clicks,
+    store_items_id_data,
 ):
     if button_footwear_tick_n_clicks or button_footwear_cross_n_clicks:
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_footwear_tick":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["footwear_item_id"],
+                True,
+            )
             return "success", "primary"
 
         elif button_id == "button_footwear_cross":
+            database.add_preferences(
+                user_rowid,
+                store_items_id_data["footwear_item_id"],
+                True,
+            )
             return "primary", "danger"
 
     else:

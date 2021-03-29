@@ -85,8 +85,24 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
-    def insert_outfit(self, user_rowid):
-        self.cursor.execute("INSERT INTO OUTFITS VALUES (?)", (user_rowid))
+    def save_outfit(
+        self,
+        user_rowid,
+        headwear_item_id,
+        topwear_item_id,
+        bottomwear_item_id,
+        shoes_item_id,
+    ):
+        self.cursor.execute(
+            "INSERT INTO SAVEDOUTFITS VALUES (?, ?, ?, ?, ?)",
+            (
+                user_rowid,
+                headwear_item_id,
+                topwear_item_id,
+                bottomwear_item_id,
+                shoes_item_id,
+            ),
+        )
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
@@ -105,7 +121,7 @@ class DataBase:
 
         return rows
 
-    def insert_preferences(self, user_rowid, item_id, is_liked):
+    def add_preferences(self, user_rowid, item_id, is_liked):
         self.cursor.execute(
             "INSERT INTO PREFERENCES VALUES (?, ?, ?)",
             (user_rowid, item_id, is_liked),
