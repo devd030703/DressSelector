@@ -614,6 +614,90 @@ def save_headwear_preferences(
         raise PreventUpdate
 
 
+@app.callback(
+    [
+        Output("button_topwear_tick", "color"),
+        Output("button_topwear_cross", "color"),
+    ],
+    [
+        Input("button_topwear_tick", "n_clicks"),
+        Input("button_topwear_cross", "n_clicks"),
+    ],
+)
+def save_topwear_preferences(
+    button_topwear_tick_n_clicks,
+    button_topwear_cross_n_clicks,
+):
+    if button_topwear_tick_n_clicks or button_topwear_cross_n_clicks:
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_topwear_tick":
+            return "success", "primary"
+
+        elif button_id == "button_topwear_cross":
+            return "primary", "danger"
+
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    [
+        Output("button_bottomwear_tick", "color"),
+        Output("button_bottomwear_cross", "color"),
+    ],
+    [
+        Input("button_bottomwear_tick", "n_clicks"),
+        Input("button_bottomwear_cross", "n_clicks"),
+    ],
+)
+def save_bottomwear_preferences(
+    button_bottomwear_tick_n_clicks,
+    button_bottomwear_cross_n_clicks,
+):
+    if button_bottomwear_tick_n_clicks or button_bottomwear_cross_n_clicks:
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_bottomwear_tick":
+            return "success", "primary"
+
+        elif button_id == "button_bottomwear_cross":
+            return "primary", "danger"
+
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    [
+        Output("button_footwear_tick", "color"),
+        Output("button_footwear_cross", "color"),
+    ],
+    [
+        Input("button_footwear_tick", "n_clicks"),
+        Input("button_footwear_cross", "n_clicks"),
+    ],
+)
+def save_footwear_preferences(
+    button_footwear_tick_n_clicks,
+    button_footwear_cross_n_clicks,
+):
+    if button_footwear_tick_n_clicks or button_footwear_cross_n_clicks:
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "button_footwear_tick":
+            return "success", "primary"
+
+        elif button_id == "button_footwear_cross":
+            return "primary", "danger"
+
+    else:
+        raise PreventUpdate
+
+
 # @app.callback(
 #     Output("card_img_headwear", "src"),
 #     [
