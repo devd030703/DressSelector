@@ -180,6 +180,13 @@ class DataBase:
 
         return rows
 
+    def get_item_details(self, item_id):
+        row = self.cursor.execute(
+            "SELECT * FROM ITEMCATALOGUE WHERE ItemID =?",
+            [item_id],
+        ).fetchone()
+        return row
+
 
 def main():
     database = DataBase(
