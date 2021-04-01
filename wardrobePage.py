@@ -244,11 +244,12 @@ layout = dbc.Container(
                     id="store_outfits",
                     storage_type="session",
                     data={
-                        "user_id": None,
-                        "headwear_item_id": None,
-                        "topwear_item_id": None,
-                        "bottomwear_item_id": None,
-                        "footwear_item_id": None,
+                        "index": 0,
+                        "user_id": outfits[0][0],
+                        "headwear_item_id": outfits[0][1],
+                        "topwear_item_id": outfits[0][2],
+                        "bottomwear_item_id": outfits[0][3],
+                        "footwear_item_id": outfits[0][4],
                     },
                 ),
                 dbc.Row(
@@ -351,7 +352,7 @@ def display_outfit(
 
         if button_id == "button_left":
 
-            outfit = outfits[0]
+            outfit = outfits[1]
 
             item_headwear = database.get_item_details(outfit[1])
             item_topwear = database.get_item_details(outfit[2])
@@ -364,12 +365,36 @@ def display_outfit(
             store_outfits_data["footwear_item_id"] = outfit[4]
             print(store_outfits_data)
 
-        return (
-            process_binary_image(item_headwear[5]),
-            process_binary_image(item_topwear[5]),
-            process_binary_image(item_bottomwear[5]),
-            process_binary_image(item_footwear[5]),
-            store_outfits_data,
-        )
+            return (
+                process_binary_image(item_headwear[5]),
+                process_binary_image(item_topwear[5]),
+                process_binary_image(item_bottomwear[5]),
+                process_binary_image(item_footwear[5]),
+                store_outfits_data,
+            )
+
+        elif button_id == "button_right":
+
+            outfit = outfits[2]
+
+            item_headwear = database.get_item_details(outfit[1])
+            item_topwear = database.get_item_details(outfit[2])
+            item_bottomwear = database.get_item_details(outfit[3])
+            item_footwear = database.get_item_details(outfit[4])
+
+            store_outfits_data["headwear_item_id"] = outfit[1]
+            store_outfits_data["topwear_item_id"] = outfit[2]
+            store_outfits_data["bottomwear_item_id"] = outfit[3]
+            store_outfits_data["footwear_item_id"] = outfit[4]
+            print(store_outfits_data)
+
+            return (
+                process_binary_image(item_headwear[5]),
+                process_binary_image(item_topwear[5]),
+                process_binary_image(item_bottomwear[5]),
+                process_binary_image(item_footwear[5]),
+                store_outfits_data,
+            )
+
     else:
         raise PreventUpdate
