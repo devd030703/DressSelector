@@ -843,62 +843,71 @@ def save_footwear_preferences(
         raise PreventUpdate
 
 
-# @app.callback(
-#     Output("card_img_headwear", "src"),
-#     [
-#         Input("button_headwear_tick", "n_clicks"),
-#         Input("button_headwear_cross", "n_clicks"),
-#         Input("button_topwear_tick", "n_clicks"),
-#         Input("button_topwear_cross", "n_clicks"),
-#         Input("button_bottomwear_tick", "n_clicks"),
-#         Input("button_bottomwear_cross", "n_clicks"),
-#         Input("button_footwear_tick", "n_clicks"),
-#         Input("button_footwear_cross", "n_clicks"),
-#     ],
-# )
-# def preferences(
-#     button_headwear_tick_n_clicks,
-#     button_headwear_cross_n_clicks,
-#     button_topwear_tick_n_clicks,
-#     button_topwear_cross_n_clicks,
-#     button_bottomwear_tick_n_clicks,
-#     button_bottomwear_cross_n_clicks,
-#     button_footwear_tick_n_clicks,
-#     button_footwear_cross_n_clicks,
-# ):
-#     if (
-#         button_headwear_tick_n_clicks
-#         or button_headwear_cross_n_clicks
-#         or button_topwear_tick_n_clicks
-#         or button_topwear_cross_n_clicks
-#         or button_bottomwear_tick_n_clicks
-#         or button_bottomwear_cross_n_clicks
-#         or button_footwear_tick_n_clicks
-#         or button_footwear_cross_n_clicks
-#     ):
-#         ctx = callback_context
-#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+@app.callback(
+    [
+        Output("button_save", "color"),
+        Output("button_save", "children"),
+    ],
+    [
+        Input("button_headwear_randomise", "n_clicks"),
+        Input("button_topwear_randomise", "n_clicks"),
+        Input("button_bottomwear_randomise", "n_clicks"),
+        Input("button_footwear_randomise", "n_clicks"),
+        Input("button_generate", "n_clicks"),
+        Input("button_save", "n_clicks"),
+    ],
+    State("store_items_id", "data"),
+)
+def save_outfit(
+    button_headwear_randomise_n_clicks,
+    button_topwear_randomise_n_clicks,
+    button_bottomwear_randomise_n_clicks,
+    button_footwear_randomise_n_clicks,
+    button_generate_n_clicks,
+    button_save_n_clicks,
+    store_items_id_data,
+):
 
-#         if button_id == "button_headwear_tick":
-#             pass
+    if (
+        button_headwear_randomise_n_clicks
+        or button_topwear_randomise_n_clicks
+        or button_bottomwear_randomise_n_clicks
+        or button_footwear_randomise_n_clicks
+        or button_generate_n_clicks
+        or button_save_n_clicks
+    ):
 
-#         elif button_id == "button_headwear_cross":
-#             pass
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-#         elif button_id == "button_topwear_tick":
-#             pass
+        if button_id == "button_save":
 
-#         elif button_id == "button_topwear_cross":
-#             pass
+            headwear_item_id = store_items_id_data["headwear_item_id"]
+            topwear_item_id = store_items_id_data["topwear_item_id"]
+            bottomwear_item_id = store_items_id_data["bottomwear_item_id"]
+            footwear_item_id = store_items_id_data["footwear_item_id"]
 
-#         elif button_id == "button_bottomwear_tick":
-#             pass
+            outfit_exists = database.check_outfit_exists(
+                user_rowid,
+                headwear_item_id,
+                topwear_item_id,
+                bottomwear_item_id,
+                footwear_item_id,
+            )
 
-#         elif button_id == "button_bottomwear_cross":
-#             pass
+            if not outfit_exists:
+                database.save_outfit(
+                    user_rowid,
+                    headwear_item_id,
+                    topwear_item_id,
+                    bottomwear_item_id,
+                    footwear_item_id,
+                )
 
-#         elif button_id == "button_footwear_tick":
-#             pass
+            return "success", "saved"
 
-#         elif button_id == "button_footwear_cross":
-#             pass
+        else:
+            return "primary", "save"
+
+    else:
+        raise PreventUpdate

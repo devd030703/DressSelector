@@ -85,13 +85,37 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
+    def check_outfit_exists(
+        self,
+        user_rowid,
+        headwear_item_id,
+        topwear_item_id,
+        bottomwear_item_id,
+        footwear_item_id,
+    ):
+        row = self.cursor.execute(
+            "SELECT rowid, * FROM SAVEDOUTFITS WHERE UserID=? AND Headwear=? AND Topwear=? AND Bottomwear=? AND Shoes=?",
+            (
+                user_rowid,
+                headwear_item_id,
+                topwear_item_id,
+                bottomwear_item_id,
+                footwear_item_id,
+            ),
+        ).fetchone()
+
+        if row:
+            return True
+        else:
+            return False
+
     def save_outfit(
         self,
         user_rowid,
         headwear_item_id,
         topwear_item_id,
         bottomwear_item_id,
-        shoes_item_id,
+        footwear_item_id,
     ):
         self.cursor.execute(
             "INSERT INTO SAVEDOUTFITS VALUES (?, ?, ?, ?, ?)",
@@ -100,7 +124,7 @@ class DataBase:
                 headwear_item_id,
                 topwear_item_id,
                 bottomwear_item_id,
-                shoes_item_id,
+                footwear_item_id,
             ),
         )
         print(f"{self.cursor.rowcount} record(s) were modified...")
