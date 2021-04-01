@@ -50,7 +50,7 @@ headwear = (
         [
             dbc.CardImg(
                 src=headwear_placeholder_men,
-                id="card_img_outfit_headwear",
+                id="card_img_headwear",
                 top=True,
             ),
         ]
@@ -63,7 +63,7 @@ topwear = (
         [
             dbc.CardImg(
                 src=topwear_placeholder_men,
-                id="card_img_outfit_topwear",
+                id="card_img_topwear",
                 top=True,
             ),
         ]
@@ -75,7 +75,7 @@ bottomwear = (
         [
             dbc.CardImg(
                 src=bottomwear_placeholder_men,
-                id="card_img_outfit_bottomwear",
+                id="card_img_bottomwear",
                 top=True,
             ),
         ]
@@ -88,7 +88,7 @@ footwear = (
         [
             dbc.CardImg(
                 src=shoes_placeholder_men,
-                id="card_img_outfit_headwear",
+                id="card_img_headwear",
                 top=True,
             ),
         ]
@@ -153,7 +153,7 @@ left_button = (
                             dbc.Col(
                                 dbc.Button(
                                     children="⬅",
-                                    id="left_button",
+                                    id="button_left",
                                     color="primary",
                                 ),
                             ),
@@ -165,7 +165,7 @@ left_button = (
         className="border-0",
     ),
 )
-right_button = (
+button_right = (
     dbc.Card(
         [
             dbc.CardBody(
@@ -175,7 +175,7 @@ right_button = (
                             dbc.Col(
                                 dbc.Button(
                                     children="➡",
-                                    id="right_button",
+                                    id="button_right",
                                     color="primary",
                                 ),
                             ),
@@ -241,9 +241,10 @@ layout = dbc.Container(
                     ),
                 ),
                 dcc.Store(
-                    id="store_items_id",
+                    id="store_outfits",
                     storage_type="session",
                     data={
+                        "user_id": None,
                         "headwear_item_id": None,
                         "topwear_item_id": None,
                         "bottomwear_item_id": None,
@@ -303,7 +304,7 @@ layout = dbc.Container(
                                 dbc.Col(
                                     dbc.Row(
                                         dbc.Col(
-                                            right_button,
+                                            button_right,
                                             width={"size": "10%"},
                                         ),
                                         justify="end",
@@ -326,46 +327,49 @@ layout = dbc.Container(
 # ------------------------------------- CALLBACKS --------------------------------------
 @app.callback(
     [
-        Output("card_img_outfit_headwear", "src"),
-        Output("card_img_outfit_topwear", "src"),
-        Output("card_img_outfit_bottomwear", "src"),
-        Output("card_img_outfit_footwear", "src"),
-        Output("store_items_id", "data"),
+        Output("card_img_headwear", "src"),
+        Output("card_img_topwear", "src"),
+        Output("card_img_bottomwear", "src"),
+        Output("card_img_footwear", "src"),
+        Output("store_outfits", "data"),
     ],
     [
-        Input("left_button", "n_clicks"),
-        Input("right_button", "n_clicks"),
+        Input("button_left", "n_clicks"),
+        Input("button_right", "n_clicks"),
     ],
-    State("store_items_id", "data"),
+    State("store_outfits", "data"),
 )
 def display_outfit(
-    left_button_n_clicks,
-    right_button_n_clicks,
-    store_items_id_data,
+    button_left_n_clicks,
+    button_right_n_clicks,
+    store_outfits_data,
 ):
-    if left_button_n_clicks or right_button_n_clicks:
+    if button_left_n_clicks or button_right_n_clicks:
+
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-        if button_id == "left_button":
+        if button_id == "button_left":
 
-            item_headwear = database.get_item_details((outfits[0][1]))
-            item_topwear = database.get_item_details((outfits[0][2]))
-            item_bottomwear = database.get_item_details((outfits[0][3]))
-            item_footwear = database.get_item_details((outfits[0][4]))
+            outfit = outfits[0]
 
-            store_items_id_data["headwear_item_id"] = outfits[0][1]
-            store_items_id_data["topwear_item_id"] = outfits[0][2]
-            store_items_id_data["bottomwear_item_id"] = outfits[0][3]
-            store_items_id_data["footwear_item_id"] = outfits[0][4]
-            print(store_items_id_data)
+            item_headwear = database.get_item_details(outfit[1])
+            item_topwear = database.get_item_details(outfit[2])
+            item_bottomwear = database.get_item_details(outfit[3])
+            item_footwear = database.get_item_details(outfit[4])
+
+            store_outfits_data["headwear_item_id"] = outfit[1]
+            store_outfits_data["topwear_item_id"] = outfit[2]
+            store_outfits_data["bottomwear_item_id"] = outfit[3]
+            store_outfits_data["footwear_item_id"] = outfit[4]
+            print(store_outfits_data)
 
         return (
             process_binary_image(item_headwear[5]),
             process_binary_image(item_topwear[5]),
             process_binary_image(item_bottomwear[5]),
             process_binary_image(item_footwear[5]),
-            store_items_id_data,
+            store_outfits_data,
         )
     else:
         raise PreventUpdate
