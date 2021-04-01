@@ -4,10 +4,9 @@ from pathlib import Path
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-from dash_bootstrap_components._components.Col import Col
-from dash_bootstrap_components._components.Row import Row
 
 from app import app, database
 
@@ -15,8 +14,14 @@ from app import app, database
 user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
 outfits = database.get_user_outfits(user_rowid)
 
-
 # --------------------------------------- IMAGES ---------------------------------------
+
+
+def process_binary_image(img):
+    img_encoded = base64.b64encode(img)
+    return f"data:image/png;base64,{img_encoded.decode()}"
+
+
 def process_image(img):
     img_encoded = base64.b64encode(open(img, "rb").read())
     return f"data:image/png;base64,{img_encoded.decode()}"
@@ -38,13 +43,14 @@ shoes_placeholder_men = process_image(
     Path("images", "Shoes", "PlaceHolderMen.png"),
 )
 
+
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
     dbc.Card(
         [
             dbc.CardImg(
                 src=headwear_placeholder_men,
-                id="card_img_headwear",
+                id="card_img_outfit_headwear",
                 top=True,
             ),
         ]
@@ -57,6 +63,7 @@ topwear = (
         [
             dbc.CardImg(
                 src=topwear_placeholder_men,
+                id="card_img_outfit_topwear",
                 top=True,
             ),
         ]
@@ -68,6 +75,7 @@ bottomwear = (
         [
             dbc.CardImg(
                 src=bottomwear_placeholder_men,
+                id="card_img_outfit_bottomwear",
                 top=True,
             ),
         ]
@@ -80,6 +88,7 @@ footwear = (
         [
             dbc.CardImg(
                 src=shoes_placeholder_men,
+                id="card_img_outfit_headwear",
                 top=True,
             ),
         ]
@@ -231,6 +240,16 @@ layout = dbc.Container(
                         navbar,
                     ),
                 ),
+                dcc.Store(
+                    id="store_items_id",
+                    storage_type="session",
+                    data={
+                        "headwear_item_id": None,
+                        "topwear_item_id": None,
+                        "bottomwear_item_id": None,
+                        "footwear_item_id": None,
+                    },
+                ),
                 dbc.Row(
                     [
                         dbc.Col(headwear, width=3),
@@ -303,4 +322,50 @@ layout = dbc.Container(
     ]
 )
 
+
 # ------------------------------------- CALLBACKS --------------------------------------
+@app.callback(
+    [
+        Output("card_img_outfit_headwear", "src"),
+        Output("card_img_outfit_topwear", "src"),
+        Output("card_img_outfit_bottomwear", "src"),
+        Output("card_img_outfit_footwear", "src"),
+        Output("store_items_id", "data"),
+    ],
+    [
+        Input("left_button", "n_clicks"),
+        Input("right_button", "n_clicks"),
+    ],
+    State("store_items_id", "data"),
+)
+def display_outfit(
+    left_button_n_clicks,
+    right_button_n_clicks,
+    store_items_id_data,
+):
+    if left_button_n_clicks or right_button_n_clicks:
+        ctx = callback_context
+        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        if button_id == "left_button":
+
+            item_headwear = database.get_item_details((outfits[0][1]))
+            item_topwear = database.get_item_details((outfits[0][2]))
+            item_bottomwear = database.get_item_details((outfits[0][3]))
+            item_footwear = database.get_item_details((outfits[0][4]))
+
+            store_items_id_data["headwear_item_id"] = outfits[0][1]
+            store_items_id_data["topwear_item_id"] = outfits[0][2]
+            store_items_id_data["bottomwear_item_id"] = outfits[0][3]
+            store_items_id_data["footwear_item_id"] = outfits[0][4]
+            print(store_items_id_data)
+
+        return (
+            process_binary_image(item_headwear[5]),
+            process_binary_image(item_topwear[5]),
+            process_binary_image(item_bottomwear[5]),
+            process_binary_image(item_footwear[5]),
+            store_items_id_data,
+        )
+    else:
+        raise PreventUpdate
