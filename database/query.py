@@ -148,6 +148,14 @@ class DataBase:
         print(f"{self.cursor.rowcount} record(s) were modified...")
         self.cnxn.commit()
 
+    def get_user_outfits(self, user_rowid):
+        rows = self.cursor.execute(
+            "SELECT * FROM SAVEDOUTFITS WHERE UserID=? ",
+            [user_rowid],
+        ).fetchall()
+
+        return rows
+
 
 def main():
     database = DataBase(
@@ -157,7 +165,7 @@ def main():
         )
     )
 
-    rows = database.select_random_outfit(gender="Men")
+    rows = database.get_user_outfits(1)
     for row in rows:
         print(row[0:5])
 
