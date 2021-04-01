@@ -50,7 +50,7 @@ headwear = (
         [
             dbc.CardImg(
                 src=headwear_placeholder_men,
-                id="card_img_headwear",
+                id="card_img_outfit_headwear",
                 top=True,
             ),
         ]
@@ -63,7 +63,7 @@ topwear = (
         [
             dbc.CardImg(
                 src=topwear_placeholder_men,
-                id="card_img_topwear",
+                id="card_img_outfit_topwear",
                 top=True,
             ),
         ]
@@ -75,7 +75,7 @@ bottomwear = (
         [
             dbc.CardImg(
                 src=bottomwear_placeholder_men,
-                id="card_img_bottomwear",
+                id="card_img_outfit_bottomwear",
                 top=True,
             ),
         ]
@@ -88,7 +88,7 @@ footwear = (
         [
             dbc.CardImg(
                 src=shoes_placeholder_men,
-                id="card_img_headwear",
+                id="card_img_outfit_footwear",
                 top=True,
             ),
         ]
@@ -327,10 +327,10 @@ layout = dbc.Container(
 # ------------------------------------- CALLBACKS --------------------------------------
 @app.callback(
     [
-        Output("card_img_headwear", "src"),
-        Output("card_img_topwear", "src"),
-        Output("card_img_bottomwear", "src"),
-        Output("card_img_footwear", "src"),
+        Output("card_img_outfit_headwear", "src"),
+        Output("card_img_outfit_topwear", "src"),
+        Output("card_img_outfit_bottomwear", "src"),
+        Output("card_img_outfit_footwear", "src"),
         Output("store_outfits", "data"),
     ],
     [
