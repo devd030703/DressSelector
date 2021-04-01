@@ -12,6 +12,9 @@ from dash_bootstrap_components._components.Row import Row
 from app import app, database
 
 # ---------------------------------------- DATA ----------------------------------------
+user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
+outfits = database.get_user_outfits(user_rowid)
+
 
 # --------------------------------------- IMAGES ---------------------------------------
 def process_image(img):
@@ -204,8 +207,8 @@ navbar = dbc.NavbarSimple(
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("Options", header=True),
-                # dbc.DropdownMenuItem("Saved Outfits", href="#"),
-                # dbc.DropdownMenuItem("Account Details", href="#"),
+                # abc.DropdownMenuItem("Saved Outfits", href="#"),
+                # abcc.DropdownMenuItem("Account Details", href="#"),
             ],
             nav=True,
             in_navbar=True,
