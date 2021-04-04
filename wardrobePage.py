@@ -343,12 +343,14 @@ layout = dbc.Container(
     [
         Input("button_left", "n_clicks"),
         Input("button_right", "n_clicks"),
+        Input("button_delete", "n_clicks"),
     ],
     State("store_outfits", "data"),
 )
-def display_outfit(
+def display_or_delete_outfit(
     button_left_n_clicks,
     button_right_n_clicks,
+    button_delete_n_clicks,
     store_outfits_data,
 ):
     if button_left_n_clicks or button_right_n_clicks:
@@ -356,7 +358,7 @@ def display_outfit(
         pointer = store_outfits_data["index"]
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
+        # left button
         if button_id == "button_left":
             print(store_outfits_data)
             pointer = pointer - 1
@@ -385,7 +387,7 @@ def display_outfit(
                 process_binary_image(item_footwear[5]),
                 store_outfits_data,
             )
-
+        # right button
         elif button_id == "button_right":
             print(store_outfits_data)
             if pointer == outfit_length:
@@ -414,27 +416,25 @@ def display_outfit(
                 process_binary_image(item_footwear[5]),
                 store_outfits_data,
             )
+        # delete button
+        elif button_id == "button_delete":
+            user_id = store_outfits_data["user_id"]
+            headwear_id = store_outfits_data["headwear_item_id"]
+            topwear_id = store_outfits_data["topwear_item_id"]
+            bottomwear_id = store_outfits_data["bottomwear_item_id"]
+            footwear_id = store_outfits_data["footwear_item_id"]
+            print(user_id, headwear_id, topwear_id, bottomwear_id, footwear_id)
+            database.delete_outfit(
+                user_id, headwear_id, topwear_id, bottomwear_id, footwear_id
+            )
+
+            return (
+                headwear_placeholder_men,
+                topwear_placeholder_men,
+                bottomwear_placeholder_men,
+                shoes_placeholder_men,
+                store_outfits_data,
+            )
 
     else:
         raise PreventUpdate
-
-@app.callback(
-    [
-        Output("card_img_outfit_headwear", "src"),
-        Output("card_img_outfit_topwear", "src"),
-        Output("card_img_outfit_bottomwear", "src"),
-        Output("card_img_outfit_footwear", "src"),
-        Output("store_outfits", "data"),
-    ],
-    [
-        Input("button_left", "n_clicks"),
-        Input("button_right", "n_clicks"),
-    ],
-    State("store_outfits", "data"),
-)
-
-def display_outfit(
-    button_left_n_clicks,
-    button_right_n_clicks,
-    store_outfits_data,
-):
