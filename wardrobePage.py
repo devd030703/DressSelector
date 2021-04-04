@@ -13,6 +13,8 @@ from app import app, database
 # ---------------------------------------- DATA ----------------------------------------
 user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
 outfits = database.get_user_outfits(user_rowid)
+outfit_length = len(outfits) - 1
+
 
 # --------------------------------------- IMAGES ---------------------------------------
 
@@ -326,6 +328,8 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
+
+
 @app.callback(
     [
         Output("card_img_outfit_headwear", "src"),
@@ -347,12 +351,17 @@ def display_outfit(
 ):
     if button_left_n_clicks or button_right_n_clicks:
 
+        pointer = store_outfits_data["index"]
+        if pointer == len(outfits):
+            pointer = 0
+        elif pointer < 0:
+            pointer = outfit_length
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_left":
-
-            outfit = outfits[1]
+            print(store_outfits_data)
+            outfit = outfits[pointer]
 
             item_headwear = database.get_item_details(outfit[1])
             item_topwear = database.get_item_details(outfit[2])
@@ -363,7 +372,7 @@ def display_outfit(
             store_outfits_data["topwear_item_id"] = outfit[2]
             store_outfits_data["bottomwear_item_id"] = outfit[3]
             store_outfits_data["footwear_item_id"] = outfit[4]
-            print(store_outfits_data)
+            store_outfits_data["index"] = pointer - 1
 
             return (
                 process_binary_image(item_headwear[5]),
@@ -374,8 +383,9 @@ def display_outfit(
             )
 
         elif button_id == "button_right":
+            print(store_outfits_data)
 
-            outfit = outfits[2]
+            outfit = outfits[pointer]
 
             item_headwear = database.get_item_details(outfit[1])
             item_topwear = database.get_item_details(outfit[2])
@@ -386,7 +396,7 @@ def display_outfit(
             store_outfits_data["topwear_item_id"] = outfit[2]
             store_outfits_data["bottomwear_item_id"] = outfit[3]
             store_outfits_data["footwear_item_id"] = outfit[4]
-            print(store_outfits_data)
+            store_outfits_data["index"] = pointer + 1
 
             return (
                 process_binary_image(item_headwear[5]),
@@ -398,3 +408,6 @@ def display_outfit(
 
     else:
         raise PreventUpdate
+
+
+# when you switch from left button to right button, it will go left when clicking right button before going right
