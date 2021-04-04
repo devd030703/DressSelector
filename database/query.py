@@ -187,6 +187,14 @@ class DataBase:
         ).fetchone()
         return row
 
+    def delete_outfit(self, user_id, headwear_id, topwear_id, bottomwear_id, shoes_id):
+        self.cursor.execute(
+            "DELETE FROM SAVEDOUTFITS WHERE UserID=? AND Headwear=? AND Topwear=? AND Bottomwear=? AND Shoes=?",
+            (user_id, headwear_id, topwear_id, bottomwear_id, shoes_id),
+        )
+        print(f"{self.cursor.rowcount} record(s) were modified...")
+        self.cnxn.commit()
+
 
 def main():
     database = DataBase(
