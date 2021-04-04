@@ -352,15 +352,12 @@ def display_outfit(
     if button_left_n_clicks or button_right_n_clicks:
 
         pointer = store_outfits_data["index"]
-        if pointer == len(outfits):
-            pointer = 0
-        elif pointer < 0:
-            pointer = outfit_length
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_left":
             print(store_outfits_data)
+            pointer = pointer - 1
             outfit = outfits[pointer]
 
             item_headwear = database.get_item_details(outfit[1])
@@ -372,7 +369,12 @@ def display_outfit(
             store_outfits_data["topwear_item_id"] = outfit[2]
             store_outfits_data["bottomwear_item_id"] = outfit[3]
             store_outfits_data["footwear_item_id"] = outfit[4]
-            store_outfits_data["index"] = pointer - 1
+            if pointer < 0:
+                store_outfits_data["index"] = outfit_length
+                print(store_outfits_data)
+            else:
+                store_outfits_data["index"] = pointer
+                print(store_outfits_data)
 
             return (
                 process_binary_image(item_headwear[5]),
@@ -384,6 +386,10 @@ def display_outfit(
 
         elif button_id == "button_right":
             print(store_outfits_data)
+            if pointer == outfit_length:
+                pointer = 0
+            else:
+                pointer = pointer + 1
 
             outfit = outfits[pointer]
 
@@ -396,7 +402,8 @@ def display_outfit(
             store_outfits_data["topwear_item_id"] = outfit[2]
             store_outfits_data["bottomwear_item_id"] = outfit[3]
             store_outfits_data["footwear_item_id"] = outfit[4]
-            store_outfits_data["index"] = pointer + 1
+            store_outfits_data["index"] = pointer
+            print(store_outfits_data)
 
             return (
                 process_binary_image(item_headwear[5]),
@@ -408,6 +415,3 @@ def display_outfit(
 
     else:
         raise PreventUpdate
-
-
-# when you switch from left button to right button, it will go left when clicking right button before going right
