@@ -13,12 +13,10 @@ from app import app, database
 # ---------------------------------------- DATA ----------------------------------------
 user_rowid, first_name, last_name, gender, email, password = database.get_user_details()
 outfits = database.get_user_outfits(user_rowid)
-outfit_length = len(outfits) - 1
+outfit_no = len(outfits)
 
 
 # --------------------------------------- IMAGES ---------------------------------------
-
-
 def process_binary_image(img):
     img_encoded = base64.b64encode(img)
     return f"data:image/png;base64,{img_encoded.decode()}"
@@ -29,21 +27,43 @@ def process_image(img):
     return f"data:image/png;base64,{img_encoded.decode()}"
 
 
-headwear_placeholder_men = process_image(
-    Path("images", "Headwear", "PlaceHolderMen.png"),
-)
+def get_outfit_images(outfit):
+    item_headwear = database.get_item_details(outfit[1])
+    item_topwear = database.get_item_details(outfit[2])
+    item_bottomwear = database.get_item_details(outfit[3])
+    item_footwear = database.get_item_details(outfit[4])
 
-topwear_placeholder_men = process_image(
-    Path("images", "Topwear", "PlaceHolderMen.png"),
-)
+    return (
+        process_binary_image(item_headwear[5]),
+        process_binary_image(item_topwear[5]),
+        process_binary_image(item_bottomwear[5]),
+        process_binary_image(item_footwear[5]),
+    )
 
-bottomwear_placeholder_men = process_image(
-    Path("images", "Bottomwear", "PlaceHolderMen.png"),
-)
 
-shoes_placeholder_men = process_image(
-    Path("images", "Shoes", "PlaceHolderMen.png"),
-)
+# outfits might be an empty list if no outfits exists
+# display first outfit images at first visit
+if outfits:
+    (
+        headwear_placeholder,
+        topwear_placeholder,
+        bottomwear_placeholder,
+        shoes_placeholder,
+    ) = get_outfit_images(outfits[0])
+else:
+    headwear_placeholder = process_image(
+        Path("images", "Headwear", "PlaceHolder.png"),
+    )
+    topwear_placeholder = process_image(
+        Path("images", "Topwear", "PlaceHolder.png"),
+    )
+    bottomwear_placeholder = process_image(
+        Path("images", "Bottomwear", "PlaceHolder.png"),
+    )
+    shoes_placeholder = process_image(
+        Path("images", "Shoes", "PlaceHolder.png"),
+    )
+
 
 # --------------------------------------- NAVBAR ---------------------------------------
 navbar = dbc.NavbarSimple(
@@ -94,7 +114,7 @@ headwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=headwear_placeholder_men,
+                src=headwear_placeholder,
                 id="card_img_outfit_headwear",
                 top=True,
             ),
@@ -107,7 +127,7 @@ topwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=topwear_placeholder_men,
+                src=topwear_placeholder,
                 id="card_img_outfit_topwear",
                 top=True,
             ),
@@ -119,7 +139,7 @@ bottomwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=bottomwear_placeholder_men,
+                src=bottomwear_placeholder,
                 id="card_img_outfit_bottomwear",
                 top=True,
             ),
@@ -132,7 +152,7 @@ footwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=shoes_placeholder_men,
+                src=shoes_placeholder,
                 id="card_img_outfit_footwear",
                 top=True,
             ),
@@ -163,7 +183,6 @@ delete_button = (
     ),
 )
 
-
 download_button = (
     dbc.Card(
         [
@@ -187,7 +206,6 @@ download_button = (
     ),
 )
 
-
 left_button = (
     dbc.Card(
         [
@@ -210,6 +228,7 @@ left_button = (
         className="border-0",
     ),
 )
+
 button_right = (
     dbc.Card(
         [
@@ -353,44 +372,17 @@ def display_or_delete_outfit(
     button_delete_n_clicks,
     store_outfits_data,
 ):
-    if button_left_n_clicks or button_right_n_clicks:
+    if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
+
+        print(store_outfits_data)
 
         pointer = store_outfits_data["index"]
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-        # left button
-        if button_id == "button_left":
-            print(store_outfits_data)
-            pointer = pointer - 1
-            outfit = outfits[pointer]
 
-            item_headwear = database.get_item_details(outfit[1])
-            item_topwear = database.get_item_details(outfit[2])
-            item_bottomwear = database.get_item_details(outfit[3])
-            item_footwear = database.get_item_details(outfit[4])
+        if button_id == "button_right":
 
-            store_outfits_data["headwear_item_id"] = outfit[1]
-            store_outfits_data["topwear_item_id"] = outfit[2]
-            store_outfits_data["bottomwear_item_id"] = outfit[3]
-            store_outfits_data["footwear_item_id"] = outfit[4]
-            if pointer < 0:
-                store_outfits_data["index"] = outfit_length
-                print(store_outfits_data)
-            else:
-                store_outfits_data["index"] = pointer
-                print(store_outfits_data)
-
-            return (
-                process_binary_image(item_headwear[5]),
-                process_binary_image(item_topwear[5]),
-                process_binary_image(item_bottomwear[5]),
-                process_binary_image(item_footwear[5]),
-                store_outfits_data,
-            )
-        # right button
-        elif button_id == "button_right":
-            print(store_outfits_data)
-            if pointer == outfit_length:
+            if pointer == outfit_no:
                 pointer = 0
             else:
                 pointer = pointer + 1
@@ -416,23 +408,57 @@ def display_or_delete_outfit(
                 process_binary_image(item_footwear[5]),
                 store_outfits_data,
             )
-        # delete button
+
+        elif button_id == "button_left":
+
+            pointer = pointer - 1
+            outfit = outfits[pointer]
+
+            item_headwear = database.get_item_details(outfit[1])
+            item_topwear = database.get_item_details(outfit[2])
+            item_bottomwear = database.get_item_details(outfit[3])
+            item_footwear = database.get_item_details(outfit[4])
+
+            store_outfits_data["headwear_item_id"] = outfit[1]
+            store_outfits_data["topwear_item_id"] = outfit[2]
+            store_outfits_data["bottomwear_item_id"] = outfit[3]
+            store_outfits_data["footwear_item_id"] = outfit[4]
+
+            if pointer < 0:
+                store_outfits_data["index"] = outfit_no
+            else:
+                store_outfits_data["index"] = pointer
+
+            return (
+                process_binary_image(item_headwear[5]),
+                process_binary_image(item_topwear[5]),
+                process_binary_image(item_bottomwear[5]),
+                process_binary_image(item_footwear[5]),
+                store_outfits_data,
+            )
+
         elif button_id == "button_delete":
             user_id = store_outfits_data["user_id"]
             headwear_id = store_outfits_data["headwear_item_id"]
             topwear_id = store_outfits_data["topwear_item_id"]
             bottomwear_id = store_outfits_data["bottomwear_item_id"]
             footwear_id = store_outfits_data["footwear_item_id"]
+
             print(user_id, headwear_id, topwear_id, bottomwear_id, footwear_id)
+
             database.delete_outfit(
-                user_id, headwear_id, topwear_id, bottomwear_id, footwear_id
+                user_id,
+                headwear_id,
+                topwear_id,
+                bottomwear_id,
+                footwear_id,
             )
 
             return (
-                headwear_placeholder_men,
-                topwear_placeholder_men,
-                bottomwear_placeholder_men,
-                shoes_placeholder_men,
+                headwear_placeholder,
+                topwear_placeholder,
+                bottomwear_placeholder,
+                shoes_placeholder,
                 store_outfits_data,
             )
 
