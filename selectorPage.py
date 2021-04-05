@@ -27,20 +27,20 @@ def process_binary_image(img):
     return f"data:image/png;base64,{img_encoded.decode()}"
 
 
-headwear_placeholder_men = process_image(
-    Path("images", "Headwear", "PlaceHolderMen.png"),
+headwear_placeholder = process_image(
+    Path("images", "Headwear", "PlaceHolder.png"),
 )
 
-topwear_placeholder_men = process_image(
-    Path("images", "Topwear", "PlaceHolderMen.png"),
+topwear_placeholder = process_image(
+    Path("images", "Topwear", "PlaceHolder.png"),
 )
 
-bottomwear_placeholder_men = process_image(
-    Path("images", "Bottomwear", "PlaceHolderMen.png"),
+bottomwear_placeholder = process_image(
+    Path("images", "Bottomwear", "PlaceHolder.png"),
 )
 
-footwear_placeholder_men = process_image(
-    Path("images", "Shoes", "PlaceHolderMen.png"),
+footwear_placeholder = process_image(
+    Path("images", "Shoes", "PlaceHolder.png"),
 )
 
 # --------------------------------------- NAVBAR ---------------------------------------
@@ -88,7 +88,7 @@ headwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=headwear_placeholder_men,
+                src=headwear_placeholder,
                 id="card_img_headwear",
                 top=True,
             ),
@@ -127,7 +127,7 @@ topwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=topwear_placeholder_men,
+                src=topwear_placeholder,
                 id="card_img_topwear",
                 top=True,
             ),
@@ -165,7 +165,7 @@ bottomwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=bottomwear_placeholder_men,
+                src=bottomwear_placeholder,
                 id="card_img_bottomwear",
                 top=True,
             ),
@@ -204,7 +204,7 @@ footwear = (
     dbc.Card(
         [
             dbc.CardImg(
-                src=footwear_placeholder_men,
+                src=footwear_placeholder,
                 id="card_img_footwear",
                 top=True,
             ),
