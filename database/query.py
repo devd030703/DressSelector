@@ -174,7 +174,7 @@ class DataBase:
 
     def get_user_outfits(self, user_rowid):
         rows = self.cursor.execute(
-            "SELECT * FROM SAVEDOUTFITS WHERE UserID=? ",
+            "SELECT Headwear, Topwear, Bottomwear, Shoes FROM SAVEDOUTFITS WHERE UserID=? ",
             [user_rowid],
         ).fetchall()
 
@@ -205,6 +205,8 @@ def main():
     )
 
     rows = database.get_user_outfits(1)
+    print(rows)
+
     for row in rows:
         print(row[0:5])
 

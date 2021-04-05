@@ -1,4 +1,5 @@
 import base64
+from itertools import cycle
 from pathlib import Path
 
 import dash_bootstrap_components as dbc
@@ -28,10 +29,10 @@ def process_image(img):
 
 
 def get_outfit_images(outfit):
-    item_headwear = database.get_item_details(outfit[1])
-    item_topwear = database.get_item_details(outfit[2])
-    item_bottomwear = database.get_item_details(outfit[3])
-    item_footwear = database.get_item_details(outfit[4])
+    item_headwear = database.get_item_details(outfit[0])
+    item_topwear = database.get_item_details(outfit[1])
+    item_bottomwear = database.get_item_details(outfit[2])
+    item_footwear = database.get_item_details(outfit[3])
 
     return (
         process_binary_image(item_headwear[5]),
@@ -39,6 +40,26 @@ def get_outfit_images(outfit):
         process_binary_image(item_bottomwear[5]),
         process_binary_image(item_footwear[5]),
     )
+
+
+def get_next_outfit(outfits, current_ind):
+    # try getting next item, if out of range, get first item (i.e. cycle to start)
+    try:
+        next_outfit = outfits[current_ind + 1]
+    except IndexError:
+        next_outfit = outfits[0]
+
+    return next_outfit
+
+
+def get_previous_outfit(outfits, current_ind):
+    # try getting previous item, if out of range, get last item (i.e. cycle to end)
+    try:
+        previous_outfit = outfits[current_ind - 1]
+    except IndexError:
+        previous_outfit = outfits[-1]
+
+    return previous_outfit
 
 
 # outfits might be an empty list if no outfits exists
@@ -50,6 +71,14 @@ if outfits:
         bottomwear_placeholder,
         shoes_placeholder,
     ) = get_outfit_images(outfits[0])
+
+    # initialize outfits to found outfits (which is a list)
+    # initialize current outfit to first outfit in outfits (which is a tuple)
+    outfits_data = {
+        "outfits": outfits,
+        "current_outfit": outfits[0],
+    }
+
 else:
     headwear_placeholder = process_image(
         Path("images", "Headwear", "PlaceHolder.png"),
@@ -63,6 +92,12 @@ else:
     shoes_placeholder = process_image(
         Path("images", "Shoes", "PlaceHolder.png"),
     )
+
+    # initialize all to None
+    outfits_data = {
+        "outfits": None,
+        "current_outfit": None,
+    }
 
 
 # --------------------------------------- NAVBAR ---------------------------------------
@@ -266,14 +301,7 @@ layout = dbc.Container(
                 dcc.Store(
                     id="store_outfits",
                     storage_type="session",
-                    data={
-                        "index": 0,
-                        "user_id": outfits[0][0],
-                        "headwear_item_id": outfits[0][1],
-                        "topwear_item_id": outfits[0][2],
-                        "bottomwear_item_id": outfits[0][3],
-                        "footwear_item_id": outfits[0][4],
-                    },
+                    data=outfits_data,
                 ),
                 dbc.Row(
                     [
@@ -373,94 +401,93 @@ def display_or_delete_outfit(
     store_outfits_data,
 ):
     if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
-
-        print(store_outfits_data)
-
-        pointer = store_outfits_data["index"]
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-        if button_id == "button_right":
+        # get current list of outfits
+        outfits = store_outfits_data["outfits"]
 
-            if pointer == outfit_no:
-                pointer = 0
-            else:
-                pointer = pointer + 1
+        # if there are outfits
+        if outfits is not None:
 
-            outfit = outfits[pointer]
+            current_outfit = store_outfits_data["current_outfit"]
+            current_outfit_ind = outfits.index(current_outfit)
 
-            item_headwear = database.get_item_details(outfit[1])
-            item_topwear = database.get_item_details(outfit[2])
-            item_bottomwear = database.get_item_details(outfit[3])
-            item_footwear = database.get_item_details(outfit[4])
+            if button_id == "button_right":
 
-            store_outfits_data["headwear_item_id"] = outfit[1]
-            store_outfits_data["topwear_item_id"] = outfit[2]
-            store_outfits_data["bottomwear_item_id"] = outfit[3]
-            store_outfits_data["footwear_item_id"] = outfit[4]
-            store_outfits_data["index"] = pointer
-            print(store_outfits_data)
+                next_outfit = get_next_outfit(outfits, current_outfit_ind)
 
-            return (
-                process_binary_image(item_headwear[5]),
-                process_binary_image(item_topwear[5]),
-                process_binary_image(item_bottomwear[5]),
-                process_binary_image(item_footwear[5]),
-                store_outfits_data,
-            )
+                print(next_outfit)
 
-        elif button_id == "button_left":
+                (
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                ) = get_outfit_images(next_outfit)
 
-            pointer = pointer - 1
-            outfit = outfits[pointer]
+                # update store_outfits_data
+                store_outfits_data["current_outfit"] = next_outfit
 
-            item_headwear = database.get_item_details(outfit[1])
-            item_topwear = database.get_item_details(outfit[2])
-            item_bottomwear = database.get_item_details(outfit[3])
-            item_footwear = database.get_item_details(outfit[4])
+                return (
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                    store_outfits_data,
+                )
 
-            store_outfits_data["headwear_item_id"] = outfit[1]
-            store_outfits_data["topwear_item_id"] = outfit[2]
-            store_outfits_data["bottomwear_item_id"] = outfit[3]
-            store_outfits_data["footwear_item_id"] = outfit[4]
+            elif button_id == "button_left":
 
-            if pointer < 0:
-                store_outfits_data["index"] = outfit_no
-            else:
-                store_outfits_data["index"] = pointer
+                previous_outfit = get_previous_outfit(outfits, current_outfit_ind)
 
-            return (
-                process_binary_image(item_headwear[5]),
-                process_binary_image(item_topwear[5]),
-                process_binary_image(item_bottomwear[5]),
-                process_binary_image(item_footwear[5]),
-                store_outfits_data,
-            )
+                print(previous_outfit)
 
-        elif button_id == "button_delete":
-            user_id = store_outfits_data["user_id"]
-            headwear_id = store_outfits_data["headwear_item_id"]
-            topwear_id = store_outfits_data["topwear_item_id"]
-            bottomwear_id = store_outfits_data["bottomwear_item_id"]
-            footwear_id = store_outfits_data["footwear_item_id"]
+                (
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                ) = get_outfit_images(previous_outfit)
 
-            print(user_id, headwear_id, topwear_id, bottomwear_id, footwear_id)
+                # update store_outfits_data
+                store_outfits_data["current_outfit"] = previous_outfit
 
-            database.delete_outfit(
-                user_id,
-                headwear_id,
-                topwear_id,
-                bottomwear_id,
-                footwear_id,
-            )
+                return (
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                    store_outfits_data,
+                )
 
-            return (
-                headwear_placeholder,
-                topwear_placeholder,
-                bottomwear_placeholder,
-                shoes_placeholder,
-                store_outfits_data,
-            )
+            elif button_id == "button_delete":
+                user_id = store_outfits_data["user_id"]
+                headwear_id = store_outfits_data["headwear_item_id"]
+                topwear_id = store_outfits_data["topwear_item_id"]
+                bottomwear_id = store_outfits_data["bottomwear_item_id"]
+                footwear_id = store_outfits_data["footwear_item_id"]
+
+                print(user_id, headwear_id, topwear_id, bottomwear_id, footwear_id)
+
+                database.delete_outfit(
+                    user_id,
+                    headwear_id,
+                    topwear_id,
+                    bottomwear_id,
+                    footwear_id,
+                )
+
+                return (
+                    headwear_placeholder,
+                    topwear_placeholder,
+                    bottomwear_placeholder,
+                    shoes_placeholder,
+                    store_outfits_data,
+                )
+
+        else:
+            raise PreventUpdate
 
     else:
         raise PreventUpdate
