@@ -605,56 +605,68 @@ def enable_save_button(store_items_id_data):
         Output("button_headwear_cross", "color"),
     ],
     [
+        Input("button_headwear_randomise", "n_clicks"),
         Input("button_headwear_tick", "n_clicks"),
         Input("button_headwear_cross", "n_clicks"),
     ],
     State("store_items_id", "data"),
 )
 def save_headwear_preferences(
+    button_headwear_randomise_n_clicks,
     button_headwear_tick_n_clicks,
     button_headwear_cross_n_clicks,
     store_items_id_data,
 ):
-    if button_headwear_tick_n_clicks or button_headwear_cross_n_clicks:
+    if (
+        button_headwear_randomise_n_clicks
+        or button_headwear_tick_n_clicks
+        or button_headwear_cross_n_clicks
+    ):
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-        headwear_item_id = store_items_id_data["headwear_item_id"]
+        # reset preferences whenever randomise is clicked
+        if button_id == "button_headwear_randomise":
+            return "primary", "primary"
 
-        preference_exists = database.check_preference_exists(
-            user_rowid,
-            headwear_item_id,
-        )
+        else:
 
-        if button_id == "button_headwear_tick":
-            if preference_exists:
-                database.update_preference(
-                    True,
-                    user_rowid,
-                    headwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    headwear_item_id,
-                    True,
-                )
-            return "success", "primary"
+            headwear_item_id = store_items_id_data["headwear_item_id"]
 
-        elif button_id == "button_headwear_cross":
-            if preference_exists:
-                database.update_preference(
-                    False,
-                    user_rowid,
-                    headwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    headwear_item_id,
-                    False,
-                )
-            return "primary", "danger"
+            preference_exists = database.check_preference_exists(
+                user_rowid,
+                headwear_item_id,
+            )
+
+            if button_id == "button_headwear_tick":
+                if preference_exists:
+                    database.update_preference(
+                        True,
+                        user_rowid,
+                        headwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        headwear_item_id,
+                        True,
+                    )
+                return "success", "primary"
+
+            elif button_id == "button_headwear_cross":
+                if preference_exists:
+                    database.update_preference(
+                        False,
+                        user_rowid,
+                        headwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        headwear_item_id,
+                        False,
+                    )
+                return "primary", "danger"
 
     else:
         raise PreventUpdate
@@ -666,56 +678,68 @@ def save_headwear_preferences(
         Output("button_topwear_cross", "color"),
     ],
     [
+        Input("button_topwear_randomise", "n_clicks"),
         Input("button_topwear_tick", "n_clicks"),
         Input("button_topwear_cross", "n_clicks"),
     ],
     State("store_items_id", "data"),
 )
 def save_topwear_preferences(
+    button_topwear_randomise_n_clicks,
     button_topwear_tick_n_clicks,
     button_topwear_cross_n_clicks,
     store_items_id_data,
 ):
-    if button_topwear_tick_n_clicks or button_topwear_cross_n_clicks:
+    if (
+        button_topwear_randomise_n_clicks
+        or button_topwear_tick_n_clicks
+        or button_topwear_cross_n_clicks
+    ):
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-        topwear_item_id = store_items_id_data["topwear_item_id"]
+        # reset preferences whenever randomise is clicked
+        if button_id == "button_headwear_randomise":
+            return "primary", "primary"
 
-        preference_exists = database.check_preference_exists(
-            user_rowid,
-            topwear_item_id,
-        )
+        else:
 
-        if button_id == "button_topwear_tick":
-            if preference_exists:
-                database.update_preference(
-                    True,
-                    user_rowid,
-                    topwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    topwear_item_id,
-                    True,
-                )
-            return "success", "primary"
+            topwear_item_id = store_items_id_data["topwear_item_id"]
 
-        elif button_id == "button_topwear_cross":
-            if preference_exists:
-                database.update_preference(
-                    False,
-                    user_rowid,
-                    topwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    topwear_item_id,
-                    False,
-                )
-            return "primary", "danger"
+            preference_exists = database.check_preference_exists(
+                user_rowid,
+                topwear_item_id,
+            )
+
+            if button_id == "button_topwear_tick":
+                if preference_exists:
+                    database.update_preference(
+                        True,
+                        user_rowid,
+                        topwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        topwear_item_id,
+                        True,
+                    )
+                return "success", "primary"
+
+            elif button_id == "button_topwear_cross":
+                if preference_exists:
+                    database.update_preference(
+                        False,
+                        user_rowid,
+                        topwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        topwear_item_id,
+                        False,
+                    )
+                return "primary", "danger"
 
     else:
         raise PreventUpdate
@@ -727,56 +751,68 @@ def save_topwear_preferences(
         Output("button_bottomwear_cross", "color"),
     ],
     [
+        Input("button_bottomwear_randomise", "n_clicks"),
         Input("button_bottomwear_tick", "n_clicks"),
         Input("button_bottomwear_cross", "n_clicks"),
     ],
     State("store_items_id", "data"),
 )
 def save_bottomwear_preferences(
+    button_bottomwear_randomise_n_clicks,
     button_bottomwear_tick_n_clicks,
     button_bottomwear_cross_n_clicks,
     store_items_id_data,
 ):
-    if button_bottomwear_tick_n_clicks or button_bottomwear_cross_n_clicks:
+    if (
+        button_bottomwear_randomise_n_clicks
+        or button_bottomwear_tick_n_clicks
+        or button_bottomwear_cross_n_clicks
+    ):
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-        bottomwear_item_id = store_items_id_data["bottomwear_item_id"]
+        # reset preferences whenever randomise is clicked
+        if button_id == "button_headwear_randomise":
+            return "primary", "primary"
 
-        preference_exists = database.check_preference_exists(
-            user_rowid,
-            bottomwear_item_id,
-        )
+        else:
 
-        if button_id == "button_bottomwear_tick":
-            if preference_exists:
-                database.update_preference(
-                    True,
-                    user_rowid,
-                    bottomwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    bottomwear_item_id,
-                    True,
-                )
-            return "success", "primary"
+            bottomwear_item_id = store_items_id_data["bottomwear_item_id"]
 
-        elif button_id == "button_bottomwear_cross":
-            if preference_exists:
-                database.update_preference(
-                    False,
-                    user_rowid,
-                    bottomwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    bottomwear_item_id,
-                    False,
-                )
-            return "primary", "danger"
+            preference_exists = database.check_preference_exists(
+                user_rowid,
+                bottomwear_item_id,
+            )
+
+            if button_id == "button_bottomwear_tick":
+                if preference_exists:
+                    database.update_preference(
+                        True,
+                        user_rowid,
+                        bottomwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        bottomwear_item_id,
+                        True,
+                    )
+                return "success", "primary"
+
+            elif button_id == "button_bottomwear_cross":
+                if preference_exists:
+                    database.update_preference(
+                        False,
+                        user_rowid,
+                        bottomwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        bottomwear_item_id,
+                        False,
+                    )
+                return "primary", "danger"
 
     else:
         raise PreventUpdate
@@ -788,56 +824,68 @@ def save_bottomwear_preferences(
         Output("button_footwear_cross", "color"),
     ],
     [
+        Input("button_footwear_randomise", "n_clicks"),
         Input("button_footwear_tick", "n_clicks"),
         Input("button_footwear_cross", "n_clicks"),
     ],
     State("store_items_id", "data"),
 )
 def save_footwear_preferences(
+    button_footwear_randomise_n_clicks,
     button_footwear_tick_n_clicks,
     button_footwear_cross_n_clicks,
     store_items_id_data,
 ):
-    if button_footwear_tick_n_clicks or button_footwear_cross_n_clicks:
+    if (
+        button_footwear_randomise_n_clicks
+        or button_footwear_tick_n_clicks
+        or button_footwear_cross_n_clicks
+    ):
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-        footwear_item_id = store_items_id_data["footwear_item_id"]
+        # reset preferences whenever randomise is clicked
+        if button_id == "button_headwear_randomise":
+            return "primary", "primary"
 
-        preference_exists = database.check_preference_exists(
-            user_rowid,
-            footwear_item_id,
-        )
+        else:
 
-        if button_id == "button_footwear_tick":
-            if preference_exists:
-                database.update_preference(
-                    True,
-                    user_rowid,
-                    footwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    footwear_item_id,
-                    True,
-                )
-            return "success", "primary"
+            footwear_item_id = store_items_id_data["footwear_item_id"]
 
-        elif button_id == "button_footwear_cross":
-            if preference_exists:
-                database.update_preference(
-                    False,
-                    user_rowid,
-                    footwear_item_id,
-                )
-            else:
-                database.add_preference(
-                    user_rowid,
-                    footwear_item_id,
-                    False,
-                )
-            return "primary", "danger"
+            preference_exists = database.check_preference_exists(
+                user_rowid,
+                footwear_item_id,
+            )
+
+            if button_id == "button_footwear_tick":
+                if preference_exists:
+                    database.update_preference(
+                        True,
+                        user_rowid,
+                        footwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        footwear_item_id,
+                        True,
+                    )
+                return "success", "primary"
+
+            elif button_id == "button_footwear_cross":
+                if preference_exists:
+                    database.update_preference(
+                        False,
+                        user_rowid,
+                        footwear_item_id,
+                    )
+                else:
+                    database.add_preference(
+                        user_rowid,
+                        footwear_item_id,
+                        False,
+                    )
+                return "primary", "danger"
 
     else:
         raise PreventUpdate
