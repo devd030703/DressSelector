@@ -42,22 +42,22 @@ def get_outfit_images(outfit):
     )
 
 
-def get_next_outfit(outfits, current_ind):
+def get_next_outfit(outfits, current_index):
     # try getting next item, if out of range, get first item (i.e. cycle to start)
     try:
-        next_outfit = outfits[current_ind + 1]
+        next_outfit = outfits[current_index + 1]
     except IndexError:
         next_outfit = outfits[0]
 
     return next_outfit
 
 
-def get_previous_outfit(outfits, current_ind):
+def get_previous_outfit(outfits, current_index):
     # try getting previous item, if out of range, get last item (i.e. cycle to end)
     try:
-        previous_outfit = outfits[current_ind - 1]
+        previous_outfit = outfits[current_index - 1]
     except IndexError:
-        previous_outfit = outfits[-1]
+        previous_outfit = outfits[(len(outfits) - 1)]
 
     return previous_outfit
 
@@ -411,11 +411,11 @@ def display_or_delete_outfit(
         if outfits is not None:
 
             current_outfit = store_outfits_data["current_outfit"]
-            current_outfit_ind = outfits.index(current_outfit)
+            current_outfit_index = outfits.index(current_outfit)
 
             if button_id == "button_right":
 
-                next_outfit = get_next_outfit(outfits, current_outfit_ind)
+                next_outfit = get_next_outfit(outfits, current_outfit_index)
 
                 print(next_outfit)
 
@@ -439,7 +439,7 @@ def display_or_delete_outfit(
 
             elif button_id == "button_left":
 
-                previous_outfit = get_previous_outfit(outfits, current_outfit_ind)
+                previous_outfit = get_previous_outfit(outfits, current_outfit_index)
 
                 print(previous_outfit)
 
