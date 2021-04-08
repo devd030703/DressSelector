@@ -1,9 +1,12 @@
 import base64
+import urllib
 from pathlib import Path
 
+import cv2
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+import pandas as pd
 from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
@@ -27,6 +30,23 @@ def process_binary_image(img):
 def process_image(img):
     img_encoded = base64.b64encode(open(img, "rb").read())
     return f"data:image/png;base64,{img_encoded.decode()}"
+
+
+def vconcat_resize_min(img_list):
+    # find minimum width from all images
+    w_min = min(img.shape[1] for img in img_list)
+
+    # resize all images to minimum width found
+    img_list_resize = [
+        cv2.resize(
+            img,
+            (w_min, int(img.shape[0] * w_min / img.shape[1])),
+            interpolation=cv2.INTER_CUBIC,
+        )
+        for img in img_list
+    ]
+
+    return cv2.vconcat(img_list_resize)
 
 
 def get_outfit_images(outfit):
@@ -231,6 +251,9 @@ download_button = (
                                     children="Download",
                                     id="button_download",
                                     color="primary",
+                                    href="",
+                                    download="test.csv",
+                                    target="_blank",
                                 ),
                             ),
                         ],
@@ -535,3 +558,34 @@ def display_or_delete_outfit(
 
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    Output("button_download", "href"),
+    [
+        Input("button_left", "n_clicks"),
+        Input("button_right", "n_clicks"),
+        Input("button_delete", "n_clicks"),
+    ],
+    State("store_outfits", "data"),
+)
+def update_download_link(
+    button_left_n_clicks,
+    button_right_n_clicks,
+    button_delete_n_clicks,
+    store_outfits_data,
+):
+    if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
+        df = pd.DataFrame(
+            {"a": [1, 2, 3, 4], "b": [2, 1, 5, 6], "c": ["x", "x", "y", "y"]}
+        )
+        csv_string = df.to_csv(index=False, encoding="utf-8")
+        csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+        return csv_string
+
+    else:
+        raise PreventUpdate
+
+
+# im_v = cv2.vconcat([im1, im1])
+# cv2.imwrite('data/dst/opencv_vconcat.jpg', im_v)
