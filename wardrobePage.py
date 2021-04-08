@@ -6,7 +6,6 @@ import cv2
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas as pd
 from dash import callback_context
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
@@ -32,7 +31,7 @@ def process_image(img):
     return f"data:image/png;base64,{img_encoded.decode()}"
 
 
-def vconcat_resize_min(img_list):
+def concat_images(img_list):
     # find minimum width from all images
     w_min = min(img.shape[1] for img in img_list)
 
@@ -567,7 +566,12 @@ def display_or_delete_outfit(
         Input("button_right", "n_clicks"),
         Input("button_delete", "n_clicks"),
     ],
-    State("store_outfits", "data"),
+    [
+        State("card_img_outfit_headwear", "src"),
+        State("card_img_outfit_topwear", "src"),
+        State("card_img_outfit_bottomwear", "src"),
+        State("card_img_outfit_footwear", "src"),
+    ],
 )
 def update_download_link(
     button_left_n_clicks,
@@ -576,12 +580,31 @@ def update_download_link(
     store_outfits_data,
 ):
     if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
-        df = pd.DataFrame(
-            {"a": [1, 2, 3, 4], "b": [2, 1, 5, 6], "c": ["x", "x", "y", "y"]}
-        )
-        csv_string = df.to_csv(index=False, encoding="utf-8")
-        csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-        return csv_string
+
+        # get current outfit
+        current_outfit = store_outfits_data["current_outfit"]
+
+        # if there are outfits
+        if current_outfit is not None:
+
+            (
+                card_img_outfit_headwear_src,
+                card_img_outfit_topwear_src,
+                card_img_outfit_bottomwear_scr,
+                card_img_outfit_footwear_src,
+            ) = get_outfit_images(current_outfit)
+
+            img = concat_images(
+                [
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                ]
+            )
+
+        # csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+        return img
 
     else:
         raise PreventUpdate
