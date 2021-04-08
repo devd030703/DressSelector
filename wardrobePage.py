@@ -464,21 +464,6 @@ def display_or_delete_outfit(
 
             elif button_id == "button_delete":
 
-                # get next outfit to display
-                next_outfit = get_next_outfit(outfits, current_outfit_index)
-
-                print(next_outfit)
-
-                (
-                    card_img_outfit_headwear_src,
-                    card_img_outfit_topwear_src,
-                    card_img_outfit_bottomwear_scr,
-                    card_img_outfit_footwear_src,
-                ) = get_outfit_images(next_outfit)
-
-                # update store_outfits_data
-                store_outfits_data["current_outfit"] = next_outfit
-
                 # get current outfit ids to delete
                 headwear_id = current_outfit[0]
                 topwear_id = current_outfit[1]
@@ -493,9 +478,49 @@ def display_or_delete_outfit(
                     footwear_id,
                 )
 
+                # make a temp copy before deleting the outfit so we can use the
+                # current_outfit_index to get the next outfit if needed
+                outfits_temp = outfits
+
                 # update store_outfits_data
                 del outfits[current_outfit_index]
                 store_outfits_data["outfits"] = outfits
+
+                # the outfits list might be empty if the last item was deleted
+                if outfits:
+
+                    # get next outfit to display using temp copy of outfits
+                    next_outfit = get_next_outfit(outfits_temp, current_outfit_index)
+
+                    print(next_outfit)
+
+                    (
+                        card_img_outfit_headwear_src,
+                        card_img_outfit_topwear_src,
+                        card_img_outfit_bottomwear_scr,
+                        card_img_outfit_footwear_src,
+                    ) = get_outfit_images(next_outfit)
+
+                    # update store_outfits_data
+                    store_outfits_data["current_outfit"] = next_outfit
+
+                else:
+                    card_img_outfit_headwear_src = process_image(
+                        Path("images", "Headwear", "PlaceHolder.png"),
+                    )
+                    card_img_outfit_topwear_src = process_image(
+                        Path("images", "Topwear", "PlaceHolder.png"),
+                    )
+                    card_img_outfit_bottomwear_scr = process_image(
+                        Path("images", "Bottomwear", "PlaceHolder.png"),
+                    )
+                    card_img_outfit_footwear_src = process_image(
+                        Path("images", "Shoes", "PlaceHolder.png"),
+                    )
+
+                    # update store_outfits_data
+                    store_outfits_data["outfits"] = None
+                    store_outfits_data["current_outfit"] = None
 
                 return (
                     card_img_outfit_headwear_src,
