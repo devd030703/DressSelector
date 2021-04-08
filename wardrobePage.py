@@ -16,6 +16,8 @@ user_rowid, first_name, last_name, gender, email, password = database.get_user_d
 outfits = database.get_user_outfits(user_rowid)
 outfit_no = len(outfits)
 
+print(outfits)
+
 
 # --------------------------------------- IMAGES ---------------------------------------
 def process_binary_image(img):
@@ -57,7 +59,7 @@ def get_previous_outfit(outfits, current_index):
     try:
         previous_outfit = outfits[current_index - 1]
     except IndexError:
-        previous_outfit = outfits[(len(outfits) - 1)]
+        previous_outfit = outfits[-1]
 
     return previous_outfit
 
