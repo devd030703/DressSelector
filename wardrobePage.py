@@ -1,5 +1,4 @@
 import base64
-from itertools import cycle
 from pathlib import Path
 
 import dash_bootstrap_components as dbc
@@ -464,27 +463,45 @@ def display_or_delete_outfit(
                 )
 
             elif button_id == "button_delete":
-                user_id = store_outfits_data["user_id"]
-                headwear_id = store_outfits_data["headwear_item_id"]
-                topwear_id = store_outfits_data["topwear_item_id"]
-                bottomwear_id = store_outfits_data["bottomwear_item_id"]
-                footwear_id = store_outfits_data["footwear_item_id"]
 
-                print(user_id, headwear_id, topwear_id, bottomwear_id, footwear_id)
+                # get next outfit to display
+                next_outfit = get_next_outfit(outfits, current_outfit_index)
+
+                print(next_outfit)
+
+                (
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                ) = get_outfit_images(next_outfit)
+
+                # update store_outfits_data
+                store_outfits_data["current_outfit"] = next_outfit
+
+                # get current outfit ids to delete
+                headwear_id = current_outfit[0]
+                topwear_id = current_outfit[1]
+                bottomwear_id = current_outfit[2]
+                footwear_id = current_outfit[3]
 
                 database.delete_outfit(
-                    user_id,
+                    user_rowid,
                     headwear_id,
                     topwear_id,
                     bottomwear_id,
                     footwear_id,
                 )
 
+                # update store_outfits_data
+                del outfits[current_outfit_index]
+                store_outfits_data["outfits"] = outfits
+
                 return (
-                    headwear_placeholder,
-                    topwear_placeholder,
-                    bottomwear_placeholder,
-                    shoes_placeholder,
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
                     store_outfits_data,
                 )
 
