@@ -559,55 +559,55 @@ def display_or_delete_outfit(
         raise PreventUpdate
 
 
-@app.callback(
-    Output("button_download", "href"),
-    [
-        Input("button_left", "n_clicks"),
-        Input("button_right", "n_clicks"),
-        Input("button_delete", "n_clicks"),
-    ],
-    [
-        State("card_img_outfit_headwear", "src"),
-        State("card_img_outfit_topwear", "src"),
-        State("card_img_outfit_bottomwear", "src"),
-        State("card_img_outfit_footwear", "src"),
-    ],
-)
-def update_download_link(
-    button_left_n_clicks,
-    button_right_n_clicks,
-    button_delete_n_clicks,
-    store_outfits_data,
-):
-    if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
+# @app.callback(
+#     Output("button_download", "href"),
+#     [
+#         Input("button_left", "n_clicks"),
+#         Input("button_right", "n_clicks"),
+#         Input("button_delete", "n_clicks"),
+#     ],
+#     [
+#         State("card_img_outfit_headwear", "src"),
+#         State("card_img_outfit_topwear", "src"),
+#         State("card_img_outfit_bottomwear", "src"),
+#         State("card_img_outfit_footwear", "src"),
+#     ],
+# )
+# def update_download_link(
+#     button_left_n_clicks,
+#     button_right_n_clicks,
+#     button_delete_n_clicks,
+#     store_outfits_data,
+# ):
+#     if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
 
-        # get current outfit
-        current_outfit = store_outfits_data["current_outfit"]
+#         # get current outfit
+#         current_outfit = store_outfits_data["current_outfit"]
 
-        # if there are outfits
-        if current_outfit is not None:
+#         # if there are outfits
+#         if current_outfit is not None:
 
-            (
-                card_img_outfit_headwear_src,
-                card_img_outfit_topwear_src,
-                card_img_outfit_bottomwear_scr,
-                card_img_outfit_footwear_src,
-            ) = get_outfit_images(current_outfit)
+#             (
+#                 card_img_outfit_headwear_src,
+#                 card_img_outfit_topwear_src,
+#                 card_img_outfit_bottomwear_scr,
+#                 card_img_outfit_footwear_src,
+#             ) = get_outfit_images(current_outfit)
 
-            img = concat_images(
-                [
-                    card_img_outfit_headwear_src,
-                    card_img_outfit_topwear_src,
-                    card_img_outfit_bottomwear_scr,
-                    card_img_outfit_footwear_src,
-                ]
-            )
+#             img = concat_images(
+#                 [
+#                     card_img_outfit_headwear_src,
+#                     card_img_outfit_topwear_src,
+#                     card_img_outfit_bottomwear_scr,
+#                     card_img_outfit_footwear_src,
+#                 ]
+#             )
 
-        # csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-        return img
+#         # csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+#         return img
 
-    else:
-        raise PreventUpdate
+#     else:
+#         raise PreventUpdate
 
 
 # im_v = cv2.vconcat([im1, im1])

@@ -3,21 +3,36 @@ Table rows have a 64-bit signed integer ROWID which is unique among all rows in
 the same table. We will use this as the unique PK for all tables
 """
 
-import sqlite3
-from pathlib import Path
+from sqlalchemy import create_engine, text
 
 
 class DataBase:
-    def __init__(self, database_name):
+    def __init__(self):
 
-        self.cnxn = sqlite3.connect(database_name)
+        user = "dressselector@dress-selector-dev-uks-mysql"
+        password = "jYrjoj-5fawmi-jawxaw"
+        host = "dress-selector-dev-uks-mysql.mysql.database.azure.com"
+        port = 3306
+
+        self.engine = create_engine(
+            f"mysql+pymysql://{user}:{password}@{host}:{port}",
+            connect_args={"ssl": {"ssl_ca": "certificate.crt.pem"}},
+        )
+
+        with self.engine.connect() as cnxn:
+            cnxn.execute(text("""CREATE DATABASE IF NOT EXISTS database;"""))
+
+        # self.cnxn = self.engine.connect()
+
         print("database connected...")
 
-        self.cursor = self.cnxn.cursor()
+        # self.cursor = self.cnxn.cursor()
 
     def create_users_table(self):
-        self.cursor.execute(
-            """
+        with self.engine.connect() as cnxn:
+            cnxn.execute(
+                text(
+                    """
         CREATE TABLE "USERS" (
             "FirstName"	TEXT NOT NULL,
             "LastName"	TEXT NOT NULL,
@@ -26,13 +41,14 @@ class DataBase:
             "Password"	TEXT NOT NULL
         );
         """
-        )
-
-        self.cnxn.commit()
+                )
+            )
 
     def create_item_catalogue_table(self):
-        self.cursor.execute(
-            """
+        with self.engine.connect() as cnxn:
+            cnxn.execute(
+                text(
+                    """
         CREATE TABLE "ITEMCATALOGUE" (
             "ItemID" INTEGER NOT NULL,
             "Subcategory"	TEXT NOT NULL,
@@ -42,13 +58,14 @@ class DataBase:
             "Image"	BLOB NOT NULL
         );
         """
-        )
-
-        self.cnxn.commit()
+                )
+            )
 
     def create_saved_outfits(self):
-        self.cursor.execute(
-            """
+        with self.engine.connect() as cnxn:
+            cnxn.execute(
+                text(
+                    """
         CREATE TABLE "SAVEDOUTFITS" (
             "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid"),
             "Headwear"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID"),
@@ -57,31 +74,26 @@ class DataBase:
             "Shoes"	INTEGER REFERENCES "ITEMCATALOGUE"("ItemID")
         );
         """
-        )
-
-        self.cnxn.commit()
+                )
+            )
 
     def create_table_preferences(self):
-        self.cursor.execute(
-            """
+        with self.engine.connect() as cnxn:
+            cnxn.execute(
+                text(
+                    """
         CREATE TABLE "PREFERENCES" (
             "UserID"	INTEGER NOT NULL REFERENCES "USERS"("rowid"),
             "ItemID"	INTEGER NOT NULL REFERENCES "ITEMCATALOGUE"("ItemID"),
             "Rating"	BOOLEAN NOT NULL
         );
         """
-        )
-
-        self.cnxn.commit()
+                )
+            )
 
 
 def main():
-    database = DataBase(
-        Path(
-            "database",
-            "database.db",
-        )
-    )
+    database = DataBase()
     database.create_users_table()
     database.create_item_catalogue_table()
     database.create_saved_outfits()

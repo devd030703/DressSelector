@@ -8,8 +8,6 @@ from dash.exceptions import PreventUpdate
 
 from app import app, database
 
-# ---------------------------------------- DATA ----------------------------------------
-
 # --------------------------------------- IMAGES ---------------------------------------
 logo_image = "logo.png"
 ds_logo_encoded = base64.b64encode(open(logo_image, "rb").read())

@@ -1,17 +1,10 @@
-from pathlib import Path
-
 import dash
 import dash_bootstrap_components as dbc
 
 from database.query import DataBase
 
 # create an object of the database before creating the main app
-database = DataBase(
-    Path(
-        "database",
-        "database.db",
-    )
-)
+database = DataBase()
 
 # create the main app
 app = dash.Dash(
