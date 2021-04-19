@@ -11,9 +11,7 @@ import os
 import pandas as pd
 
 # %%
-
 # read data, use first cololumn as index, set coloumns, drop nulls, sort ascending by ID
-
 df = (
     pd.read_csv(
         os.path.join(
