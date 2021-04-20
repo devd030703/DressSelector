@@ -232,7 +232,7 @@ def update_delete_details(
         # delete current user account
         if button_id == "button_delete_account":
             database.delete_user(database.user_rowid)
-            # changes alert attributes for visual confirmation
+            # changes alert attributes for visual feedback
             return (
                 True,
                 "success",
@@ -248,7 +248,7 @@ def update_delete_details(
                 password=input_password_account_value,
                 user_rowid=database.user_rowid,
             )
-            # changes alert attributes for visual confirmation
+            # changes alert attributes for visual feedback
             return (
                 True,
                 "success",
