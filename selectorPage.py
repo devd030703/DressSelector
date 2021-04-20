@@ -44,6 +44,7 @@ footwear_placeholder = process_image(
 )
 
 # --------------------------------------- NAVBAR ---------------------------------------
+# create navbar
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(
@@ -71,6 +72,7 @@ navbar = dbc.NavbarSimple(
             ),
         ),
         dbc.DropdownMenu(
+            # dropdown menu for furture proofing
             children=[dbc.DropdownMenuItem("Options", header=True)],
             nav=True,
             in_navbar=True,
@@ -85,6 +87,7 @@ navbar = dbc.NavbarSimple(
 
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
+    # Headwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -95,12 +98,14 @@ headwear = (
             dbc.Row(
                 [
                     dbc.Button(
+                        # randomise button
                         children="🔀",
                         id="button_headwear_randomise",
                         color="primary",
                         className="m-2",
                     ),
                     dbc.Button(
+                        # like button
                         children="✓",
                         id="button_headwear_tick",
                         color="primary",
@@ -108,6 +113,7 @@ headwear = (
                         className="m-2",
                     ),
                     dbc.Button(
+                        # dislike button
                         children="✖",
                         id="button_headwear_cross",
                         color="primary",
@@ -124,6 +130,7 @@ headwear = (
 
 
 topwear = (
+    # Topwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -134,12 +141,14 @@ topwear = (
             dbc.Row(
                 [
                     dbc.Button(
+                        # randomise button
                         children="🔀",
                         id="button_topwear_randomise",
                         color="primary",
                         className="m-2",
                     ),
                     dbc.Button(
+                        # like button
                         children="✓",
                         id="button_topwear_tick",
                         color="primary",
@@ -147,6 +156,7 @@ topwear = (
                         className="m-2",
                     ),
                     dbc.Button(
+                        # dislike button
                         children="✖",
                         id="button_topwear_cross",
                         color="primary",
@@ -162,6 +172,7 @@ topwear = (
 )
 
 bottomwear = (
+    # Bottomwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -172,12 +183,14 @@ bottomwear = (
             dbc.Row(
                 [
                     dbc.Button(
+                        # randomise button
                         children="🔀",
                         id="button_bottomwear_randomise",
                         color="primary",
                         className="m-2",
                     ),
                     dbc.Button(
+                        # like button
                         children="✓",
                         id="button_bottomwear_tick",
                         color="primary",
@@ -185,6 +198,7 @@ bottomwear = (
                         className="m-2",
                     ),
                     dbc.Button(
+                        # dislike button
                         children="✖",
                         id="button_bottomwear_cross",
                         color="primary",
@@ -201,6 +215,7 @@ bottomwear = (
 
 
 footwear = (
+    # Footwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -211,12 +226,14 @@ footwear = (
             dbc.Row(
                 [
                     dbc.Button(
+                        # randomise button
                         children="🔀",
                         id="button_footwear_randomise",
                         color="primary",
                         className="m-2",
                     ),
                     dbc.Button(
+                        # like button
                         children="✓",
                         id="button_footwear_tick",
                         color="primary",
@@ -224,6 +241,7 @@ footwear = (
                         className="m-2",
                     ),
                     dbc.Button(
+                        # dislike button
                         children="✖",
                         id="button_footwear_cross",
                         color="primary",
@@ -239,14 +257,17 @@ footwear = (
 )
 
 user_buttons = (
+    # create user buttons
     dbc.Card(
         [
             dbc.CardBody(
                 [
+                    # row 1
                     dbc.Row(
                         [
                             dbc.Col(
                                 dbc.Button(
+                                    # generate button
                                     children="generate",
                                     id="button_generate",
                                     color="primary",
@@ -256,6 +277,7 @@ user_buttons = (
                             ),
                             dbc.Col(
                                 dbc.Button(
+                                    # save button
                                     children="save",
                                     id="button_save",
                                     color="primary",
@@ -279,11 +301,13 @@ layout = dbc.Container(
     [
         html.Div(
             [
+                # row 1
                 dbc.Row(
                     dbc.Col(
                         navbar,
                     ),
                 ),
+                # row 2
                 dbc.Row(
                     [
                         dbc.Col(
@@ -301,6 +325,7 @@ layout = dbc.Container(
                     ],
                     className="mt-4",
                 ),
+                # to store item IDs of current outfit displayed
                 dcc.Store(
                     id="store_items_id",
                     storage_type="session",
@@ -311,6 +336,7 @@ layout = dbc.Container(
                         "footwear_item_id": None,
                     },
                 ),
+                # row 3
                 dbc.Row(
                     dbc.Col(
                         user_buttons,
@@ -320,6 +346,7 @@ layout = dbc.Container(
                     align="center",
                     justify="center",
                 ),
+                # not good idea, leave in here till solution found
                 # dbc.Tooltip(
                 #     "New Outfit",
                 #     target="button_generate",
@@ -392,6 +419,7 @@ layout = dbc.Container(
 
 
 # ------------------------------------- CALLBACKS --------------------------------------
+# AppCallback for generating random item when randomise button or generate button is clicked
 @app.callback(
     [
         Output("card_img_headwear", "src"),
@@ -410,6 +438,7 @@ layout = dbc.Container(
     State("store_items_id", "data"),
 )
 def randomise(
+    # when randomise button of one of four cards is clicked
     button_headwear_randomise_n_clicks,
     button_topwear_randomise_n_clicks,
     button_bottomwear_randomise_n_clicks,
@@ -418,6 +447,7 @@ def randomise(
     store_items_id_data,
 ):
     if (
+        # if any of the four randomise buttons are clicked
         button_headwear_randomise_n_clicks
         or button_topwear_randomise_n_clicks
         or button_bottomwear_randomise_n_clicks
@@ -428,7 +458,9 @@ def randomise(
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_headwear_randomise":
+            # Headwear card randomise button
             item = database.select_random_item("Headwear", gender_item[gender])
+            # retrieve random headwear item according to user gender
             image_blob = item[5]
             item_id = item[0]
 
@@ -437,15 +469,19 @@ def randomise(
             print(store_items_id_data)
 
             return (
+                # headwear image returned
                 process_binary_image(image_blob),
                 None,
                 None,
                 None,
+                # headwear ID stored
                 store_items_id_data,
             )
 
         elif button_id == "button_topwear_randomise":
+            # Topwear card randomise button
             item = database.select_random_item("Topwear", gender_item[gender])
+            # retrieve random topwear item according to user gender
             image_blob = item[5]
             item_id = item[0]
 
@@ -455,14 +491,18 @@ def randomise(
 
             return (
                 None,
+                # topwear image returned
                 process_binary_image(image_blob),
                 None,
                 None,
+                # topwear ID stored
                 store_items_id_data,
             )
 
         elif button_id == "button_bottomwear_randomise":
+            # Bottomwear card randomise button
             item = database.select_random_item("Bottomwear", gender_item[gender])
+            # retrieve random bottomwear item according to user gender
             image_blob = item[5]
             item_id = item[0]
 
@@ -471,15 +511,19 @@ def randomise(
             print(store_items_id_data)
 
             return (
+                # bottomwear image returned
                 None,
                 None,
                 process_binary_image(image_blob),
                 None,
+                # bottomwear ID stored
                 store_items_id_data,
             )
 
         elif button_id == "button_footwear_randomise":
+            # Footwear card randomise button
             item = database.select_random_item("Shoes", gender_item[gender])
+            # retrieve random footwear item according to user gender
             image_blob = item[5]
             item_id = item[0]
 
@@ -491,7 +535,9 @@ def randomise(
                 None,
                 None,
                 None,
+                # footwear image returned
                 process_binary_image(image_blob),
+                # footwear ID stored
                 store_items_id_data,
             )
 
