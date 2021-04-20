@@ -1,7 +1,8 @@
 import base64
-from itertools import cycle
+import urllib
 from pathlib import Path
 
+import cv2
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -16,6 +17,8 @@ user_rowid, first_name, last_name, gender, email, password = database.get_user_d
 outfits = database.get_user_outfits(user_rowid)
 outfit_no = len(outfits)
 
+print(outfits)
+
 
 # --------------------------------------- IMAGES ---------------------------------------
 def process_binary_image(img):
@@ -26,6 +29,23 @@ def process_binary_image(img):
 def process_image(img):
     img_encoded = base64.b64encode(open(img, "rb").read())
     return f"data:image/png;base64,{img_encoded.decode()}"
+
+
+def concat_images(img_list):
+    # find minimum width from all images
+    w_min = min(img.shape[1] for img in img_list)
+
+    # resize all images to minimum width found
+    img_list_resize = [
+        cv2.resize(
+            img,
+            (w_min, int(img.shape[0] * w_min / img.shape[1])),
+            interpolation=cv2.INTER_CUBIC,
+        )
+        for img in img_list
+    ]
+
+    return cv2.vconcat(img_list_resize)
 
 
 def get_outfit_images(outfit):
@@ -42,20 +62,20 @@ def get_outfit_images(outfit):
     )
 
 
-def get_next_outfit(outfits, current_ind):
+def get_next_outfit(outfits, current_index):
     # try getting next item, if out of range, get first item (i.e. cycle to start)
     try:
-        next_outfit = outfits[current_ind + 1]
+        next_outfit = outfits[current_index + 1]
     except IndexError:
         next_outfit = outfits[0]
 
     return next_outfit
 
 
-def get_previous_outfit(outfits, current_ind):
+def get_previous_outfit(outfits, current_index):
     # try getting previous item, if out of range, get last item (i.e. cycle to end)
     try:
-        previous_outfit = outfits[current_ind - 1]
+        previous_outfit = outfits[current_index - 1]
     except IndexError:
         previous_outfit = outfits[-1]
 
@@ -230,6 +250,9 @@ download_button = (
                                     children="Download",
                                     id="button_download",
                                     color="primary",
+                                    href="",
+                                    download="test.csv",
+                                    target="_blank",
                                 ),
                             ),
                         ],
@@ -411,11 +434,11 @@ def display_or_delete_outfit(
         if outfits is not None:
 
             current_outfit = store_outfits_data["current_outfit"]
-            current_outfit_ind = outfits.index(current_outfit)
+            current_outfit_index = outfits.index(current_outfit)
 
             if button_id == "button_right":
 
-                next_outfit = get_next_outfit(outfits, current_outfit_ind)
+                next_outfit = get_next_outfit(outfits, current_outfit_index)
 
                 print(next_outfit)
 
@@ -439,7 +462,7 @@ def display_or_delete_outfit(
 
             elif button_id == "button_left":
 
-                previous_outfit = get_previous_outfit(outfits, current_outfit_ind)
+                previous_outfit = get_previous_outfit(outfits, current_outfit_index)
 
                 print(previous_outfit)
 
@@ -462,27 +485,70 @@ def display_or_delete_outfit(
                 )
 
             elif button_id == "button_delete":
-                user_id = store_outfits_data["user_id"]
-                headwear_id = store_outfits_data["headwear_item_id"]
-                topwear_id = store_outfits_data["topwear_item_id"]
-                bottomwear_id = store_outfits_data["bottomwear_item_id"]
-                footwear_id = store_outfits_data["footwear_item_id"]
 
-                print(user_id, headwear_id, topwear_id, bottomwear_id, footwear_id)
+                # get current outfit ids to delete
+                headwear_id = current_outfit[0]
+                topwear_id = current_outfit[1]
+                bottomwear_id = current_outfit[2]
+                footwear_id = current_outfit[3]
 
                 database.delete_outfit(
-                    user_id,
+                    user_rowid,
                     headwear_id,
                     topwear_id,
                     bottomwear_id,
                     footwear_id,
                 )
 
+                # make a temp copy before deleting the outfit so we can use the
+                # current_outfit_index to get the next outfit if needed
+                outfits_temp = outfits
+
+                # update store_outfits_data
+                del outfits[current_outfit_index]
+                store_outfits_data["outfits"] = outfits
+
+                # the outfits list might be empty if the last item was deleted
+                if outfits:
+
+                    # get next outfit to display using temp copy of outfits
+                    next_outfit = get_next_outfit(outfits_temp, current_outfit_index)
+
+                    print(next_outfit)
+
+                    (
+                        card_img_outfit_headwear_src,
+                        card_img_outfit_topwear_src,
+                        card_img_outfit_bottomwear_scr,
+                        card_img_outfit_footwear_src,
+                    ) = get_outfit_images(next_outfit)
+
+                    # update store_outfits_data
+                    store_outfits_data["current_outfit"] = next_outfit
+
+                else:
+                    card_img_outfit_headwear_src = process_image(
+                        Path("images", "Headwear", "PlaceHolder.png"),
+                    )
+                    card_img_outfit_topwear_src = process_image(
+                        Path("images", "Topwear", "PlaceHolder.png"),
+                    )
+                    card_img_outfit_bottomwear_scr = process_image(
+                        Path("images", "Bottomwear", "PlaceHolder.png"),
+                    )
+                    card_img_outfit_footwear_src = process_image(
+                        Path("images", "Shoes", "PlaceHolder.png"),
+                    )
+
+                    # update store_outfits_data
+                    store_outfits_data["outfits"] = None
+                    store_outfits_data["current_outfit"] = None
+
                 return (
-                    headwear_placeholder,
-                    topwear_placeholder,
-                    bottomwear_placeholder,
-                    shoes_placeholder,
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
                     store_outfits_data,
                 )
 
@@ -491,3 +557,58 @@ def display_or_delete_outfit(
 
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    Output("button_download", "href"),
+    [
+        Input("button_left", "n_clicks"),
+        Input("button_right", "n_clicks"),
+        Input("button_delete", "n_clicks"),
+    ],
+    [
+        State("card_img_outfit_headwear", "src"),
+        State("card_img_outfit_topwear", "src"),
+        State("card_img_outfit_bottomwear", "src"),
+        State("card_img_outfit_footwear", "src"),
+    ],
+)
+def update_download_link(
+    button_left_n_clicks,
+    button_right_n_clicks,
+    button_delete_n_clicks,
+    store_outfits_data,
+):
+    if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
+
+        # get current outfit
+        current_outfit = store_outfits_data["current_outfit"]
+
+        # if there are outfits
+        if current_outfit is not None:
+
+            (
+                card_img_outfit_headwear_src,
+                card_img_outfit_topwear_src,
+                card_img_outfit_bottomwear_scr,
+                card_img_outfit_footwear_src,
+            ) = get_outfit_images(current_outfit)
+
+            img = concat_images(
+                [
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                ]
+            )
+
+        # csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+        return img
+
+    else:
+        raise PreventUpdate
+
+
+# im_v = cv2.vconcat([im1, im1])
+# cv2.imwrite('data/dst/opencv_vconcat.jpg', im_v)

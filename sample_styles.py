@@ -11,7 +11,6 @@ import os
 import pandas as pd
 
 # %%
-# read data, use first cololumn as index, set coloumns, drop nulls, sort ascending by ID
 df = (
     pd.read_csv(
         os.path.join(
@@ -39,16 +38,13 @@ df = (
 df.info()
 df.head(3)
 
-
 # %%
-# select only rows where gender is Men/Women and subCategory exist in list
 df = df[
     df["gender"].isin(["Men", "Women"])
     & df["subCategory"].isin(["Topwear", "Shoes", "Bottomwear", "Headwear"])
 ]
 
 # %%
-# group by gender and subCategory, take 20 random rows and sort index in ascending order, droplevels, unstack
 df = (
     df.groupby(["gender", "subCategory"])
     .apply(lambda x: x.sample(20, random_state=42))

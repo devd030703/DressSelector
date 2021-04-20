@@ -12,7 +12,6 @@ import shutil
 import pandas as pd
 
 # %%
-# read data of sample created
 df = pd.read_csv(
     os.path.join(
         "dataset",
@@ -36,7 +35,7 @@ df = pd.read_csv(
 df.info()
 
 # %%
-# loop over all the rows, go to image using index of each row to construct path, copy over to destination
+
 for ind, row in df.iterrows():
     source = os.path.join(
         "dataset",
