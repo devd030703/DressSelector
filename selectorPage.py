@@ -458,7 +458,7 @@ def randomise(
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_headwear_randomise":
-            # Headwear card randomise button
+            # Headwear card randomise button is clicked
             item = database.select_random_item("Headwear", gender_item[gender])
             # retrieve random headwear item according to user gender
             image_blob = item[5]
@@ -479,7 +479,7 @@ def randomise(
             )
 
         elif button_id == "button_topwear_randomise":
-            # Topwear card randomise button
+            # Topwear card randomise button is clicked
             item = database.select_random_item("Topwear", gender_item[gender])
             # retrieve random topwear item according to user gender
             image_blob = item[5]
@@ -500,7 +500,7 @@ def randomise(
             )
 
         elif button_id == "button_bottomwear_randomise":
-            # Bottomwear card randomise button
+            # Bottomwear card randomise button is clicked
             item = database.select_random_item("Bottomwear", gender_item[gender])
             # retrieve random bottomwear item according to user gender
             image_blob = item[5]
@@ -521,7 +521,7 @@ def randomise(
             )
 
         elif button_id == "button_footwear_randomise":
-            # Footwear card randomise button
+            # Footwear card randomise button is clicked
             item = database.select_random_item("Shoes", gender_item[gender])
             # retrieve random footwear item according to user gender
             image_blob = item[5]
@@ -542,17 +542,26 @@ def randomise(
             )
 
         elif button_id == "button_generate":
+            # generate button is clicked
             item_headwear = database.select_random_item("Headwear", gender_item[gender])
+            # random headwear item loaded
             item_topwear = database.select_random_item("Topwear", gender_item[gender])
+            # random topwear item loaded
             item_bottomwear = database.select_random_item(
                 "Bottomwear", gender_item[gender]
             )
+            # random bottomwear item loaded
             item_footwear = database.select_random_item("Shoes", gender_item[gender])
+            # random footwear item loaded
 
             store_items_id_data["headwear_item_id"] = item_headwear[0]
+            # displayed headwear item ID stored
             store_items_id_data["topwear_item_id"] = item_topwear[0]
+            # displayed topwear item ID stored
             store_items_id_data["bottomwear_item_id"] = item_bottomwear[0]
+            # displayed bottomwear item ID stored
             store_items_id_data["footwear_item_id"] = item_footwear[0]
+            # displayed footwear item ID stored
 
             print(store_items_id_data)
 
@@ -561,76 +570,92 @@ def randomise(
                 process_binary_image(item_topwear[5]),
                 process_binary_image(item_bottomwear[5]),
                 process_binary_image(item_footwear[5]),
+                # random outfit is displayed
                 store_items_id_data,
+                # all item IDs updated in the store
             )
 
     else:
         raise PreventUpdate
 
 
+# AppCallback to enable Headwear preference buttons
 @app.callback(
     [
         Output("button_headwear_tick", "disabled"),
         Output("button_headwear_cross", "disabled"),
     ],
     Input("store_items_id", "data"),
+    # Listens for when store is updated
 )
 def enable_headwear_preferences_buttons(store_items_id_data):
 
     if store_items_id_data["headwear_item_id"]:
         return False, False
+        # if store contains any headwear item id, enable preference buttons
     else:
         raise PreventUpdate
 
 
+# AppCallback to enable Headwear preference buttons
 @app.callback(
     [
         Output("button_topwear_tick", "disabled"),
         Output("button_topwear_cross", "disabled"),
     ],
     Input("store_items_id", "data"),
+    # Listens for when store is updated
 )
 def enable_topwear_preferences_buttons(store_items_id_data):
 
     if store_items_id_data["topwear_item_id"]:
         return False, False
+        # if store contains any topwear item id, enable preference buttons
     else:
         raise PreventUpdate
 
 
+# AppCallback to enable Headwear preference buttons
 @app.callback(
     [
         Output("button_bottomwear_tick", "disabled"),
         Output("button_bottomwear_cross", "disabled"),
     ],
     Input("store_items_id", "data"),
+    # Listens for when store is updated
 )
 def enable_bottomwear_preferences_buttons(store_items_id_data):
 
     if store_items_id_data["bottomwear_item_id"]:
         return False, False
+        # if store contains any bottomwear item id, enable preference buttons
     else:
         raise PreventUpdate
 
 
+# AppCallback to enable Headwear preference buttons
 @app.callback(
     [
         Output("button_footwear_tick", "disabled"),
         Output("button_footwear_cross", "disabled"),
     ],
     Input("store_items_id", "data"),
+    # Listens for when store is updated
 )
 def enable_footwear_preferences_buttons(store_items_id_data):
 
     if store_items_id_data["footwear_item_id"]:
         return False, False
+        # if store contains any bottomwear item id, enable preference buttons
     else:
         raise PreventUpdate
 
 
+# AppCallback for enabling save button
 @app.callback(
     Output("button_save", "disabled"),
     Input("store_items_id", "data"),
+    # Listens for when store is updated
 )
 def enable_save_button(store_items_id_data):
 
@@ -641,10 +666,12 @@ def enable_save_button(store_items_id_data):
         and store_items_id_data["footwear_item_id"]
     ):
         return False
+        # if all there item IDs for headwear, topwear, bottomwear and footwear, then enable save button
     else:
         raise PreventUpdate
 
 
+# AppCallback for headwear preference buttons
 @app.callback(
     [
         Output("button_headwear_tick", "color"),
@@ -652,6 +679,7 @@ def enable_save_button(store_items_id_data):
     ],
     [
         Input("button_headwear_randomise", "n_clicks"),
+        # this ensures there is an item being displayed
         Input("button_headwear_tick", "n_clicks"),
         Input("button_headwear_cross", "n_clicks"),
     ],
@@ -678,7 +706,7 @@ def save_headwear_preferences(
         else:
 
             headwear_item_id = store_items_id_data["headwear_item_id"]
-
+            # check if a preference already exists
             preference_exists = database.check_preference_exists(
                 user_rowid,
                 headwear_item_id,
@@ -686,12 +714,14 @@ def save_headwear_preferences(
 
             if button_id == "button_headwear_tick":
                 if preference_exists:
+                    # update preference if it already exists - Like
                     database.update_preference(
                         True,
                         user_rowid,
                         headwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Like
                     database.add_preference(
                         user_rowid,
                         headwear_item_id,
@@ -700,6 +730,7 @@ def save_headwear_preferences(
                 return "success", "primary"
 
             elif button_id == "button_headwear_cross":
+                # update preference if it already exists - Dislike
                 if preference_exists:
                     database.update_preference(
                         False,
@@ -707,6 +738,7 @@ def save_headwear_preferences(
                         headwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Dislike
                     database.add_preference(
                         user_rowid,
                         headwear_item_id,
@@ -718,6 +750,7 @@ def save_headwear_preferences(
         raise PreventUpdate
 
 
+# AppCallback for topwear preference buttons
 @app.callback(
     [
         Output("button_topwear_tick", "color"),
@@ -725,6 +758,7 @@ def save_headwear_preferences(
     ],
     [
         Input("button_topwear_randomise", "n_clicks"),
+        # this ensures there is an item being displayed
         Input("button_topwear_tick", "n_clicks"),
         Input("button_topwear_cross", "n_clicks"),
     ],
@@ -751,7 +785,7 @@ def save_topwear_preferences(
         else:
 
             topwear_item_id = store_items_id_data["topwear_item_id"]
-
+            # check if a preference already exists
             preference_exists = database.check_preference_exists(
                 user_rowid,
                 topwear_item_id,
@@ -759,12 +793,14 @@ def save_topwear_preferences(
 
             if button_id == "button_topwear_tick":
                 if preference_exists:
+                    # update preference if it already exists - Like
                     database.update_preference(
                         True,
                         user_rowid,
                         topwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Like
                     database.add_preference(
                         user_rowid,
                         topwear_item_id,
@@ -774,12 +810,14 @@ def save_topwear_preferences(
 
             elif button_id == "button_topwear_cross":
                 if preference_exists:
+                    # update preference if it already exists - Dislike
                     database.update_preference(
                         False,
                         user_rowid,
                         topwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Dislike
                     database.add_preference(
                         user_rowid,
                         topwear_item_id,
@@ -791,6 +829,7 @@ def save_topwear_preferences(
         raise PreventUpdate
 
 
+# AppCallback for bottomwear preference buttons
 @app.callback(
     [
         Output("button_bottomwear_tick", "color"),
@@ -798,6 +837,7 @@ def save_topwear_preferences(
     ],
     [
         Input("button_bottomwear_randomise", "n_clicks"),
+        # this ensures there is an item being displayed
         Input("button_bottomwear_tick", "n_clicks"),
         Input("button_bottomwear_cross", "n_clicks"),
     ],
@@ -824,7 +864,7 @@ def save_bottomwear_preferences(
         else:
 
             bottomwear_item_id = store_items_id_data["bottomwear_item_id"]
-
+            # check if a preference already exists
             preference_exists = database.check_preference_exists(
                 user_rowid,
                 bottomwear_item_id,
@@ -832,12 +872,14 @@ def save_bottomwear_preferences(
 
             if button_id == "button_bottomwear_tick":
                 if preference_exists:
+                    # update preference if it already exists - Like
                     database.update_preference(
                         True,
                         user_rowid,
                         bottomwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Like
                     database.add_preference(
                         user_rowid,
                         bottomwear_item_id,
@@ -847,12 +889,14 @@ def save_bottomwear_preferences(
 
             elif button_id == "button_bottomwear_cross":
                 if preference_exists:
+                    # update preference if it already exists - Dislike
                     database.update_preference(
                         False,
                         user_rowid,
                         bottomwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Dislike
                     database.add_preference(
                         user_rowid,
                         bottomwear_item_id,
@@ -864,6 +908,7 @@ def save_bottomwear_preferences(
         raise PreventUpdate
 
 
+# AppCallback for bottomwear preference buttons
 @app.callback(
     [
         Output("button_footwear_tick", "color"),
@@ -871,6 +916,7 @@ def save_bottomwear_preferences(
     ],
     [
         Input("button_footwear_randomise", "n_clicks"),
+        # this ensures there is an item being displayed
         Input("button_footwear_tick", "n_clicks"),
         Input("button_footwear_cross", "n_clicks"),
     ],
@@ -897,7 +943,7 @@ def save_footwear_preferences(
         else:
 
             footwear_item_id = store_items_id_data["footwear_item_id"]
-
+            # check if a preference already exists
             preference_exists = database.check_preference_exists(
                 user_rowid,
                 footwear_item_id,
@@ -905,12 +951,14 @@ def save_footwear_preferences(
 
             if button_id == "button_footwear_tick":
                 if preference_exists:
+                    # update preference if it already exists - Like
                     database.update_preference(
                         True,
                         user_rowid,
                         footwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Like
                     database.add_preference(
                         user_rowid,
                         footwear_item_id,
@@ -920,12 +968,14 @@ def save_footwear_preferences(
 
             elif button_id == "button_footwear_cross":
                 if preference_exists:
+                    # update preference if it already exists - Dislike
                     database.update_preference(
                         False,
                         user_rowid,
                         footwear_item_id,
                     )
                 else:
+                    # create a preference if it does not exist - Dislike
                     database.add_preference(
                         user_rowid,
                         footwear_item_id,
@@ -937,6 +987,7 @@ def save_footwear_preferences(
         raise PreventUpdate
 
 
+# AppCallback for saving outfits
 @app.callback(
     [
         Output("button_save", "color"),
@@ -949,6 +1000,7 @@ def save_footwear_preferences(
         Input("button_footwear_randomise", "n_clicks"),
         Input("button_generate", "n_clicks"),
         Input("button_save", "n_clicks"),
+        # any randomise button should be clicked to create an outfit
     ],
     State("store_items_id", "data"),
 )
@@ -975,12 +1027,15 @@ def save_outfit(
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "button_save":
+            # save button is clicked
 
             headwear_item_id = store_items_id_data["headwear_item_id"]
             topwear_item_id = store_items_id_data["topwear_item_id"]
             bottomwear_item_id = store_items_id_data["bottomwear_item_id"]
             footwear_item_id = store_items_id_data["footwear_item_id"]
+            # loading item IDs from store
 
+            # check if an outfit already exists with loaded item IDs
             outfit_exists = database.check_outfit_exists(
                 user_rowid,
                 headwear_item_id,
@@ -990,6 +1045,7 @@ def save_outfit(
             )
 
             if not outfit_exists:
+                # save if outfit does not exist
                 database.save_outfit(
                     user_rowid,
                     headwear_item_id,
