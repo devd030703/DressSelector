@@ -101,6 +101,7 @@ if outfits:
         "current_outfit": outfits[0],
     }
 
+# loading placeholder images
 else:
     headwear_placeholder = process_image(
         Path("images", "Headwear", "PlaceHolder.png"),

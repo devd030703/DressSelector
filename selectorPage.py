@@ -676,6 +676,9 @@ def enable_save_button(store_items_id_data):
     [
         Output("button_headwear_tick", "color"),
         Output("button_headwear_cross", "color"),
+        # changes colour of buttons
+        # green for Like
+        # red for Dislike
     ],
     [
         Input("button_headwear_randomise", "n_clicks"),
@@ -755,6 +758,9 @@ def save_headwear_preferences(
     [
         Output("button_topwear_tick", "color"),
         Output("button_topwear_cross", "color"),
+        # changes colour of buttons
+        # green for Like
+        # red for Dislike
     ],
     [
         Input("button_topwear_randomise", "n_clicks"),
@@ -834,6 +840,9 @@ def save_topwear_preferences(
     [
         Output("button_bottomwear_tick", "color"),
         Output("button_bottomwear_cross", "color"),
+        # changes colour of buttons
+        # green for Like
+        # red for Dislike
     ],
     [
         Input("button_bottomwear_randomise", "n_clicks"),
@@ -913,6 +922,9 @@ def save_bottomwear_preferences(
     [
         Output("button_footwear_tick", "color"),
         Output("button_footwear_cross", "color"),
+        # changes colour of buttons
+        # green for Like
+        # red for Dislike
     ],
     [
         Input("button_footwear_randomise", "n_clicks"),
@@ -991,6 +1003,8 @@ def save_footwear_preferences(
 @app.callback(
     [
         Output("button_save", "color"),
+        # changes colour of save button
+        # green
         Output("button_save", "children"),
     ],
     [
