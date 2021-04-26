@@ -31,6 +31,7 @@ def process_image(img):
     return f"data:image/png;base64,{img_encoded.decode()}"
 
 
+# stack images vertically
 def concat_images(img_list):
     # find minimum width from all images
     w_min = min(img.shape[1] for img in img_list)
@@ -49,6 +50,7 @@ def concat_images(img_list):
 
 
 def get_outfit_images(outfit):
+    # retreive all images of one outfit
     item_headwear = database.get_item_details(outfit[0])
     item_topwear = database.get_item_details(outfit[1])
     item_bottomwear = database.get_item_details(outfit[2])
@@ -99,6 +101,7 @@ if outfits:
         "current_outfit": outfits[0],
     }
 
+# loading placeholder images
 else:
     headwear_placeholder = process_image(
         Path("images", "Headwear", "PlaceHolder.png"),
@@ -121,6 +124,7 @@ else:
 
 
 # --------------------------------------- NAVBAR ---------------------------------------
+# create navbar
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(
@@ -148,6 +152,7 @@ navbar = dbc.NavbarSimple(
             ),
         ),
         dbc.DropdownMenu(
+            # drop menu for future proofing
             children=[
                 dbc.DropdownMenuItem("Options", header=True),
                 # abc.DropdownMenuItem("Saved Outfits", href="#"),
@@ -166,6 +171,7 @@ navbar = dbc.NavbarSimple(
 
 # --------------------------------------- CARDS ----------------------------------------
 headwear = (
+    # Headwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -179,6 +185,7 @@ headwear = (
 
 
 topwear = (
+    # Topwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -191,6 +198,7 @@ topwear = (
 )
 
 bottomwear = (
+    # Bottomwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -204,6 +212,7 @@ bottomwear = (
 
 
 footwear = (
+    # Footwear Card
     dbc.Card(
         [
             dbc.CardImg(
@@ -216,6 +225,7 @@ footwear = (
 )
 
 delete_button = (
+    # delete button
     dbc.Card(
         [
             dbc.CardBody(
@@ -239,6 +249,7 @@ delete_button = (
 )
 
 download_button = (
+    # download button
     dbc.Card(
         [
             dbc.CardBody(
@@ -265,6 +276,7 @@ download_button = (
 )
 
 left_button = (
+    # left button
     dbc.Card(
         [
             dbc.CardBody(
@@ -288,6 +300,7 @@ left_button = (
 )
 
 button_right = (
+    # right button
     dbc.Card(
         [
             dbc.CardBody(
@@ -321,12 +334,15 @@ layout = dbc.Container(
                         navbar,
                     ),
                 ),
+                # all outfits IDs are stored here as a list
                 dcc.Store(
                     id="store_outfits",
                     storage_type="session",
                     data=outfits_data,
                 ),
+                # row 1
                 dbc.Row(
+                    # Headwear and Topwear card
                     [
                         dbc.Col(headwear, width=3),
                         dbc.Col(topwear, width=3),
@@ -334,6 +350,7 @@ layout = dbc.Container(
                     justify="center",
                     className="mt-3",
                 ),
+                # row 2
                 dbc.Row(
                     [
                         dbc.Col(bottomwear, width=3),
@@ -342,12 +359,16 @@ layout = dbc.Container(
                     justify="center",
                     className="mt-3",
                 ),
+                # row 3
                 dbc.Row(
                     dbc.Col(
+                        # row 1
                         dbc.Row(
                             [
                                 dbc.Col(
+                                    # row 1
                                     dbc.Row(
+                                        # trying to make buttons equidistant, looks okay, do not touch
                                         dbc.Col(
                                             left_button,
                                             width={"size": "10%"},
@@ -401,7 +422,7 @@ layout = dbc.Container(
 
 # ------------------------------------- CALLBACKS --------------------------------------
 
-
+# AppCallback for displaying or deleting outfit
 @app.callback(
     [
         Output("card_img_outfit_headwear", "src"),
@@ -423,6 +444,7 @@ def display_or_delete_outfit(
     button_delete_n_clicks,
     store_outfits_data,
 ):
+    # if any button is clicked
     if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
         ctx = callback_context
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
@@ -559,56 +581,58 @@ def display_or_delete_outfit(
         raise PreventUpdate
 
 
-# @app.callback(
-#     Output("button_download", "href"),
-#     [
-#         Input("button_left", "n_clicks"),
-#         Input("button_right", "n_clicks"),
-#         Input("button_delete", "n_clicks"),
-#     ],
-#     [
-#         State("card_img_outfit_headwear", "src"),
-#         State("card_img_outfit_topwear", "src"),
-#         State("card_img_outfit_bottomwear", "src"),
-#         State("card_img_outfit_footwear", "src"),
-#     ],
-# )
-# def update_download_link(
-#     button_left_n_clicks,
-#     button_right_n_clicks,
-#     button_delete_n_clicks,
-#     store_outfits_data,
-# ):
-#     if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
+# AppCallback for downloading images
+@app.callback(
+    Output("button_download", "href"),
+    [
+        Input("button_left", "n_clicks"),
+        Input("button_right", "n_clicks"),
+        Input("button_delete", "n_clicks"),
+    ],
+    [
+        State("card_img_outfit_headwear", "src"),
+        State("card_img_outfit_topwear", "src"),
+        State("card_img_outfit_bottomwear", "src"),
+        State("card_img_outfit_footwear", "src"),
+    ],
+)
+def update_download_link(
+    button_left_n_clicks,
+    button_right_n_clicks,
+    button_delete_n_clicks,
+    store_outfits_data,
+):
+    if button_left_n_clicks or button_right_n_clicks or button_delete_n_clicks:
 
-#         # get current outfit
-#         current_outfit = store_outfits_data["current_outfit"]
+        # get current outfit
+        current_outfit = store_outfits_data["current_outfit"]
 
-#         # if there are outfits
-#         if current_outfit is not None:
+        # if there are outfits
+        if current_outfit is not None:
 
-#             (
-#                 card_img_outfit_headwear_src,
-#                 card_img_outfit_topwear_src,
-#                 card_img_outfit_bottomwear_scr,
-#                 card_img_outfit_footwear_src,
-#             ) = get_outfit_images(current_outfit)
+            (
+                card_img_outfit_headwear_src,
+                card_img_outfit_topwear_src,
+                card_img_outfit_bottomwear_scr,
+                card_img_outfit_footwear_src,
+            ) = get_outfit_images(current_outfit)
 
-#             img = concat_images(
-#                 [
-#                     card_img_outfit_headwear_src,
-#                     card_img_outfit_topwear_src,
-#                     card_img_outfit_bottomwear_scr,
-#                     card_img_outfit_footwear_src,
-#                 ]
-#             )
+            img = concat_images(
+                [
+                    card_img_outfit_headwear_src,
+                    card_img_outfit_topwear_src,
+                    card_img_outfit_bottomwear_scr,
+                    card_img_outfit_footwear_src,
+                ]
+            )
 
-#         # csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-#         return img
+        # csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+        return img
 
-#     else:
-#         raise PreventUpdate
+    else:
+        raise PreventUpdate
 
 
+# does not work
 # im_v = cv2.vconcat([im1, im1])
 # cv2.imwrite('data/dst/opencv_vconcat.jpg', im_v)
