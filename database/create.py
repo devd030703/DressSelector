@@ -22,11 +22,7 @@ class DataBase:
         with self.engine.connect() as cnxn:
             cnxn.execute(text("""CREATE DATABASE IF NOT EXISTS DEV;"""))
 
-        # self.cnxn = self.engine.connect()
-
         print("database connected...")
-
-        # self.cursor = self.cnxn.cursor()
 
     def create_users_table(self):
         with self.engine.connect() as cnxn:
