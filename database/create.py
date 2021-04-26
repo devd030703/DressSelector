@@ -1,7 +1,4 @@
-"""
-Table rows have a 64-bit signed integer ROWID which is unique among all rows in
-the same table. We will use this as the unique PK for all tables
-"""
+import os
 
 from sqlalchemy import create_engine, text
 
@@ -10,7 +7,7 @@ class DataBase:
     def __init__(self):
 
         user = "dressselector@dress-selector-dev-uks-mysql"
-        password = "jYrjoj-5fawmi-jawxaw"
+        password = os.getenv("DressSelector_MySQL_PW")
         host = "dress-selector-dev-uks-mysql.mysql.database.azure.com"
         port = 3306
 
